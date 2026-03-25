@@ -1,0 +1,49 @@
+{% extends 'buyer_base.html' %}
+
+{% block title %}Buyer Login{% endblock %}
+
+{% block content %}
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    
+    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px; border-radius: 15px;">
+        
+        <h3 class="text-center mb-4">Buyer Login</h3>
+        
+        {% if form.non_field_errors %}
+            <small class="text-danger d-block mb-3">{{ form.non_field_errors.as_ul }}</small>
+        {% endif %}
+
+        <form method="post" action="{% url 'buyer-login' %}">
+            {% csrf_token %}
+
+            <!-- Username -->
+            <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                <input type="text" name="{{ form.username.name }}" class="form-control" required value="{{ form.username.value }}" />
+                <span class="text-danger">{{ form.username.errors }}</span>
+                
+            <!-- Password -->
+            <div class="mb-3">
+                <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+                <input type="password" name="{{ form.password.name }}" class="form-control" required value="{{ form.password.value }}" />
+                <span class="text-danger">{{ form.password.errors }}</span>
+            </div>
+
+            <!-- Login Button -->
+            <button type="submit" class="btn btn-warning w-100">Login</button>
+        </form>
+
+        <!-- Extra Links -->
+        <div class="text-center mt-3">
+            <small>
+                Don't have an account? 
+                <a href="{% url 'buyer-signup' %}">Register</a>
+            </small>
+        </div>
+
+    </div>
+</div>
+
+
+
+{% endblock %}

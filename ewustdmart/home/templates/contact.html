@@ -1,0 +1,41 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block title %}Home - EWU Campus Mart{% endblock %}
+
+{% block styles %}
+.hero {
+  background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
+  height: 80vh;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.overlay {
+  background: rgba(0,0,0,0.6);
+  padding: 40px;
+  border-radius: 10px;
+}
+.card img {
+  height: 200px;
+  object-fit: cover;
+}
+footer {
+  background: #212529;
+  color: white;
+  padding: 20px 0;
+}
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero" style="background-image:url('{% static "home/images/img1.jpg" %}');">
+  <div class="overlay">
+    <h1>Welcome to EWU Campus Mart</h1>
+    <p>Your campus marketplace for everything!</p>
+  </div>
+</section>
+{% endblock %}
+
