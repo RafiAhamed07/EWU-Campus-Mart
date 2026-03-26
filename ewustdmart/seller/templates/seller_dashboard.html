@@ -1,0 +1,14 @@
+{% extends 'seller_base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - EWU Campus Mart{% endblock %}
+
+{% block content %}
+
+<h2 class="text-center mt-5">Welcome to Your Dashboard</h2>
+
+user_name: {{ request.user.username }}
+
+<a href="{% url 'seller-logout' %}" class="btn btn-danger mt-3">Logout</a>
+
+{% endblock %}

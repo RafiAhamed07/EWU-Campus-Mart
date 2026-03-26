@@ -6,7 +6,7 @@ from django.shortcuts import redirect
 def auth(view_func):
     def wrapped_view(request, *args, **kwargs):
         if not request.user.is_authenticated:
-            return redirect("buyer-login")
+            return redirect("seller-login")
         return view_func(request, *args, **kwargs)
 
     return wrapped_view
@@ -15,7 +15,7 @@ def auth(view_func):
 def loggedin_auth(view_func):
     def wrapped_view(request, *args, **kwargs):
         if request.user.is_authenticated:
-            return redirect("buyer-dashboard")
+            return redirect("seller-dashboard")
         return view_func(request, *args, **kwargs)
 
     return wrapped_view

@@ -1,10 +1,9 @@
-# forms.py
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import CustomUser
+from buyer.models import CustomUser  # <-- use shared user model
 
 
-class BuyerSignupForm(UserCreationForm):
+class SellerSignupForm(UserCreationForm):
 
     username = forms.CharField(
         max_length=150,
@@ -18,6 +17,9 @@ class BuyerSignupForm(UserCreationForm):
     std_id = forms.CharField(
         max_length=20, help_text="Required. Enter your student ID."
     )
+    shop_name = forms.CharField(
+        max_length=100, help_text="Required. Enter your shop name."
+    )
     password1 = forms.CharField(
         label="Password",
         widget=forms.PasswordInput,
@@ -30,13 +32,14 @@ class BuyerSignupForm(UserCreationForm):
     )
 
     class Meta:
-        model = CustomUser
+        model = CustomUser  # <-- changed here
         fields = (
             "username",
             "first_name",
             "last_name",
             "email",
             "std_id",
+            "shop_name",
             "password1",
             "password2",
         )
@@ -48,7 +51,7 @@ class BuyerSignupForm(UserCreationForm):
         return email
 
 
-class BuyerLoginForm(AuthenticationForm):
+class SellerLoginForm(AuthenticationForm):
     username = forms.EmailField(
         max_length=254, help_text="Required. Enter a valid email address."
     )
