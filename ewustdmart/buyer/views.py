@@ -3,6 +3,7 @@ from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .middlewares import auth, loggedin_auth
+from .forms import BuyerSignupForm, BuyerLoginForm
 
 # Create your views here.
 def buyer_home(request):
@@ -15,23 +16,26 @@ def buyer_dashboard(request):
 @loggedin_auth
 def buyer_login(request):
     if request.method == 'POST':
-        form = AuthenticationForm(request, data = request.POST)
+        form = BuyerLoginForm(request, data = request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('buyer-dashboard')
+            email = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, email=email, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('buyer-dashboard')
     else:
         initial_data = {
             'username': '',
             'password': '',
         }
-        form = AuthenticationForm(initial = initial_data)
+        form = BuyerLoginForm(initial = initial_data)
     return render(request, 'buyer_login.html', {'form': form})
 
 @loggedin_auth
 def buyer_signup(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = BuyerSignupForm(request.POST)
         if form.is_valid():
             user = form.save()
             login(request, user)
@@ -39,10 +43,14 @@ def buyer_signup(request):
     else:
         initial_data = {
             'username': '',
+            'first_name': '',
+            'last_name': '',
+            'email': '',
+            'std_id': '',
             'password1': '',
             'password2': '',
         }
-        form = UserCreationForm(initial = initial_data)
+        form = BuyerSignupForm(initial=initial_data)
     return render(request, 'buyer_signup.html', {'form': form})
 
 def buyer_logout(request):
