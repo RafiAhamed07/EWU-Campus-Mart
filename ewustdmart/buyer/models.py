@@ -16,6 +16,9 @@ class CustomeUserManager(BaseUserManager):
         if not (email.endswith("@std.ewubd.edu") or email.endswith("@ewubd.edu")):
             raise ValueError("The email must be a valid EWU email address")
         email = self.normalize_email(email)
+        # ✅ Make sure username is set to something unique
+        if 'username' not in extra_fields or not extra_fields['username']:
+            extra_fields['username'] = email.split('@')[0]  # use the part before @
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)

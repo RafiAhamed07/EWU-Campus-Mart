@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .middlewares import auth, loggedin_auth
 from .forms import BuyerSignupForm, BuyerLoginForm
-from products.models import Product
+from products.models import Product, Cart, CartItem
 
 # Create your views here.
 def buyer_home(request):
@@ -71,3 +71,55 @@ def product_detail(request, slug):
   # Debugging line to check if the product is retrieved correctly
     # print(f"Product retrieved: {product.product_name}")
     return render(request, 'product_detail.html', {'product': product})
+
+def add_to_cart(request, slug):
+    product = Product.objects.get(slug=slug)
+    user = request.user
+
+    cart, created = Cart.objects.get_or_create(user=user)
+
+    cart_item, created = CartItem.objects.get_or_create(
+        cart=cart,
+        product=product
+    )
+
+    if not created:
+        cart_item.quantity += 1
+        cart_item.save()
+
+    return redirect('view-cart')
+
+def update_cart_item(request, uid, action):
+    cart_item = get_object_or_404(CartItem, uid=uid)
+
+    if action == 'increase':
+        cart_item.quantity += 1
+
+    elif action == 'decrease':
+        if cart_item.quantity > 1:
+            cart_item.quantity -= 1
+        else:
+            cart_item.delete()
+            return redirect('view-cart')
+
+    cart_item.save()
+    return redirect('view-cart')
+
+
+def view_cart(request):
+    cart = Cart.objects.filter(user=request.user).first()
+
+    total = 0
+    if cart:
+        for item in cart.cart_items.all():
+            total += item.get_total_price()
+
+    return render(request, 'cart.html', {
+        'cart': cart,
+        'total': total
+    })
+    
+def remove_cart_item(request, uid):
+    cart_item = get_object_or_404(CartItem, uid=uid)
+    cart_item.delete()
+    return redirect('view-cart')

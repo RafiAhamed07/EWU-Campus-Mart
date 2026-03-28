@@ -1,0 +1,64 @@
+{% extends 'buyer_base.html' %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2 class="mb-4">🛒 Your Cart</h2>
+
+    {% if cart and cart.cart_items.all %}
+
+    <table class="table table-bordered text-center align-middle">
+        <thead class="table-dark">
+            <tr>
+                <th>Product</th>
+                <th>Price</th>
+                <th width="200">Quantity</th>
+                <th>Total</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for item in cart.cart_items.all %}
+            <tr>
+                <td>{{ item.product.product_name }}</td>
+                <td>৳{{ item.product.price }}</td>
+
+                <!-- Quantity Control -->
+                <td>
+                    <a href="{% url 'update-cart' item.uid 'decrease' %}" class="btn btn-sm btn-danger">-</a>
+
+                    <span class="mx-2">{{ item.quantity }}</span>
+
+                    <a href="{% url 'update-cart' item.uid 'increase' %}" class="btn btn-sm btn-success">+</a>
+                </td>
+
+                <td>৳{{ item.get_total_price }}</td>
+
+                <!-- Remove -->
+                <td>
+                    <a href="{% url 'remove-cart' item.uid %}" class="btn btn-sm btn-warning">
+                        Remove
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- TOTAL -->
+    <div class="text-end">
+        <h4>Total: <strong>৳{{ total }}</strong></h4>
+
+        <!-- Checkout -->
+        <a href="#" class="btn btn-primary mt-2">
+            Proceed to Checkout
+        </a>
+    </div>
+
+    {% else %}
+        <p>Your cart is empty 😔</p>
+    {% endif %}
+</div>
+
+{% endblock %}

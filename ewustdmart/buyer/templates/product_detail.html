@@ -1,78 +1,63 @@
-{% extends 'buyer_base.html' %}
-{% load static %}
-
-{% block title %}{{ product.product_name }} - EWU Campus Mart{% endblock %}
-
-{% block content %}
+{% extends 'buyer_base.html' %} {% load static %} {% block title %}{{
+product.product_name }} - EWU Campus Mart{% endblock %} {% block content %}
 
 <div class="container my-5">
-    <div class="row">
-        <!-- Product Images Carousel -->
-        <div class="col-md-6">
-            {% if product.product_images.all %}
-            <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    {% for image in product.product_images.all %}
-                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
-                        <img src="{{ image.image.url }}" class="d-block w-100" alt="...">
-                    </div>
-                    {% endfor %}
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon"></span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
-                    <span class="carousel-control-next-icon"></span>
-                </button>
-            </div>
-            {% else %}
-            <img src="{% static 'images/no-image.png' %}" class="img-fluid" alt="No image">
-            {% endif %}
+  <div class="row">
+    <!-- Product Images Carousel -->
+    <div class="col-md-6">
+      {% if product.product_images.all %}
+      <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          {% for image in product.product_images.all %}
+          <div class="carousel-item {% if forloop.first %}active{% endif %}">
+            <img src="{{ image.image.url }}" class="d-block w-100" alt="..." />
+          </div>
+          {% endfor %}
         </div>
-
-        <!-- Product Info -->
-        <div class="col-md-6">
-            <h2>{{ product.product_name }}</h2>
-            <h4 class="text-success">৳ {{ product.price }}</h4>
-            <p>{{ product.product_desription }}</p>
-
-            <!-- Size -->
-            {% if product.size_variant.all|length %}
-            <div class="mb-3">
-                <label class="form-label">Select Size:</label><br>
-                {% for size in product.size_variant.all %}
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="size" id="size{{ forloop.counter }}">
-                    <label class="form-check-label" for="size{{ forloop.counter }}">{{ size.size_name }} (+{{ size.price }})</label>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <!-- Color -->
-            {% if product.color_variant.all|length %}
-            <div class="mb-3">
-                <label class="form-label">Select Color:</label><br>
-                {% for color in product.color_variant.all %}
-                <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="color" id="color{{ forloop.counter }}">
-                    <label class="form-check-label" for="color{{ forloop.counter }}">{{ color.color_name }} (+{{ color.price }})</label>
-                </div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <!-- Quantity -->
-            <div class="mb-3">
-                <label class="form-label">Quantity:</label>
-                <input type="number" class="form-control" value="1" min="1">
-            </div>
-
-            <!-- Buttons -->
-            <button class="btn btn-primary">Buy Now</button>
-            <button class="btn btn-outline-primary">Add to Cart</button>
-        </div>
+        <button
+          class="carousel-control-prev"
+          type="button"
+          data-bs-target="#productCarousel"
+          data-bs-slide="prev"
+        >
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button
+          class="carousel-control-next"
+          type="button"
+          data-bs-target="#productCarousel"
+          data-bs-slide="next"
+        >
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+      {% else %}
+      <img
+        src="{% static 'images/no-image.png' %}"
+        class="img-fluid"
+        alt="No image"
+      />
+      {% endif %}
     </div>
+
+    <!-- Product Info -->
+    <div class="col-md-6">
+      <h2>{{ product.product_name }}</h2>
+      <h4 class="text-success">৳ {{ product.price }}</h4>
+      <p>{{ product.product_desription }}</p>
+
+      <!-- Quantity -->
+      <div class="mb-3">
+        <label class="form-label">Quantity:</label>
+        <input type="number" class="form-control" value="1" min="1" />
+      </div>
+
+      <!-- Buttons -->
+      <a href="{% url 'add-to-cart' product.slug %}" class="btn btn-primary">
+        Add to Cart
+      </a>
+    </div>
+  </div>
 </div>
 
 {% endblock %}
