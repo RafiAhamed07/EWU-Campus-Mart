@@ -9,6 +9,17 @@
 
 user_name: {{ request.user.username }}
 
+{% for product in products %}
+    <h3>{{ product.product_name }}</h3>
+    <p>Price: {{ product.price }}</p>
+
+    {% if product.product_images.first %}
+        <img src="{{ product.product_images.first.image.url }}" width="150">
+    {% endif %}
+    
+    <a href="{% url 'product-detail' product.slug %}">View Details</a>
+{% endfor %}
+
 <a href="{% url 'buyer-logout' %}" class="btn btn-danger mt-3">Logout</a>
 
 {% endblock %}

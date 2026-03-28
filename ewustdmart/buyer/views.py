@@ -1,10 +1,10 @@
-from django.shortcuts import render, HttpResponse, redirect
+from django.shortcuts import get_object_or_404, render, HttpResponse, redirect
 from django.contrib.auth import login, logout, authenticate
 from django.contrib import messages
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from .middlewares import auth, loggedin_auth
 from .forms import BuyerSignupForm, BuyerLoginForm
-
+from products.models import Product
 
 # Create your views here.
 def buyer_home(request):
@@ -13,7 +13,8 @@ def buyer_home(request):
 
 @auth
 def buyer_dashboard(request):
-    return render(request, "buyer_dashboard.html")
+    products = Product.objects.all()
+    return render(request, 'buyer_dashboard.html', {'products': products})
 
 
 @loggedin_auth
@@ -64,3 +65,9 @@ def buyer_signup(request):
 def buyer_logout(request):
     logout(request)
     return redirect("buyer-home")
+
+def product_detail(request, slug):
+    product = get_object_or_404(Product, slug=slug)
+  # Debugging line to check if the product is retrieved correctly
+    # print(f"Product retrieved: {product.product_name}")
+    return render(request, 'product_detail.html', {'product': product})
