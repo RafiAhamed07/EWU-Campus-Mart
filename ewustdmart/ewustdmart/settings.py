@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
-
+import dotenv
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "bootstrap5",
     "home",
     "products",
+    "orders",
 ]
 
 AUTHENTICATION_BACKENDS = [
@@ -136,3 +137,22 @@ AUTH_USER_MODEL = "buyer.CustomUser"
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+dotenv.load_dotenv()
+
+SSL_STORE_ID = os.getenv('STORE_ID')
+SSL_STORE_PASSWORD = os.getenv('STORE_PASSWORD')
+SSL_SANDBOX = os.getenv('SSL_SANDBOX') == 'True'
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://sandbox.sslcommerz.com",
+    "https://securepay.sslcommerz.com",
+]
+
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://127.0.0.1:8000",  # your local dev server
+    "http://localhost:8000",  # local alias
+    "https://sandbox.sslcommerz.com",  # sandbox for testing
+    "https://securepay.sslcommerz.com",  # production gateway
+]

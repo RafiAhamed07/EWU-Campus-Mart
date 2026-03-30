@@ -1,0 +1,27 @@
+{% extends 'buyer_base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Checkout</h2>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <label>Address</label>
+            <textarea name="address" class="form-control" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label>Phone</label>
+            <input type="text" name="phone" class="form-control" required>
+        </div>
+
+        <h4>Total: ৳{{ total }}</h4>
+
+        <a href="{% url 'initiate-payment' %}" class="btn btn-success">
+    Pay with SSLCommerz
+</a>
+    </form>
+</div>
+{% endblock %}

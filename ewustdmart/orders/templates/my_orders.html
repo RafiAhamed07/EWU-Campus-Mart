@@ -1,0 +1,77 @@
+{% extends 'buyer_base.html' %} {% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">My Orders</h2>
+
+  {% for order in orders %}
+  <div class="card mb-4 shadow-sm">
+    <!-- ORDER HEADER -->
+    <div class="card-header d-flex justify-content-between">
+      <div><strong>Order ID:</strong> {{ order.uid }}</div>
+      <div>
+        <span class="badge bg-info text-dark">{{ order.status }}</span>
+      </div>
+    </div>
+
+    <!-- ORDER BODY -->
+    <div class="card-body">
+      <p><strong>Total:</strong> ৳{{ order.total_price }}</p>
+
+      <!-- PRODUCTS -->
+      <h6 class="mt-3">Products:</h6>
+
+      {% for item in order.order_items.all %}
+      <div class="d-flex align-items-center border p-2 mb-2 rounded">
+        <!-- IMAGE -->
+        {% if item.product.product_images.first %}
+        <img
+          src="{{ item.product.product_images.first.image.url }}"
+          width="70"
+          class="me-3 rounded"
+        />
+        {% endif %}
+
+        <!-- INFO -->
+        <div class="flex-grow-1">
+          <strong>{{ item.product.product_name }}</strong><br />
+          Qty: {{ item.quantity }} | Price: ৳{{ item.price }}
+        </div>
+
+        <!-- TOTAL -->
+        <div>
+          <strong>৳{{ item.get_total_price }}</strong>
+        </div>
+      </div>
+      {% endfor %}
+
+      <div class="mt-2 d-flex gap-2">
+        <!-- View Details -->
+        <a
+          href="{% url 'order-detail' order.uid %}"
+          class="btn btn-sm btn-outline-primary"
+        >
+          View Details
+        </a>
+
+        <!-- Cancel Order -->
+        {% if order.status == 'pending' or order.status == 'processing' %}
+        <a
+          href="{% url 'cancel-order' order.uid %}"
+          class="btn btn-sm btn-danger"
+          onclick="
+            return confirm('Are you sure you want to cancel this order?');
+          "
+        >
+          Cancel Order
+        </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  {% empty %}
+  <div class="text-center">
+    <h5>No orders yet 😔</h5>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

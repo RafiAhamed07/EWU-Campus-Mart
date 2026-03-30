@@ -1,0 +1,15 @@
+{% extends 'buyer_base.html' %}
+
+{% block content %}
+<div class="container text-center mt-5">
+    <h2>🎉 Order Placed Successfully!</h2>
+
+    <a href="/buyer/dashboard" class="btn btn-primary mt-3">
+        Continue Shopping
+    </a>
+
+    <a href="{% url 'my-orders' %}" class="btn btn-dark mt-3">
+        View Orders
+    </a>
+</div>
+{% endblock %}

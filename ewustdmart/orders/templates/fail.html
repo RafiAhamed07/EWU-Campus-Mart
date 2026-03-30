@@ -1,0 +1,12 @@
+{% extends "buyer_base.html" %}
+{% block title %}Payment Failed - EWU Campus Mart{% endblock %}
+
+{% block content %}
+<div class="container mt-5 text-center">
+    <div class="alert alert-danger">
+        <h2>❌ Payment Failed!</h2>
+        <p>Something went wrong with your payment. Please try again.</p>
+        <a href="/cart" class="btn btn-warning mt-3">Back to Cart</a>
+    </div>
+</div>
+{% endblock %}
