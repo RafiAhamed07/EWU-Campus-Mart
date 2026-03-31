@@ -69,17 +69,32 @@ def cancel_order(request, uid):
 
 
 def initiate_payment(request):
+    if request.method != "POST":
+        return redirect("checkout")
+
     cart = Cart.objects.filter(user=request.user).first()
 
     if not cart:
         return redirect("view-cart")
 
-    total = sum(item.get_total_price() for item in cart.cart_items.all())
+    # ✅ GET DATA FROM FORM
+    address = request.POST.get("address")
+    phone = request.POST.get("phone")
 
+    if not address or not phone:
+        return redirect("checkout")
+
+    total = sum(item.get_total_price() for item in cart.cart_items.all())
     tran_id = str(uuid.uuid4())
 
+    # ✅ SAVE address & phone HERE
     order = Order.objects.create(
-        user=request.user, total_price=total, transaction_id=tran_id, status="pending"
+        user=request.user,
+        total_price=total,
+        transaction_id=tran_id,
+        status="pending",
+        address=address,
+        phone=phone,
     )
 
     for item in cart.cart_items.all():
@@ -107,10 +122,8 @@ def initiate_payment(request):
         "cancel_url": request.build_absolute_uri("/orders/callback/cancel/"),
         "cus_name": request.user.username,
         "cus_email": request.user.email,
-        "cus_phone": (
-            request.user.phone if hasattr(request.user, "phone") else "01700000000"
-        ),
-        "cus_add1": "Dhaka",
+        "cus_phone": phone,  # ✅ USE FORM DATA
+        "cus_add1": address,  # ✅ USE FORM DATA
         "cus_city": "Dhaka",
         "cus_country": "Bangladesh",
         "shipping_method": "NO",

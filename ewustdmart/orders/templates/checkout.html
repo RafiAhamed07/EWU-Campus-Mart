@@ -1,27 +1,14 @@
-{% extends 'buyer_base.html' %}
-
-{% block content %}
+{% extends 'buyer_base.html' %} {% block content %}
 <div class="container mt-5">
-    <h2>Checkout</h2>
+  <h2>Checkout</h2>
 
-    <form method="POST">
-        {% csrf_token %}
+  <form method="POST" action="{% url 'initiate-payment' %}">
+    {% csrf_token %}
 
-        <div class="mb-3">
-            <label>Address</label>
-            <textarea name="address" class="form-control" required></textarea>
-        </div>
+    <input type="text" name="address" placeholder="Enter Address" required />
+    <input type="text" name="phone" placeholder="Enter Phone" required />
 
-        <div class="mb-3">
-            <label>Phone</label>
-            <input type="text" name="phone" class="form-control" required>
-        </div>
-
-        <h4>Total: ৳{{ total }}</h4>
-
-        <a href="{% url 'initiate-payment' %}" class="btn btn-success">
-    Pay with SSLCommerz
-</a>
-    </form>
+    <button type="submit" class="btn btn-primary">Proceed to Payment</button>
+  </form>
 </div>
 {% endblock %}
