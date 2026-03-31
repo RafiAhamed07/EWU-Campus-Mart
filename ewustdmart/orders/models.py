@@ -27,6 +27,24 @@ class Order(BaseModel):
 
     def __str__(self):
         return f"{self.uid} - {self.status}"
+    def update_status(self):
+        items = self.order_items.all()
+
+        if all(item.status == 'delivered' for item in items):
+            self.status = 'paid'
+
+        elif any(item.status == 'rejected' for item in items):
+            self.status = 'failed'
+
+        elif all(item.status in ['accepted', 'shipped', 'delivered'] for item in items):
+            self.status = 'paid'
+
+        else:
+            self.status = 'pending'
+
+        self.save()
+    
+    
     
     
     
@@ -37,8 +55,20 @@ class OrderItem(BaseModel):
     quantity = models.IntegerField()
     price = models.IntegerField()  # price at purchase time
 
+    # 🔥 NEW: seller-specific status
+    STATUS_CHOICES = (
+        ('pending', 'Pending'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+    )
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+
     def get_total_price(self):
         return self.price * self.quantity
+    
 
     def __str__(self):
-        return self.product.product_name
+        return f"{self.product.product_name} ({self.status})"

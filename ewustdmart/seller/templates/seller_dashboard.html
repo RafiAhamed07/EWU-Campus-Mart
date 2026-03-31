@@ -9,6 +9,17 @@
 
 user_name: {{ request.user.username }}
 
+<h2>Seller Dashboard</h2>
+
+<p>Welcome {{ request.user.username }}</p>
+<p>Shop: {{ request.user.shop_name }}</p>
+
+<a href="{% url 'seller-products' %}" class="btn btn-primary">My Products</a>
+<a href="{% url 'add-product' %}" class="btn btn-success">Add Product</a>
+
+
 <a href="{% url 'seller-logout' %}" class="btn btn-danger mt-3">Logout</a>
+
+
 
 {% endblock %}

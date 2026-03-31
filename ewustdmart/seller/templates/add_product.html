@@ -1,0 +1,33 @@
+{% extends 'seller_base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - EWU Campus Mart{% endblock %}
+
+{% block content %}
+
+<h2>Add Product</h2>
+
+<h2>Add Product</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <input type="text" name="name" placeholder="Product Name" class="form-control mb-2">
+
+    <input type="number" name="price" placeholder="Price" class="form-control mb-2">
+
+    <textarea name="description" placeholder="Description" class="form-control mb-2"></textarea>
+
+    <select name="category" class="form-control mb-2">
+        {% for cat in categories %}
+            <option value="{{ cat.uid }}">{{ cat.category_name }}</option>
+        {% endfor %}
+    </select>
+
+    <!-- 🔥 MULTIPLE IMAGE UPLOAD -->
+    <label>Upload Images</label>
+    <input type="file" name="images" multiple class="form-control mb-3">
+
+    <button class="btn btn-success">Add Product</button>
+</form>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'seller_base.html' %} {% load static %} {% block title %}My Orders -
+EWU Campus Mart{% endblock %} {% block content %}
+<h2>Orders Received</h2>
+
+{% for item in orders %}
+<div class="card mb-3 p-3">
+  <h4>{{ item.product.product_name }}</h4>
+  <p>Quantity: {{ item.quantity }}</p>
+  <p>Price: ৳{{ item.price }}</p>
+
+  <hr />
+
+  <p><strong>Buyer:</strong> {{ item.order.user.username }}</p>
+  <p><strong>Address:</strong> {{ item.order.address }}</p>
+  <p><strong>Phone:</strong> {{ item.order.phone }}</p>
+
+  <p><strong>Status:</strong> {{ item.order.status }}</p>
+</div>
+{% empty %}
+<p>No orders yet</p>
+{% endfor %} {% for order in orders %}
