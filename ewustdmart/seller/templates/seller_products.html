@@ -1,10 +1,5 @@
-{% extends 'seller_base.html' %}
-{% load static %}
-
-{% block title %}Dashboard - EWU Campus Mart{% endblock %}
-
-{% block content %}
-
+{% extends 'seller_base.html' %} {% load static %} {% block title %}Dashboard -
+EWU Campus Mart{% endblock %} {% block content %}
 
 <h2>My Products</h2>
 
@@ -12,20 +7,21 @@
 
 {% for product in products %}
 <div class="card mb-3 p-3">
-    <h4>{{ product.product_name }}</h4>
-    <p>Price: ৳{{ product.price }}</p>
+  <h4>{{ product.product_name }}</h4>
+  <p>Price: ৳{{ product.price }}</p>
 
-    {% if product.product_images.first %}
-        <img src="{{ product.product_images.first.image.url }}" width="120">
-    {% endif %}
+  {% if product.product_images.first %}
+  <img src="{{ product.product_images.first.image.url }}" width="120" />
+  {% endif %}
 
-    <a href="{% url 'delete-product' product.uid %}" class="btn btn-danger">
-        Delete
-    </a>
+  <a href="{% url 'edit-product' product.uid %}" class="btn btn-warning">
+    Edit
+  </a>
+
+  <a href="{% url 'delete-product' product.uid %}" class="btn btn-danger">
+    Delete
+  </a>
 </div>
 {% empty %}
 <p>No products yet</p>
-{% endfor %}
-
-
-{% endblock %}
+{% endfor %} {% endblock %}

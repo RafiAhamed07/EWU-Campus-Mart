@@ -1,0 +1,55 @@
+{% extends 'seller_base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - EWU Campus Mart{% endblock %}
+
+{% block content %}
+
+
+<h2>Edit Product</h2>
+
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Name -->
+    <input type="text" name="name" value="{{ product.product_name }}" class="form-control mb-2">
+
+    <!-- Price -->
+    <input type="number" name="price" value="{{ product.price }}" class="form-control mb-2">
+
+    <!-- Description -->
+    <textarea name="description" class="form-control mb-2">
+        {{ product.product_desription }}
+    </textarea>
+
+    <!-- Category -->
+    <select name="category" class="form-control mb-2">
+        {% for cat in categories %}
+            <option value="{{ cat.uid }}" {% if cat == product.category %}selected{% endif %}>
+                {{ cat.category_name }}
+            </option>
+        {% endfor %}
+    </select>
+
+    <!-- Existing Images -->
+    <h5>Current Images</h5>
+    <div class="mb-3">
+        {% for image in product.product_images.all %}
+            <div style="display:inline-block; margin:10px;">
+                <img src="{{ image.image.url }}" width="100"><br>
+                <a href="{% url 'delete-product-image' image.uid %}" class="btn btn-danger btn-sm mt-1">
+                    Delete
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add New Images -->
+    <label>Add More Images</label>
+    <input type="file" name="images" multiple class="form-control mb-3">
+
+    <button class="btn btn-primary">Update Product</button>
+</form>
+
+
+{% endblock %}

@@ -10,10 +10,12 @@ class Order(BaseModel):
     total_price = models.IntegerField()
 
     STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('paid', 'Paid'),
-        ('failed', 'Failed'),
-        ('cancelled', 'Cancelled'),
+        ('pending', 'Pending'),        # order placed
+        ('accepted', 'Accepted'),      # seller accepted
+        ('rejected', 'Rejected'),      # seller rejected
+        ('shipped', 'Shipped'),        # seller shipped
+        ('delivered', 'Delivered'),    # delivered
+        ('cancelled', 'Cancelled'),    # buyer cancelled
     )
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')

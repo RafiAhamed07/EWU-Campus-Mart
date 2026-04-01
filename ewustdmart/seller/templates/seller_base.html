@@ -1,4 +1,5 @@
-{% load static %} <!doctype html>
+{% load static %}
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -9,55 +10,68 @@
       rel="stylesheet"
     />
     <style>
-      {% block styles %} footer { background: #212529; color: white; padding: 20px 0; } {% endblock %}
+      {% block styles %}
+      footer { background: #212529; color: white; padding: 20px 0; }
+      .badge { font-size: 0.9rem; }
+      {% endblock %}
     </style>
   </head>
   <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container">
-        <a class="navbar-brand" href="/home">EWU Campus Mart</a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-        >
+        <a class="navbar-brand" href="{% url 'seller-home' %}">EWU Campus Mart</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto">
-            <li class="nav-item"><a class="nav-link" href="/seller">Home</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Products</a></li>
-            <li class="nav-item">
-              <a class="nav-link" href="/about">About</a>
-            </li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'seller-home' %}">Home</a></li>
+            <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
             <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-            <li class="nav-item">
-              <a
-                class="btn btn-outline-light ms-2"
-                href="/seller/login"
-                >Login</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="btn btn-warning ms-2"
-                href="/seller/signup"
-                >Sign Up</a
-              >
-            </li>
+
+            {% if request.user.is_authenticated and request.user.is_seller %}
+              <li class="nav-item">
+                <a class="btn btn-outline-light ms-2" href="{% url 'seller-dashboard' %}">Dashboard</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-danger ms-2" href="{% url 'seller-logout' %}">Logout</a>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="btn btn-outline-light ms-2" href="{% url 'seller-login' %}">Login</a>
+              </li>
+              <li class="nav-item">
+                <a class="btn btn-warning ms-2" href="{% url 'seller-signup' %}">Sign Up</a>
+              </li>
+            {% endif %}
           </ul>
         </div>
       </div>
     </nav>
+
+    <!-- Flash messages -->
+    <div class="container mt-3">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    </div>
+
     <!-- Main Content -->
-    {% block content %} {% endblock %}
+    <div class="container mt-4">
+      {% block content %}{% endblock %}
+    </div>
 
     <!-- Footer -->
-    <footer class="text-center">
+    <footer class="text-center mt-5">
       <p>&copy; 2026 EWU Campus Mart | All Rights Reserved</p>
     </footer>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     {% block scripts %}{% endblock %}
   </body>

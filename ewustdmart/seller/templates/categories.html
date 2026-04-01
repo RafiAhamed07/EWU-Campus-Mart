@@ -1,0 +1,39 @@
+{% extends "seller_base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Categories</h2>
+
+    <a href="{% url 'add-category' %}" class="btn btn-success mb-3">
+        Add Category
+    </a>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Name</th>
+            <th>Image</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for category in categories %}
+        <tr>
+            <td>{{ category.category_name }}</td>
+
+            <td>
+                {% if category.category_image %}
+                    <img src="{{ category.category_image.url }}" width="80">
+                {% endif %}
+            </td>
+
+            <td>
+                <a href="{% url 'edit-category' category.uid %}" class="btn btn-warning btn-sm">Edit</a>
+
+                <a href="{% url 'delete-category' category.uid %}" class="btn btn-danger btn-sm">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>
+
+{% endblock %}

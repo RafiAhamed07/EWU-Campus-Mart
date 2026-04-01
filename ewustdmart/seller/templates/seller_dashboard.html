@@ -1,25 +1,71 @@
 {% extends 'seller_base.html' %}
 {% load static %}
 
-{% block title %}Dashboard - EWU Campus Mart{% endblock %}
-
 {% block content %}
 
-<h2 class="text-center mt-5">Welcome to Your Dashboard</h2>
+<div class="container mt-5">
 
-user_name: {{ request.user.username }}
+    <h2 class="text-center mb-4">Seller Dashboard</h2>
 
-<h2>Seller Dashboard</h2>
+    <!-- Welcome -->
+    <div class="text-center mb-4">
+        <h5>Welcome, {{ request.user.username }}</h5>
+        <p>Shop: <strong>{{ request.user.shop_name }}</strong></p>
+    </div>
 
-<p>Welcome {{ request.user.username }}</p>
-<p>Shop: {{ request.user.shop_name }}</p>
+    <!-- Stats -->
+    <div class="row text-center mb-4">
 
-<a href="{% url 'seller-products' %}" class="btn btn-primary">My Products</a>
-<a href="{% url 'add-product' %}" class="btn btn-success">Add Product</a>
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h4>{{ total_products }}</h4>
+                <p>Total Products</p>
+            </div>
+        </div>
 
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h4>{{ total_orders }}</h4>
+                <p>Total Orders</p>
+            </div>
+        </div>
 
-<a href="{% url 'seller-logout' %}" class="btn btn-danger mt-3">Logout</a>
+        <div class="col-md-4">
+            <div class="card shadow p-3">
+                <h4>৳{{ total_revenue }}</h4>
+                <p>Total Revenue</p>
+            </div>
+        </div>
 
+    </div>
 
+    <!-- Actions -->
+    <div class="text-center">
+
+        <a href="{% url 'seller-products' %}" class="btn btn-primary m-2">
+            📦 My Products
+        </a>
+
+        <a href="{% url 'add-product' %}" class="btn btn-success m-2">
+            ➕ Add Product
+        </a>
+
+        <a href="{% url 'seller-orders' %}" class="btn btn-warning m-2">
+            🛒 Orders
+        </a>
+
+        <a href="{% url 'seller-categories' %}" class="btn btn-info m-2">
+            🏷 Categories
+        </a>
+
+        <br><br>
+
+        <a href="{% url 'seller-logout' %}" class="btn btn-danger">
+            🚪 Logout
+        </a>
+
+    </div>
+
+</div>
 
 {% endblock %}
