@@ -3,23 +3,55 @@
 
 {% block title %}Dashboard - EWU Campus Mart{% endblock %}
 
+{% block styles %}
+.dashboard-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  max-width: 800px;
+  margin: 60px auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.stat-box {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  text-align: center;
+}
+{% endblock %}
+
 {% block content %}
+<div class="container">
+  <div class="dashboard-container">
+    <h2 class="text-center mb-4 fw-bold" style="color: #fbbf24;">Welcome to Your Dashboard!</h2>
+    
+    <div class="row mb-5 justify-content-center">
+      <div class="col-md-5">
+        <div class="stat-box">
+          <p class="text-secondary mb-1">Authenticated As</p>
+          <h4 class="fw-bold">{{ request.user.username }}</h4>
+        </div>
+      </div>
+      <div class="col-md-5">
+        <div class="stat-box">
+          <p class="text-secondary mb-1">Your Shop Name</p>
+          <h4 class="fw-bold text-success">{{ request.user.shop_name }}</h4>
+        </div>
+      </div>
+    </div>
 
-<h2 class="text-center mt-5">Welcome to Your Dashboard</h2>
+    <div class="d-flex justify-content-center gap-4">
+      <a href="{% url 'seller-products' %}" class="btn btn-primary-glow btn-aesthetic px-4 rounded-pill">Manage My Products</a>
+      <a href="{% url 'add-product' %}" class="btn btn-buy-option btn-aesthetic px-4 rounded-pill">Add New Product</a>
+    </div>
 
-user_name: {{ request.user.username }}
-
-<h2>Seller Dashboard</h2>
-
-<p>Welcome {{ request.user.username }}</p>
-<p>Shop: {{ request.user.shop_name }}</p>
-
-<a href="{% url 'seller-products' %}" class="btn btn-primary">My Products</a>
-<a href="{% url 'add-product' %}" class="btn btn-success">Add Product</a>
-
-
-<a href="{% url 'seller-logout' %}" class="btn btn-danger mt-3">Logout</a>
-
-
-
+    <div class="text-center mt-5">
+      <a href="{% url 'seller-logout' %}" class="btn btn-outline-danger px-4 rounded-pill">Logout from Dashboard</a>
+    </div>
+  </div>
+</div>
 {% endblock %}

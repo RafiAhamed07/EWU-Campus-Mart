@@ -1,33 +1,75 @@
 {% extends 'seller_base.html' %}
 {% load static %}
 
-{% block title %}Dashboard - EWU Campus Mart{% endblock %}
+{% block title %}Add Product - EWU Campus Mart{% endblock %}
+
+{% block styles %}
+.form-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  max-width: 650px;
+  margin: 50px auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.form-control-glass {
+  background: rgba(0, 0, 0, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  color: #fff !important;
+}
+.form-control-glass:focus {
+  background: rgba(0, 0, 0, 0.4) !important;
+  border-color: #fbbf24 !important;
+  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3) !important;
+}
+.form-control-glass::placeholder {
+  color: #94a3b8;
+}
+{% endblock %}
 
 {% block content %}
+<div class="container">
+  <div class="form-container">
+    <h2 class="text-center fw-bold mb-4" style="color: #fbbf24;">Add New Product</h2>
 
-<h2>Add Product</h2>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
 
-<h2>Add Product</h2>
+        <div class="mb-3">
+          <label class="form-label text-light">Product Name</label>
+          <input type="text" name="name" placeholder="Enter awesome product name" class="form-control form-control-glass">
+        </div>
 
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
+        <div class="mb-3">
+          <label class="form-label text-light">Price (৳)</label>
+          <input type="number" name="price" placeholder="E.g. 500" class="form-control form-control-glass">
+        </div>
 
-    <input type="text" name="name" placeholder="Product Name" class="form-control mb-2">
+        <div class="mb-3">
+          <label class="form-label text-light">Description</label>
+          <textarea name="description" placeholder="Describe the condition, features, etc." class="form-control form-control-glass" rows="4"></textarea>
+        </div>
 
-    <input type="number" name="price" placeholder="Price" class="form-control mb-2">
+        <div class="mb-3">
+          <label class="form-label text-light">Category</label>
+          <select name="category" class="form-control form-control-glass">
+              {% for cat in categories %}
+                  <option value="{{ cat.uid }}" style="background: #1e293b; color: #fff;">{{ cat.category_name }}</option>
+              {% endfor %}
+          </select>
+        </div>
 
-    <textarea name="description" placeholder="Description" class="form-control mb-2"></textarea>
+        <!-- 🔥 MULTIPLE IMAGE UPLOAD -->
+        <div class="mb-4">
+          <label class="form-label text-light">Upload Images</label>
+          <input type="file" name="images" multiple class="form-control form-control-glass">
+          <small class="text-secondary">You can hold CTRL to select multiple images.</small>
+        </div>
 
-    <select name="category" class="form-control mb-2">
-        {% for cat in categories %}
-            <option value="{{ cat.uid }}">{{ cat.category_name }}</option>
-        {% endfor %}
-    </select>
-
-    <!-- 🔥 MULTIPLE IMAGE UPLOAD -->
-    <label>Upload Images</label>
-    <input type="file" name="images" multiple class="form-control mb-3">
-
-    <button class="btn btn-success">Add Product</button>
-</form>
+        <button class="btn btn-buy-option btn-aesthetic w-100 py-2 rounded-pill fw-bold">Publish Listing</button>
+    </form>
+  </div>
+</div>
 {% endblock %}

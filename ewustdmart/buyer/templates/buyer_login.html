@@ -1,13 +1,72 @@
 {% extends 'buyer_base.html' %}
+{% load static %}
 
 {% block title %}Buyer Login{% endblock %}
 
+{% block styles %}
+.hero {
+  background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
+  min-height: 90vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+.hero::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.85) 100%);
+}
+.glass-box {
+  position: relative;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 30px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: floatIn 0.8s ease-out forwards;
+  color: #fff;
+}
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.glass-box h3, .glass-box label, .glass-box small {
+  color: #f8fafc;
+  text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+}
+.glass-box .form-control {
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+}
+.glass-box .form-control:focus {
+  background: rgba(255,255,255,0.15);
+  border-color: #3b82f6;
+  color: #fff;
+  box-shadow: 0 0 10px rgba(59,130,246,0.3);
+}
+.glass-box .text-danger {
+  color: #fca5a5 !important;
+}
+.glass-box a {
+  color: #fbbf24;
+  text-decoration: none;
+}
+.glass-box a:hover {
+  text-decoration: underline;
+}
+{% endblock %}
+
 {% block content %}
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 80vh;">
-    
-    <div class="card shadow-lg p-4" style="width: 100%; max-width: 400px; border-radius: 15px;">
-        
-        <h3 class="text-center mb-4">Buyer Login</h3>
+<section class="hero">
+    <div class="glass-box">
+        <h3 class="text-center mb-4 fw-bold">Buyer Login</h3>
         
         {% if form.non_field_errors %}
             <small class="text-danger d-block mb-3">{{ form.non_field_errors.as_ul }}</small>
@@ -19,31 +78,28 @@
             <!-- Username -->
             <div class="mb-3">
                 <label for="{{ form.username.id_for_label }}" class="form-label">Email</label>
-                <input type="text" name="{{ form.username.name }}" class="form-control" required value="{{ form.username.value }}" />
+                <input type="text" name="{{ form.username.name }}" class="form-control form-control-sm" required value="{{ form.username.value }}" />
                 <span class="text-danger">{{ form.username.errors }}</span>
+            </div>
                 
             <!-- Password -->
             <div class="mb-3">
                 <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
-                <input type="password" name="{{ form.password.name }}" class="form-control" required value="{{ form.password.value }}" />
+                <input type="password" name="{{ form.password.name }}" class="form-control form-control-sm" required value="{{ form.password.value }}" />
                 <span class="text-danger">{{ form.password.errors }}</span>
             </div>
 
             <!-- Login Button -->
-            <button type="submit" class="btn btn-warning w-100">Login</button>
+            <button type="submit" class="btn btn-sm btn-primary-glow btn-aesthetic w-100 mt-2 rounded-pill">Login</button>
         </form>
 
         <!-- Extra Links -->
-        <div class="text-center mt-3">
+        <div class="text-center mt-3 pt-2 border-top border-secondary">
             <small>
                 Don't have an account? 
                 <a href="{% url 'buyer-signup' %}">Register</a>
             </small>
         </div>
-
     </div>
-</div>
-
-
-
+</section>
 {% endblock %}

@@ -5,38 +5,64 @@
 
 {% block styles %}
 .hero {
-  background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
-  height: 80vh;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
+min-height: 90vh;
+display: flex;
+align-items: center;
+justify-content: center;
+text-align: center;
+position: relative;
 }
-.overlay {
-  background: rgba(0,0,0,0.6);
-  padding: 40px;
-  border-radius: 10px;
+.hero::before {
+content: "";
+position: absolute;
+top: 0; left: 0; right: 0; bottom: 0;
+background: radial-gradient(circle, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.85) 100%);
 }
-.card img {
-  height: 200px;
-  object-fit: cover;
+.glass-box {
+position: relative;
+background: rgba(255, 255, 255, 0.05);
+backdrop-filter: blur(12px);
+-webkit-backdrop-filter: blur(12px);
+border: 1px solid rgba(255, 255, 255, 0.1);
+border-radius: 20px;
+padding: 50px 40px;
+max-width: 700px;
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+animation: floatIn 1s ease-out forwards;
 }
-footer {
-  background: #212529;
-  color: white;
-  padding: 20px 0;
+@keyframes floatIn {
+from { opacity: 0; transform: translateY(30px); }
+to { opacity: 1; transform: translateY(0); }
+}
+.hero h1 {
+font-weight: 800;
+font-size: 3rem;
+background: linear-gradient(135deg, #ffffff, #94a3b8);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+letter-spacing: -1px;
+margin-bottom: 20px;
+text-shadow: 0 10px 25px rgba(255, 255, 255, 0.2);
+}
+.hero p {
+font-size: 1.25rem;
+color: #e2e8f0;
+margin-bottom: 40px;
+line-height: 1.6;
 }
 {% endblock %}
 
 {% block content %}
 <!-- Hero Section -->
-<section class="hero" style="background-image:url('{% static "home/images/img1.jpg" %}');">
-  <div class="overlay">
-    <h1>Welcome to EWU Campus Mart</h1>
-    <p>Your campus marketplace for everything!</p>
-    <a href="{% url 'buyer-login' %}" class="btn btn-success">Shop Now</a>
+<section class="hero">
+  <div class="glass-box">
+    <h1>Join as Buyer</h1>
+    <p>Please select an option to continue.</p>
+    <div class="d-flex justify-content-center gap-3 mt-4">
+      <a href="{% url 'buyer-login' %}" class="btn btn-primary-glow btn-aesthetic btn-lg rounded-pill px-5">Log In</a>
+      <a href="{% url 'buyer-signup' %}" class="btn btn-outline-glow btn-aesthetic btn-lg rounded-pill px-5">Sign Up</a>
+    </div>
   </div>
 </section>
 {% endblock %}
-
