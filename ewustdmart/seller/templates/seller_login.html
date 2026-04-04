@@ -1,0 +1,79 @@
+{% extends 'seller_base.html' %}
+
+{% block title %}Seller Login{% endblock %}
+
+{% block styles %}
+<style>
+  .auth-shell {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
+  .auth-card {
+    width: min(100%, 420px);
+    margin: 0 1rem;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .auth-card { margin: 0; }
+  }
+
+  .auth-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.25rem;
+  }
+
+  .auth-subtitle {
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  .auth-form {
+    text-align: left;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="auth-shell page-shell">
+  <div class="form-card auth-card">
+    <h3 class="auth-title text-center">Seller Login</h3>
+    <p class="auth-subtitle text-center">Sign in to manage your storefront.</p>
+
+    {% if form.non_field_errors %}
+      <small class="text-danger d-block mb-3">{{ form.non_field_errors.as_ul }}</small>
+    {% endif %}
+
+    <form method="post" action="{% url 'seller-login' %}" class="auth-form">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label for="{{ form.username.id_for_label }}" class="form-label">Email</label>
+        <input type="text" name="{{ form.username.name }}" class="form-control input-modern" required value="{{ form.username.value }}" />
+        <span class="text-danger small">{{ form.username.errors }}</span>
+      </div>
+
+      <div class="mb-3">
+        <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+        <input type="password" name="{{ form.password.name }}" class="form-control input-modern" required value="{{ form.password.value }}" />
+        <span class="text-danger small">{{ form.password.errors }}</span>
+      </div>
+
+      <button type="submit" class="btn btn-primary-glow btn-aesthetic w-100 py-2">Login</button>
+    </form>
+
+    <div class="text-center mt-3 pt-3 border-top" style="border-color: var(--line) !important;">
+      <small>
+        Don't have an account?
+        <a href="{% url 'seller-signup' %}">Register</a>
+      </small>
+    </div>
+  </div>
+</section>
+{% endblock %}

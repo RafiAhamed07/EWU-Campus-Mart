@@ -1,0 +1,35 @@
+{% extends 'seller_base.html' %}
+
+{% block title %}Request for Banner - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .banner-shell {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell banner-shell">
+  <div class="glass-card p-4 p-sm-5">
+    <span class="section-kicker">Promotion</span>
+    <h2 class="page-heading mt-3">Request for Banner</h2>
+    <p class="section-subtitle">Upload a banner image to show on the buyer dashboard.</p>
+
+    <form method="post" enctype="multipart/form-data" class="mt-4">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label class="form-label">Banner image</label>
+        <input type="file" name="banner_image" class="form-control input-modern" required />
+      </div>
+      <div class="mb-3">
+        <label class="form-label">Banner text</label>
+        <input type="text" name="banner_text" class="form-control input-modern" placeholder="Optional short message" />
+      </div>
+      <button type="submit" class="btn btn-primary-glow btn-aesthetic px-4 py-2">Submit Banner</button>
+    </form>
+  </div>
+</section>
+{% endblock %}

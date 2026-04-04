@@ -1,0 +1,73 @@
+{% extends "seller_base.html" %}
+
+{% block title %}Categories - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .category-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .category-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .table-wrap {
+    overflow-x: auto;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="category-header">
+    <div>
+      <span class="section-kicker">Catalog</span>
+      <h2 class="page-heading mt-3 mb-0">Categories</h2>
+    </div>
+
+    <a href="{% url 'add-category' %}" class="btn btn-primary-glow btn-aesthetic px-4 py-2">Add Category</a>
+  </div>
+
+  <div class="glass-card p-3 p-sm-4 table-wrap">
+    <table class="table table-modern align-middle mb-0">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Image</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for category in categories %}
+        <tr>
+          <td>{{ category.category_name }}</td>
+          <td>
+            {% if category.category_image %}
+              <img src="{{ category.category_image.url }}" width="80" style="border-radius: 0.75rem; object-fit: cover;" />
+            {% endif %}
+          </td>
+          <td>
+            <div class="d-flex flex-wrap gap-2">
+              <a href="{% url 'edit-category' category.uid %}" class="btn btn-outline-glow btn-aesthetic btn-sm px-3">Edit</a>
+              <form method="post" action="{% url 'delete-category' category.uid %}" class="m-0">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary-glow btn-aesthetic btn-sm px-3">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</section>
+{% endblock %}

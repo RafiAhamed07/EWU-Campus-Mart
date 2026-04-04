@@ -1,0 +1,166 @@
+{% extends 'seller_base.html' %}
+{% load static %}
+
+{% block title %}My Products - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .products-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .products-header {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .products-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .products-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .products-grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  .product-card {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .product-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 0.9rem;
+  }
+
+  .product-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .badge-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .mini-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    font-size: 0.78rem;
+  }
+
+  .inline-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-items: center;
+  }
+
+  .inline-input {
+    max-width: 180px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="products-header">
+    <div>
+      <span class="section-kicker">Inventory</span>
+      <h2 class="page-heading mt-3 mb-0">My Products</h2>
+    </div>
+    <a href="{% url 'add-product' %}" class="btn btn-primary-glow btn-aesthetic px-4 py-2">Add Product</a>
+  </div>
+
+  {% if products %}
+    <div class="products-grid">
+      {% for product in products %}
+        <div class="product-card glass-card">
+          <h4 class="mb-0">{{ product.product_name }}</h4>
+          {% if product.has_offer %}
+            <p class="mb-0" style="color: var(--muted); text-decoration: line-through;">৳{{ product.price }}</p>
+            <p class="mb-0" style="color: var(--accent); font-weight: 700;">৳{{ product.offer_price }} ({{ product.offer_percent }}% off)</p>
+          {% else %}
+            <p class="mb-0" style="color: var(--accent); font-weight: 700;">৳{{ product.price }}</p>
+          {% endif %}
+
+          <div class="badge-row">
+            <span class="mini-badge">{{ product.category.category_name }}</span>
+            <span class="mini-badge">{% if product.is_available %}Available{% else %}Unavailable{% endif %}</span>
+            <span class="mini-badge">Notes: {% if product.notes %}Yes{% else %}N/A{% endif %}</span>
+          </div>
+
+          {% if product.options.exists %}
+            <div class="small text-info">Set offers per quantity in Edit Product using: Option|BasePrice|OfferPrice</div>
+          {% else %}
+            <form method="post" action="{% url 'update-product-offer' product.uid %}" class="inline-form">
+              {% csrf_token %}
+              <input
+                type="number"
+                min="1"
+                name="offer_price"
+                value="{% if product.offer_price %}{{ product.offer_price }}{% endif %}"
+                placeholder="Offer price"
+                class="form-control input-modern inline-input"
+              />
+              <button type="submit" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Save Offer</button>
+            </form>
+          {% endif %}
+
+          <form method="post" action="{% url 'update-product-availability' product.uid %}" class="inline-form">
+            {% csrf_token %}
+            <label class="d-flex align-items-center gap-2 mb-0">
+              <input type="checkbox" name="is_available" {% if product.is_available %}checked{% endif %} />
+              <span>Available</span>
+            </label>
+            <button type="submit" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Update Availability</button>
+          </form>
+
+          {% if product.product_images.first %}
+            <img src="{{ product.product_images.first.image.url }}" alt="{{ product.product_name }}" class="product-image" />
+          {% endif %}
+
+          {% if product.options.all %}
+            <div class="small text-muted">{{ product.options.count }} size/quantity options</div>
+          {% endif %}
+
+          <div class="product-actions mt-auto">
+            <a href="{% url 'edit-product' product.uid %}" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Edit</a>
+            <a href="{% url 'delete-product' product.uid %}" class="btn btn-primary-glow btn-aesthetic px-3 py-2">Delete</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="glass-card p-4 p-sm-5 text-center">
+      <p class="mb-0" style="color: var(--muted);">No products yet.</p>
+    </div>
+  {% endif %}
+</section>
+{% endblock %}

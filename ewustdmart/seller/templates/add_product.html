@@ -1,0 +1,92 @@
+{% extends 'seller_base.html' %}
+{% load static %}
+
+{% block title %}Add Product - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .product-form-shell {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
+  .product-form-card {
+    width: min(100%, 760px);
+    margin: 0 1rem;
+  }
+
+  .form-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .help-note {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.35rem;
+  }
+
+  .select-modern option {
+    background: #ffffff;
+    color: #111827;
+  }
+
+  @media (min-width: 640px) {
+    .form-grid.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="product-form-shell page-shell">
+  <div class="form-card product-form-card">
+    <span class="section-kicker">Inventory</span>
+    <h2 class="page-heading mt-3">Add Product</h2>
+
+    <form method="POST" enctype="multipart/form-data" class="mt-4">
+      {% csrf_token %}
+
+      <div class="form-grid two-col mb-3">
+        <input type="text" name="name" placeholder="Product Name" class="form-control input-modern" />
+        <input type="number" name="price" placeholder="Price" class="form-control input-modern" />
+      </div>
+
+      <div class="form-grid two-col mb-3">
+        <div class="help-note">Set offer and availability after publishing from My Products.</div>
+      </div>
+
+      <textarea name="description" placeholder="Description" class="form-control textarea-modern mb-3" rows="4"></textarea>
+      <textarea name="notes" placeholder="Short notes (optional)" class="form-control textarea-modern mb-3" rows="2"></textarea>
+
+      <textarea name="variant_rows" placeholder="Size/quantity variants in the format: XL|200|170 or XXL|250, one per line" class="form-control textarea-modern mb-3" rows="4"></textarea>
+      <div class="help-note mb-3">Use: Option|BasePrice|OfferPrice(optional). Example: XL|200|170 or XXL|250.</div>
+
+      <select name="category" class="form-select select-modern mb-3">
+        {% for cat in categories %}
+          <option value="{{ cat.uid }}">{{ cat.category_name }}</option>
+        {% endfor %}
+      </select>
+
+      <div class="help-note mb-3">
+        Categories are built in and managed by the system.
+      </div>
+
+      <label class="form-label">Upload Images (up to 4)</label>
+      <div class="form-grid two-col mb-3">
+        <input type="file" name="image_1" accept="image/*" class="form-control input-modern" />
+        <input type="file" name="image_2" accept="image/*" class="form-control input-modern" />
+        <input type="file" name="image_3" accept="image/*" class="form-control input-modern" />
+        <input type="file" name="image_4" accept="image/*" class="form-control input-modern" />
+      </div>
+      <div class="help-note mb-3">You can upload 1 to 4 images. Leave unused fields empty.</div>
+
+      <button class="btn btn-primary-glow btn-aesthetic px-4 py-2">Add Product</button>
+    </form>
+  </div>
+</section>
+{% endblock %}
