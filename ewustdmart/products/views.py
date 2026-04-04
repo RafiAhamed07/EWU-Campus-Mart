@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from .forms import ProductForm
 
 def add_product(request):
-    if not request.user.is_seller:
+    if not request.user.is_authenticated or not getattr(request.user, 'is_seller', False):
         return redirect('seller-login')
 
     if request.method == 'POST':
@@ -16,4 +16,4 @@ def add_product(request):
     else:
         form = ProductForm()
 
-    return render(request, 'add_product.html', {'form': form})
+    return render(request, 'products/add_product.html', {'form': form})

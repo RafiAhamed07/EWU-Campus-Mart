@@ -2,15 +2,11 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import login, logout, authenticate
 from .middlewares import auth, loggedin_auth
 from .forms import SellerSignupForm, SellerLoginForm
-from products.models import Product, Category, ProductImage
+from products.models import Product, Category, ProductImage, ProductOption
 from django.shortcuts import get_object_or_404
 from orders.models import OrderItem
-
-from products.models import Category
-from products.forms import CategoryForm
-from .middlewares import auth
-from django.shortcuts import render, redirect, get_object_or_404
 from orders.models import Order
+from .models import SellerBanner
 
 # Create your views here.
 def seller_home(request):
@@ -35,6 +31,7 @@ def seller_dashboard(request):
         'total_products': total_products,
         'total_orders': total_orders,
         'total_revenue': total_revenue,
+        'banner_requests': SellerBanner.objects.filter(seller=request.user),
     }
 
     return render(request, "seller_dashboard.html", context)
@@ -97,6 +94,32 @@ def seller_products(request):
     return render(request, "seller_products.html", {"products": products})
 
 
+def _parse_variant_rows(raw_text):
+    variants = []
+    if not raw_text:
+        return variants
+
+    for line in raw_text.splitlines():
+        line = line.strip()
+        if not line:
+            continue
+        if "|" in line:
+            name, price = line.split("|", 1)
+        elif ":" in line:
+            name, price = line.split(":", 1)
+        else:
+            continue
+        name = name.strip()
+        price = price.strip()
+        if not name or not price:
+            continue
+        try:
+            variants.append((name, int(price)))
+        except ValueError:
+            continue
+    return variants
+
+
 @auth
 def add_product(request):
     categories = Category.objects.all()
@@ -106,6 +129,8 @@ def add_product(request):
         price = request.POST.get("price")
         description = request.POST.get("description")
         category_id = request.POST.get("category")
+        notes = request.POST.get("notes")
+        variant_rows = request.POST.get("variant_rows", "")
 
         category = Category.objects.get(uid=category_id)
 
@@ -115,8 +140,18 @@ def add_product(request):
             product_name=name,
             price=price,
             product_desription=description,
-            category=category
+            category=category,
+            offer_price=None,
+            is_available=True,
+            notes=notes,
         )
+
+        for variant_name, variant_price in _parse_variant_rows(variant_rows):
+            ProductOption.objects.create(
+                product=product,
+                option_name=variant_name,
+                price=variant_price,
+            )
 
         # 🔥 HANDLE MULTIPLE IMAGES
         images = request.FILES.getlist('images')
@@ -136,6 +171,37 @@ def add_product(request):
 def delete_product(request, uid):
     product = get_object_or_404(Product, uid=uid, seller=request.user)
     product.delete()
+    return redirect("seller-products")
+
+
+@auth
+def update_product_offer(request, uid):
+    product = get_object_or_404(Product, uid=uid, seller=request.user)
+    if request.method == "POST":
+        offer_raw = (request.POST.get("offer_price") or "").strip()
+        if not offer_raw:
+            product.offer_price = None
+        else:
+            try:
+                offer_value = int(offer_raw)
+            except ValueError:
+                offer_value = None
+
+            if offer_value and 0 < offer_value < product.price:
+                product.offer_price = offer_value
+            else:
+                product.offer_price = None
+
+        product.save(update_fields=["offer_price", "updated_at"])
+    return redirect("seller-products")
+
+
+@auth
+def update_product_availability(request, uid):
+    product = get_object_or_404(Product, uid=uid, seller=request.user)
+    if request.method == "POST":
+        product.is_available = request.POST.get("is_available") == "on"
+        product.save(update_fields=["is_available", "updated_at"])
     return redirect("seller-products")
 
 
@@ -174,11 +240,22 @@ def edit_product(request, uid):
         product.product_name = request.POST.get("name")
         product.price = request.POST.get("price")
         product.product_desription = request.POST.get("description")
+        product.notes = request.POST.get("notes")
+        product.offer_price = request.POST.get("offer_price") or None
+        product.is_available = request.POST.get("is_available") == "on"
 
         category_id = request.POST.get("category")
         product.category = Category.objects.get(uid=category_id)
 
         product.save()
+
+        product.options.all().delete()
+        for variant_name, variant_price in _parse_variant_rows(request.POST.get("variant_rows", "")):
+            ProductOption.objects.create(
+                product=product,
+                option_name=variant_name,
+                price=variant_price,
+            )
 
         # 🔥 ADD NEW IMAGES (optional)
         images = request.FILES.getlist("images")
@@ -200,45 +277,6 @@ def delete_product_image(request, uid):
     image.delete()
 
     return redirect("edit-product", uid=product_uid)
-
-@auth
-def add_category(request):
-    if request.method == "POST":
-        form = CategoryForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('seller-categories')
-    else:
-        form = CategoryForm()
-
-    return render(request, 'add_category.html', {'form': form})
-
-
-@auth
-def seller_categories(request):
-    categories = Category.objects.all()
-    return render(request, 'categories.html', {'categories': categories})
-
-
-@auth
-def edit_category(request, uid):
-    category = get_object_or_404(Category, uid=uid)
-
-    if request.method == "POST":
-        form = CategoryForm(request.POST, request.FILES, instance=category)
-        if form.is_valid():
-            form.save()
-            return redirect('seller-categories')
-    else:
-        form = CategoryForm(instance=category)
-
-    return render(request, 'add_category.html', {'form': form})
-
-@auth
-def delete_category(request, uid):
-    category = get_object_or_404(Category, uid=uid)
-    category.delete()
-    return redirect('seller-categories')
 
 @auth
 def accept_order(request, uid):
@@ -280,4 +318,18 @@ def update_order_status(request, uid, status):
         order.save()
     
     return redirect('seller-orders')
+
+
+@auth
+def request_banner(request):
+    if request.method == "POST":
+        banner = SellerBanner.objects.create(
+            seller=request.user,
+            banner_image=request.FILES.get("banner_image"),
+            banner_text=request.POST.get("banner_text", ""),
+            is_approved=True,
+        )
+        return redirect("seller-dashboard")
+
+    return render(request, "banner_request.html")
 

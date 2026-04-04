@@ -7,6 +7,16 @@ urlpatterns = [
     path("products/", views.seller_products, name="seller-products"),
     path("add-product/", views.add_product, name="add-product"),
     path("delete-product/<uuid:uid>/", views.delete_product, name="delete-product"),
+    path(
+        "products/<uuid:uid>/offer/",
+        views.update_product_offer,
+        name="update-product-offer",
+    ),
+    path(
+        "products/<uuid:uid>/availability/",
+        views.update_product_availability,
+        name="update-product-availability",
+    ),
     path("login/", views.seller_login, name="seller-login"),
     path("signup/", views.seller_signup, name="seller-signup"),
     path("logout/", views.seller_logout, name="seller-logout"),
@@ -16,12 +26,6 @@ urlpatterns = [
         views.delete_product_image,
         name="delete-product-image",
     ),
-    path("categories/", views.seller_categories, name="seller-categories"),
-    path("categories/add/", views.add_category, name="add-category"),
-    path("categories/edit/<uuid:uid>/", views.edit_category, name="edit-category"),
-    path(
-        "categories/delete/<uuid:uid>/", views.delete_category, name="delete-category"
-    ),
     path("orders/", views.seller_orders, name="seller-orders"),
     path("orders/accept/<uuid:uid>/", views.accept_order, name="accept-order"),
     path("orders/ship/<uuid:uid>/", views.ship_order, name="ship-order"),
@@ -29,4 +33,5 @@ urlpatterns = [
         "orders/cancel/<uuid:uid>/", views.cancel_order_item, name="cancel-order-item"
     ),
     path('orders/update/<uuid:uid>/<str:status>/', views.update_order_status, name='seller-update-order'),
+    path('banner/request/', views.request_banner, name='request-banner'),
 ]

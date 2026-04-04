@@ -3,27 +3,312 @@
 
 {% block title %}Dashboard - EWU Campus Mart{% endblock %}
 
+{% block styles %}
+<style>
+  .banner-carousel {
+    margin-bottom: 1.5rem;
+    border-radius: 1.25rem;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+
+  .banner-slide img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+  }
+
+  @media (min-width: 640px) {
+    .banner-slide img {
+      height: 320px;
+    }
+  }
+
+  .category-filters {
+    margin-bottom: 1.25rem;
+    display: flex;
+    justify-content: flex-start;
+  }
+
+  .category-filter-form {
+    width: min(100%, 420px);
+    display: flex;
+    gap: 0.6rem;
+    align-items: center;
+  }
+
+  .category-filter-form .select-modern {
+    min-width: 0;
+    flex: 1;
+  }
+
+  .dashboard-header {
+    padding-top: 1rem;
+    padding-bottom: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .dashboard-header {
+      padding-top: 1.5rem;
+      padding-bottom: 2rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .dashboard-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .dashboard-title {
+      font-size: 2rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .user-greeting {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  @media (min-width: 640px) {
+    .user-greeting {
+      font-size: 1rem;
+    }
+  }
+
+  .products-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    padding: 0 0.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .products-grid {
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      padding: 0;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .products-grid {
+      gap: 2rem;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    }
+  }
+
+  .product-card {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  @media (min-width: 640px) {
+    .product-card {
+      border-radius: 1.25rem;
+      padding: 1.25rem;
+    }
+  }
+
+  .product-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-2);
+    transform: translateY(-2px);
+  }
+
+  .product-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+  }
+
+  @media (min-width: 640px) {
+    .product-name {
+      font-size: 1.05rem;
+      margin-bottom: 0.75rem;
+    }
+  }
+
+  .product-price {
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+  }
+
+  .product-old-price {
+    color: var(--muted);
+    text-decoration: line-through;
+    font-size: 0.9rem;
+  }
+
+  .offer-pill,
+  .availability-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.35rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+
+  .offer-pill {
+    background: rgba(242, 178, 79, 0.18);
+    color: #ffd792;
+  }
+
+  .availability-pill {
+    background: rgba(107, 224, 177, 0.18);
+    color: #9ff5d1;
+  }
+
+  @media (min-width: 640px) {
+    .product-price {
+      font-size: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  .product-image {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+    margin-bottom: 0.75rem;
+  }
+
+  @media (min-width: 640px) {
+    .product-image {
+      height: 160px;
+      border-radius: 1rem;
+      margin-bottom: 1rem;
+    }
+  }
+
+  .product-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: white !important;
+    font-weight: 600;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+  }
+
+  @media (min-width: 640px) {
+    .product-link {
+      padding: 0.7rem 1.2rem;
+      font-size: 0.95rem;
+    }
+  }
+
+  .product-link:hover {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+  }
+
+  .logout-btn {
+    margin-top: 2rem;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
+<section class="page-shell">
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">Welcome to Your Dashboard</h2>
+    <p class="user-greeting">👋 Hello, {{ request.user.username }}!</p>
+  </div>
 
-<h2 class="text-center mt-5">Welcome to Your Dashboard</h2>
+  {% if banners %}
+    <div id="buyerBannerCarousel" class="carousel slide banner-carousel" data-bs-ride="carousel" data-bs-interval="3000">
+      <div class="carousel-inner">
+        {% for banner in banners %}
+          <div class="carousel-item banner-slide {% if forloop.first %}active{% endif %}">
+            <img src="{{ banner.banner_image.url }}" alt="Seller banner">
+            {% if banner.banner_text %}
+              <div class="carousel-caption d-none d-md-block">
+                <h5>{{ banner.banner_text }}</h5>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
 
-user_name: {{ request.user.username }}
+  <div class="category-filters">
+    <form method="get" class="category-filter-form">
+      <select name="category" class="form-select select-modern" onchange="this.form.submit()">
+        <option value="all" {% if selected_category == 'all' %}selected{% endif %}>All Categories</option>
+        <optgroup label="Categories">
+          {% for category in categories %}
+            <option value="{{ category.slug }}" {% if selected_category == category.slug %}selected{% endif %}>{{ category.category_name }}</option>
+          {% endfor %}
+        </optgroup>
+      </select>
+      <button type="submit" class="btn btn-outline-glow btn-aesthetic px-3">Go</button>
+    </form>
+  </div>
 
-{% for product in products %}
-    <h3>{{ product.product_name }}</h3>
-    <p>Price: {{ product.price }}</p>
+  {% if products %}
+    <div class="products-grid">
+      {% for product in products %}
+        <div class="product-card">
+          {% if product.product_images.first %}
+            <img src="{{ product.product_images.first.image.url }}" alt="{{ product.product_name }}" class="product-image">
+          {% else %}
+            <div class="product-image" style="background: rgba(255, 255, 255, 0.05); display: flex; align-items: center; justify-content: center; color: var(--muted);">
+              No image
+            </div>
+          {% endif %}
+          
+          <h3 class="product-name">{{ product.product_name }}</h3>
+          {% if product.has_offer %}
+            <div class="offer-pill">{{ product.offer_percent }}% OFF</div>
+            <div class="product-old-price">৳{{ product.price }}</div>
+            <p class="product-price">৳{{ product.offer_price }}</p>
+          {% else %}
+            <p class="product-price">৳{{ product.price }}</p>
+          {% endif %}
 
-    {% if product.product_images.first %}
-        <img src="{{ product.product_images.first.image.url }}" width="150">
-    {% endif %}
-    
-    <a href="{% url 'product-detail' product.slug %}">View Details</a>
-{% endfor %}
+          {% if product.is_available %}
+            <div class="availability-pill">Available now</div>
+          {% endif %}
+          <div class="text-muted small mb-2">{{ product.category.category_name }}</div>
+          
+          <a href="{% url 'product-detail' product.slug %}" class="product-link mt-auto">
+            View Details
+          </a>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="glass-card p-4 p-sm-6 text-center" style="padding: 2rem 1.5rem;">
+      <p style="color: var(--muted); font-size: 1.1rem; margin-bottom: 0;">No products available yet.</p>
+    </div>
+  {% endif %}
 
-<a href="{% url 'buyer-logout' %}" class="btn btn-danger mt-3">Logout</a>
-
-
-
-
-
+  <div class="text-center logout-btn">
+    <a href="{% url 'buyer-logout' %}" class="btn btn-outline-danger rounded-pill px-5">Logout</a>
+  </div>
+</section>
 {% endblock %}

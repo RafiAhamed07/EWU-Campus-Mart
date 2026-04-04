@@ -1,40 +1,116 @@
 {% extends 'home_base.html' %}
 {% load static %}
 
-{% block title %}Home - EWU Campus Mart{% endblock %}
+{% block title %}Contact - EWU Campus Mart{% endblock %}
 
 {% block styles %}
-.hero {
-  background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
-  height: 80vh;
-  color: white;
+<style>
+.contact-panel {
+  background-image: url('{% static "home/images/img1.jpg" %}');
+  background-size: cover;
+  background-position: center;
+}
+
+.contact-line {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  gap: 0.9rem;
+  align-items: flex-start;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
-.overlay {
-  background: rgba(0,0,0,0.6);
-  padding: 40px;
-  border-radius: 10px;
+
+.contact-dot {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-radius: 999px;
+  margin-top: 0.35rem;
+  background: linear-gradient(135deg, #6be0b1 0%, #61d6ff 100%);
+  box-shadow: 0 0 0 6px rgba(107, 224, 177, 0.10);
 }
-.card img {
-  height: 200px;
-  object-fit: cover;
+
+.contact-link {
+  color: var(--accent-2);
 }
-footer {
-  background: #212529;
-  color: white;
-  padding: 20px 0;
-}
+</style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero" style="background-image:url('{% static "home/images/img1.jpg" %}');">
-  <div class="overlay">
-    <h1>Welcome to EWU Campus Mart</h1>
-    <p>Your campus marketplace for everything!</p>
+<section class="page-shell pt-4 sm:pt-6 lg:pt-10">
+  <div class="grid gap-6 sm:gap-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
+    <div class="space-y-4 sm:space-y-6">
+      <span class="section-kicker">Contact us</span>
+      <div class="space-y-3 sm:space-y-4">
+        <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
+          Reach out when you need help, feedback, or seller support.
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl leading-7 sm:leading-8 text-slate-300">
+          Whether you are browsing, listing, or organizing a campus sale, the team should feel easy to contact and easy to trust.
+        </p>
+      </div>
+
+      <div class="grid gap-3 sm:gap-4">
+        <div class="contact-line text-sm sm:text-base">
+          <span class="contact-dot"></span>
+          <div>
+            <strong class="block mb-1 text-xs sm:text-sm">Email support</strong>
+            <a class="contact-link text-xs sm:text-sm" href="mailto:support@ewucampusmart.com">support@ewucampusmart.com</a>
+          </div>
+        </div>
+        <div class="contact-line text-sm sm:text-base">
+          <span class="contact-dot"></span>
+          <div>
+            <strong class="block mb-1 text-xs sm:text-sm">Response window</strong>
+            <p class="text-xs sm:text-sm">Within one business day for general questions and platform feedback.</p>
+          </div>
+        </div>
+        <div class="contact-line text-sm sm:text-base">
+          <span class="contact-dot"></span>
+          <div>
+            <strong class="block mb-1 text-xs sm:text-sm">Campus-friendly help</strong>
+            <p class="text-xs sm:text-sm">Assistance for listings, buyer flow, and seller onboarding.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card hero-panel overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-[2rem] mt-6 lg:mt-0">
+      <div class="relative min-h-[24rem] sm:min-h-[28rem] md:min-h-[32rem] lg:min-h-[34rem] contact-panel">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-4">
+          <span class="pill w-fit text-xs sm:text-sm">Support that feels approachable</span>
+          <h2 class="text-lg sm:text-2xl md:text-3xl font-bold leading-tight">A contact experience that matches the rest of the theme.</h2>
+          <p class="text-slate-200/90 leading-6 sm:leading-7 text-xs sm:text-sm">
+            The same glass panels, soft gradients, and crisp hierarchy carry over here so the page feels like part of one system.
+          </p>
+          <div class="flex flex-wrap gap-2 sm:gap-4">
+            <a href="/buyer" class="accent-button primary text-xs sm:text-sm">Go to Buyer</a>
+            <a href="/seller" class="accent-button secondary text-xs sm:text-sm">Go to Seller</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">01</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Fast answers</h3>
+      <p class="text-sm sm:text-base">Get help quickly when you have questions about the marketplace or your account flow.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">02</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Feedback welcome</h3>
+      <p class="text-sm sm:text-base">Share ideas that make campus buying and selling smoother for everyone.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">03</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Seller support</h3>
+      <p class="text-sm sm:text-base">Need guidance on listings or product presentation? The support flow is designed to help.</p>
+    </div>
   </div>
 </section>
 {% endblock %}

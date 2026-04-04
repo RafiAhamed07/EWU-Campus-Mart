@@ -1,12 +1,54 @@
 {% extends "buyer_base.html" %}
 {% block title %}Payment Failed - EWU Campus Mart{% endblock %}
 
+{% block styles %}
+<style>
+    .status-shell {
+        min-height: calc(100vh - 180px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem 0;
+    }
+
+    .status-card {
+        width: min(100%, 680px);
+        margin: 0 1rem;
+        padding: 1.25rem;
+        text-align: center;
+    }
+
+    @media (min-width: 640px) {
+        .status-card {
+            margin: 0;
+            padding: 2rem;
+        }
+    }
+
+    .status-icon {
+        width: 3.5rem;
+        height: 3.5rem;
+        border-radius: 999px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        font-weight: 800;
+        background: rgba(252, 165, 165, 0.2);
+        color: #fca5a5;
+        border: 1px solid rgba(252, 165, 165, 0.35);
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<div class="container mt-5 text-center">
-    <div class="alert alert-danger">
-        <h2>❌ Payment Failed!</h2>
-        <p>Something went wrong with your payment. Please try again.</p>
-        <a href="/buyer/dashboard" class="btn btn-warning mt-3">Back to Cart</a>
+<section class="status-shell page-shell">
+    <div class="glass-card status-card">
+        <span class="status-icon">NO</span>
+        <h2 class="section-title mt-0">Payment Failed</h2>
+        <p class="section-subtitle">Something went wrong with your payment. Please try again from your cart.</p>
+        <a href="/buyer/dashboard" class="btn btn-outline-glow btn-aesthetic px-4 py-2 mt-3">Back to Cart</a>
     </div>
-</div>
+</section>
 {% endblock %}

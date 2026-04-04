@@ -1,71 +1,146 @@
 {% extends 'seller_base.html' %}
 {% load static %}
 
+{% block title %}Seller Dashboard - EWU Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .dashboard-shell {
+    padding-top: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .dashboard-shell {
+      padding-top: 1.5rem;
+    }
+  }
+
+  .dashboard-hero {
+    margin-bottom: 1.5rem;
+  }
+
+  .dashboard-title {
+    font-size: clamp(1.7rem, 3vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+  }
+
+  .stats-grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: 1fr;
+    margin-bottom: 1.5rem;
+  }
+
+  @media (min-width: 640px) {
+    .stats-grid {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 1.25rem 1rem;
+  }
+
+  .stat-value {
+    font-size: 1.6rem;
+    font-weight: 800;
+  }
+
+  .actions-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 640px) {
+    .actions-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .actions-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .action-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    border-radius: 999px;
+    font-weight: 700;
+  }
+
+  .banner-preview-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    margin-top: 1.5rem;
+  }
+
+  .banner-preview img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 1rem;
+    margin-bottom: 0.5rem;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
+<section class="page-shell dashboard-shell">
+  <div class="dashboard-hero text-center">
+    <span class="section-kicker">Seller dashboard</span>
+    <h2 class="dashboard-title mt-3">Welcome, {{ request.user.username }}</h2>
+    <p class="section-subtitle mb-0">Shop: <strong>{{ request.user.shop_name }}</strong></p>
+  </div>
 
-<div class="container mt-5">
-
-    <h2 class="text-center mb-4">Seller Dashboard</h2>
-
-    <!-- Welcome -->
-    <div class="text-center mb-4">
-        <h5>Welcome, {{ request.user.username }}</h5>
-        <p>Shop: <strong>{{ request.user.shop_name }}</strong></p>
+  <div class="stats-grid">
+    <div class="stat-card glass-card">
+      <div class="stat-value text-amber-300">{{ total_products }}</div>
+      <div class="section-subtitle mb-0">Total Products</div>
     </div>
-
-    <!-- Stats -->
-    <div class="row text-center mb-4">
-
-        <div class="col-md-4">
-            <div class="card shadow p-3">
-                <h4>{{ total_products }}</h4>
-                <p>Total Products</p>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow p-3">
-                <h4>{{ total_orders }}</h4>
-                <p>Total Orders</p>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow p-3">
-                <h4>৳{{ total_revenue }}</h4>
-                <p>Total Revenue</p>
-            </div>
-        </div>
-
+    <div class="stat-card glass-card">
+      <div class="stat-value text-cyan-300">{{ total_orders }}</div>
+      <div class="section-subtitle mb-0">Total Orders</div>
     </div>
-
-    <!-- Actions -->
-    <div class="text-center">
-
-        <a href="{% url 'seller-products' %}" class="btn btn-primary m-2">
-            📦 My Products
-        </a>
-
-        <a href="{% url 'add-product' %}" class="btn btn-success m-2">
-            ➕ Add Product
-        </a>
-
-        <a href="{% url 'seller-orders' %}" class="btn btn-warning m-2">
-            🛒 Orders
-        </a>
-
-        <a href="{% url 'seller-categories' %}" class="btn btn-info m-2">
-            🏷 Categories
-        </a>
-
-        <br><br>
-
-        <a href="{% url 'seller-logout' %}" class="btn btn-danger">
-            🚪 Logout
-        </a>
-
+    <div class="stat-card glass-card">
+      <div class="stat-value text-emerald-300">৳{{ total_revenue }}</div>
+      <div class="section-subtitle mb-0">Total Revenue</div>
     </div>
+  </div>
 
-</div>
+  <div class="actions-grid">
+    <a href="{% url 'seller-products' %}" class="btn btn-outline-glow btn-aesthetic action-link">📦 My Products</a>
+    <a href="{% url 'add-product' %}" class="btn btn-primary-glow btn-aesthetic action-link">➕ Add Product</a>
+    <a href="{% url 'seller-orders' %}" class="btn btn-outline-glow btn-aesthetic action-link">🛒 Orders</a>
+    <a href="{% url 'request-banner' %}" class="btn btn-outline-glow btn-aesthetic action-link">🖼 Request for Banner</a>
+  </div>
 
+  {% if banner_requests %}
+    <div class="glass-card p-3 p-sm-4 mt-4">
+      <div class="section-kicker mb-3">Banners</div>
+      <div class="banner-preview-grid">
+        {% for banner in banner_requests %}
+          <div class="banner-preview">
+            <img src="{{ banner.banner_image.url }}" alt="Banner">
+            <div class="small text-muted">{% if banner.banner_text %}{{ banner.banner_text }}{% else %}No text{% endif %}</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="text-center mt-4 mt-sm-5">
+    <a href="{% url 'seller-logout' %}" class="btn btn-outline-glow btn-aesthetic px-5 py-2">🚪 Logout</a>
+  </div>
+</section>
 {% endblock %}

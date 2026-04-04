@@ -1,0 +1,151 @@
+{% extends 'buyer_base.html' %}
+
+{% block title %}Update Profile - EWU Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .update-shell {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .section-card {
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .section-subtitle {
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  .form-control {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text);
+  }
+
+  .form-control:focus {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 0.2rem rgba(97, 214, 255, 0.2);
+    color: var(--text);
+  }
+
+  .profile-image-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .profile-avatar-fallback {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-weight: 700;
+  }
+
+  .muted-note {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  <div class="update-shell">
+    {% if messages %}
+      <div class="mb-3">
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags|default:'info' }} mb-2" role="alert">
+            {{ message }}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="glass-card section-card">
+      <h2 class="section-title">Update Profile</h2>
+      <p class="section-subtitle">Change your photo, username, and name details.</p>
+
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <div class="profile-image-wrap">
+          {% if request.user.profile_image %}
+            <img src="{{ request.user.profile_image.url }}" alt="Profile image" class="profile-avatar">
+          {% else %}
+            <div class="profile-avatar-fallback">{{ request.user.username|first|upper }}</div>
+          {% endif %}
+          <div>
+            <div class="fw-semibold">Current photo</div>
+            <div class="muted-note">JPG, PNG, or WEBP supported.</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="id_profile_image">Profile picture</label>
+          {{ profile_form.profile_image }}
+          {% if profile_form.profile_image.errors %}
+            <div class="text-danger small mt-1">{{ profile_form.profile_image.errors|join:', ' }}</div>
+          {% endif %}
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label" for="id_username">Username</label>
+          {{ profile_form.username }}
+          {% if profile_form.username.errors %}
+            <div class="text-danger small mt-1">{{ profile_form.username.errors|join:', ' }}</div>
+          {% endif %}
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3">
+            <label class="form-label" for="id_first_name">First name</label>
+            {{ profile_form.first_name }}
+            {% if profile_form.first_name.errors %}
+              <div class="text-danger small mt-1">{{ profile_form.first_name.errors|join:', ' }}</div>
+            {% endif %}
+          </div>
+          <div class="col-md-6 mb-3">
+            <label class="form-label" for="id_last_name">Last name</label>
+            {{ profile_form.last_name }}
+            {% if profile_form.last_name.errors %}
+              <div class="text-danger small mt-1">{{ profile_form.last_name.errors|join:', ' }}</div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="d-flex gap-2 flex-wrap">
+          <button type="submit" class="btn btn-primary-glow btn-aesthetic px-4">Save profile</button>
+          <a href="{% url 'buyer-profile' %}" class="btn btn-outline-glow btn-aesthetic px-4">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+{% endblock %}

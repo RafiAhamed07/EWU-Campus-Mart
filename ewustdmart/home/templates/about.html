@@ -1,41 +1,136 @@
 {% extends 'home_base.html' %}
 {% load static %}
 
-{% block title %}Home - EWU Campus Mart{% endblock %}
+{% block title %}About - EWU Campus Mart{% endblock %}
 
 {% block styles %}
-.hero {
-  background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
-  height: 80vh;
-  color: white;
+<style>
+.story-panel {
+  background-image: url('{% static "home/images/img2.jpg" %}');
+  background-size: cover;
+  background-position: center;
+}
+
+.timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.timeline-item {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
 }
-.overlay {
-  background: rgba(0,0,0,0.6);
-  padding: 40px;
-  border-radius: 10px;
+
+.timeline-marker {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  margin-top: 0.35rem;
+  background: linear-gradient(135deg, #61d6ff 0%, #f2b24f 100%);
+  box-shadow: 0 0 0 6px rgba(97, 214, 255, 0.10);
 }
-.card img {
-  height: 200px;
-  object-fit: cover;
-}
-footer {
-  background: #212529;
-  color: white;
-  padding: 20px 0;
-}
+</style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero" style="background-image:url('{% static "home/images/img1.jpg" %}');">
-  <div class="overlay">
-    <h1>Welcome to EWU Campus Mart</h1>
-    <p>Your campus marketplace for everything!</p>
+<section class="page-shell pt-4 sm:pt-6 lg:pt-10">
+  <div class="grid gap-6 sm:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+    <div class="space-y-4 sm:space-y-6">
+      <span class="section-kicker">About the platform</span>
+      <div class="space-y-3 sm:space-y-4">
+        <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
+          Built to make campus buying and selling feel simple, local, and trustworthy.
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl leading-7 sm:leading-8 text-slate-300">
+          EWU Campus Mart is designed around the everyday needs of students. It brings together a modern shopping experience, seller-friendly presentation, and a calm visual style that makes the marketplace easier to use.
+        </p>
+      </div>
+
+      <div class="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
+        <div class="info-card p-3 sm:p-5 text-sm sm:text-base">
+          <strong class="block text-amber-300 mb-1 sm:mb-2">Student first</strong>
+          <p>Everything is centered on speed, clarity, and useful discovery.</p>
+        </div>
+        <div class="info-card p-3 sm:p-5 text-sm sm:text-base">
+          <strong class="block text-cyan-300 mb-1 sm:mb-2">Seller friendly</strong>
+          <p>Listings and call-to-action flow are made to feel more confident and polished.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card hero-panel overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-[2rem] mt-6 lg:mt-0">
+      <div class="relative min-h-[24rem] sm:min-h-[28rem] md:min-h-[32rem] lg:min-h-[34rem] story-panel">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 space-y-2 sm:space-y-3">
+          <span class="pill w-fit text-xs sm:text-sm">A clearer way to trade on campus</span>
+          <h2 class="text-lg sm:text-2xl md:text-3xl font-bold leading-tight">A theme that feels premium without feeling distant.</h2>
+          <p class="text-slate-200/90 leading-6 sm:leading-7 text-xs sm:text-sm">
+            Warm accents, soft glass panels, and strong hierarchy keep the interface expressive while staying readable on any screen size.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">01</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Clarity</h3>
+      <p class="text-sm sm:text-base">The interface avoids clutter and keeps attention on the most important actions.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">02</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Trust</h3>
+      <p class="text-sm sm:text-base">Strong visual structure and consistent styling create a more reliable feel.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">03</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Momentum</h3>
+      <p class="text-sm sm:text-base">Buyers and sellers can move through the marketplace with fewer distractions.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="glass-card p-4 sm:p-6 md:p-8 lg:p-10 grid gap-6 sm:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+    <div>
+      <span class="section-kicker text-xs sm:text-sm">How it evolved</span>
+      <h2 class="section-title text-xl sm:text-2xl md:text-3xl">A better campus marketplace starts with better structure.</h2>
+      <p class="section-subtitle text-sm sm:text-base">
+        The theme was shaped around a few simple goals: reduce visual noise, raise contrast, and make the first interaction feel welcoming rather than generic.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item text-sm sm:text-base">
+        <span class="timeline-marker"></span>
+        <div>
+          <strong class="block mb-1">Focused navigation</strong>
+          <p class="text-xs sm:text-sm">Key routes are surfaced with clear active states and a stronger visual rhythm.</p>
+        </div>
+      </div>
+      <div class="timeline-item text-sm sm:text-base">
+        <span class="timeline-marker"></span>
+        <div>
+          <strong class="block mb-1">Layered surfaces</strong>
+          <p class="text-xs sm:text-sm">Glass panels and gradients create depth without making the UI feel heavy.</p>
+        </div>
+      </div>
+      <div class="timeline-item text-sm sm:text-base">
+        <span class="timeline-marker"></span>
+        <div>
+          <strong class="block mb-1">Meaningful contrast</strong>
+          <p class="text-xs sm:text-sm">Text, cards, and call-to-action buttons now stand apart more cleanly.</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}
-

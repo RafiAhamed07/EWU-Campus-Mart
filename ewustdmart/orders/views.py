@@ -31,8 +31,9 @@ def checkout(request):
             OrderItem.objects.create(
                 order=order,
                 product=item.product,
+                product_option=item.product_option,
                 quantity=item.quantity,
-                price=item.product.price,
+                price=item.unit_price or item.product.display_price,
             )
 
         # Clear cart
@@ -101,8 +102,9 @@ def initiate_payment(request):
         OrderItem.objects.create(
             order=order,
             product=item.product,
+            product_option=item.product_option,
             quantity=item.quantity,
-            price=item.product.price,
+            price=item.unit_price or item.product.display_price,
         )
 
     sslcz = SSLCOMMERZ(

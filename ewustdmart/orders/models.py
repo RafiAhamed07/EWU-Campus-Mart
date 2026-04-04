@@ -53,6 +53,13 @@ class Order(BaseModel):
 class OrderItem(BaseModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_option = models.ForeignKey(
+        'products.ProductOption',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="order_items",
+    )
 
     quantity = models.IntegerField()
     price = models.IntegerField()  # price at purchase time

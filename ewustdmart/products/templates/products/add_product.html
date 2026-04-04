@@ -1,0 +1,143 @@
+{% extends 'seller_base.html' %}
+{% load static %}
+
+{% block title %}Add Product - EWU Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .product-shell {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
+  .product-card {
+    width: min(100%, 860px);
+    margin: 0 1rem;
+    padding: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .product-card {
+      margin: 0;
+      padding: 1.5rem;
+    }
+  }
+
+  .product-header {
+    display: grid;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .product-header {
+      grid-template-columns: 1.1fr 0.9fr;
+      align-items: end;
+      margin-bottom: 1.75rem;
+    }
+  }
+
+  .product-form-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  @media (min-width: 768px) {
+    .product-form-grid.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  .field-note {
+    color: var(--muted);
+    font-size: 0.85rem;
+  }
+
+  .error-text {
+    color: #fca5a5;
+    font-size: 0.875rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="product-shell page-shell">
+  <div class="glass-card product-card">
+    <div class="product-header">
+      <div>
+        <span class="section-kicker">Products</span>
+        <h2 class="page-heading mt-3 mb-2">Add a New Product</h2>
+        <p class="section-subtitle mb-0">Create a product entry with responsive, readable form controls.</p>
+      </div>
+      <div class="text-md-end">
+        <p class="field-note mb-1">Saved through the products app.</p>
+        <p class="field-note mb-0">The seller theme is shared for visual consistency.</p>
+      </div>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="alert alert-danger">{{ form.non_field_errors }}</div>
+    {% endif %}
+
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="product-form-grid two-col mb-3">
+        <div>
+          <label class="form-label">Product Name</label>
+          <input type="text" name="product_name" value="{{ form.product_name.value|default:'' }}" class="form-control input-modern" placeholder="Enter product name" />
+          <div class="error-text">{{ form.product_name.errors }}</div>
+        </div>
+
+        <div>
+          <label class="form-label">Price</label>
+          <input type="number" name="price" value="{{ form.price.value|default:'' }}" class="form-control input-modern" placeholder="0" />
+          <div class="error-text">{{ form.price.errors }}</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Category</label>
+        <select name="category" class="form-select select-modern">
+          {% for option in form.category.field.queryset %}
+            <option value="{{ option.pk }}" {% if form.category.value|stringformat:'s' == option.pk|stringformat:'s' %}selected{% endif %}>{{ option.category_name }}</option>
+          {% endfor %}
+        </select>
+        <div class="error-text">{{ form.category.errors }}</div>
+      </div>
+
+      <div class="product-form-grid two-col mb-3">
+        <div>
+          <label class="form-label">Color Variants</label>
+          <div class="glass-card p-3">
+            {{ form.color_variant }}
+          </div>
+          <div class="error-text">{{ form.color_variant.errors }}</div>
+        </div>
+
+        <div>
+          <label class="form-label">Size Variants</label>
+          <div class="glass-card p-3">
+            {{ form.size_variant }}
+          </div>
+          <div class="error-text">{{ form.size_variant.errors }}</div>
+        </div>
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label">Description</label>
+        <textarea name="product_desription" rows="5" class="form-control textarea-modern" placeholder="Describe the product">{{ form.product_desription.value|default:'' }}</textarea>
+        <div class="error-text">{{ form.product_desription.errors }}</div>
+      </div>
+
+      <div class="d-flex flex-column flex-sm-row gap-3 align-items-stretch align-items-sm-center">
+        <button type="submit" class="btn btn-primary-glow btn-aesthetic px-4 py-2">Save Product</button>
+        <a href="{% url 'seller-dashboard' %}" class="btn btn-outline-glow btn-aesthetic px-4 py-2">Back to Dashboard</a>
+      </div>
+    </form>
+  </div>
+</section>
+{% endblock %}

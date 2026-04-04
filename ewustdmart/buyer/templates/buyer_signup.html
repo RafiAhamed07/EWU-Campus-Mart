@@ -1,132 +1,157 @@
-{% extends 'buyer_base.html' %} {% block title %}Buyer Signup{% endblock %} 
+{% extends 'buyer_base.html' %}
+{% load static %}
+
+{% block title %}Buyer Signup{% endblock %}
+
+{% block styles %}
+<style>
+  .hero {
+    background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(15,23,42,0.4) 0%, rgba(15,23,42,0.85) 100%);
+  }
+
+  .glass-box {
+    position: relative;
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    width: min(100%, 420px);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    animation: floatIn 0.8s ease-out forwards;
+    color: #fff;
+    margin: 0 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .glass-box {
+      padding: 2rem;
+      border-radius: 1.5rem;
+      margin: 0;
+    }
+  }
+
+  @keyframes floatIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .glass-box h3, .glass-box label, .glass-box small {
+    color: #f8fafc;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.3);
+  }
+
+  .glass-box .form-control {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: #fff;
+  }
+
+  .glass-box .form-control:focus {
+    background: rgba(255,255,255,0.15);
+    border-color: #3b82f6;
+    color: #fff;
+    box-shadow: 0 0 10px rgba(59,130,246,0.3);
+  }
+
+  .glass-box .text-danger {
+    color: #fca5a5 !important;
+  }
+
+  .glass-box a {
+    color: #fbbf24;
+    text-decoration: none;
+  }
+
+  .glass-box a:hover {
+    text-decoration: underline;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-<div
-  class="container d-flex justify-content-center align-items-center"
-  style="min-height: 90vh"
->
-  <div
-    class="card shadow-lg p-4"
-    style="width: 100%; max-width: 450px; border-radius: 15px"
-  >
-    <h3 class="text-center mb-4">Create Buyer Account</h3>
+<section class="hero">
+  <div class="glass-box">
+    <h3 class="text-center mb-4 fw-bold">Create Buyer Account</h3>
 
     <form method="post" action="{% url 'buyer-signup' %}">
       {% csrf_token %}
 
       <!-- Username -->
-      <div class="mb-3">
-        <label for="{{ form.username.id_for_label }}" class="form-label"
-          >Username</label
-        >
-        <input
-          type="text"
-          name="{{ form.username.name }}"
-          class="form-control"
-          required
-          value="{{ form.username.value}}"
-        />
+      <div class="mb-2">
+        <label for="{{ form.username.id_for_label }}" class="form-label" style="font-size: 0.9rem;">Username</label>
+        <input type="text" name="{{ form.username.name }}" class="form-control form-control-sm" required value="{{ form.username.value|default:'' }}" />
         <span class="text-danger">{{ form.username.errors }}</span>
       </div>
-      <!-- First Name -->
-      <div class="mb-3">
-        <label for="{{ form.first_name.id_for_label }}" class="form-label"
-          >First Name</label
-        >
-        <input
-          type="text"
-          name="{{ form.first_name.name }}"
-          class="form-control"
-          required
-          value="{{ form.first_name.value}}"
-        />
-        <span class="text-danger">{{ form.first_name.errors }}</span>
-      </div>
-      <!-- Last Name -->
-      <div class="mb-3">
-        <label for="{{ form.last_name.id_for_label }}" class="form-label"
-          >Last Name</label
-        >
-        <input
-          type="text"
-          name="{{ form.last_name.name }}"
-          class="form-control"
-          required
-          value="{{ form.last_name.value}}"
-        />
-        <span class="text-danger">{{ form.last_name.errors }}</span>
+
+      <div class="row">
+        <!-- First Name -->
+        <div class="col-md-6 mb-2">
+          <label for="{{ form.first_name.id_for_label }}" class="form-label" style="font-size: 0.9rem;">First Name</label>
+          <input type="text" name="{{ form.first_name.name }}" class="form-control form-control-sm" required value="{{ form.first_name.value|default:'' }}" />
+          <span class="text-danger">{{ form.first_name.errors }}</span>
+        </div>
+        <!-- Last Name -->
+        <div class="col-md-6 mb-2">
+          <label for="{{ form.last_name.id_for_label }}" class="form-label" style="font-size: 0.9rem;">Last Name</label>
+          <input type="text" name="{{ form.last_name.name }}" class="form-control form-control-sm" required value="{{ form.last_name.value|default:'' }}" />
+          <span class="text-danger">{{ form.last_name.errors }}</span>
+        </div>
       </div>
 
       <!-- Email -->
-      <div class="mb-3">
-        <label for="{{ form.email.id_for_label }}" class="form-label"
-          >Email</label
-        >
-        <input
-          type="email"
-          name="{{ form.email.name }}"
-          class="form-control"
-          required
-          value="{{ form.email.value}}"
-        />
+      <div class="mb-2">
+        <label for="{{ form.email.id_for_label }}" class="form-label" style="font-size: 0.9rem;">Email</label>
+        <input type="email" name="{{ form.email.name }}" class="form-control form-control-sm" required value="{{ form.email.value|default:'' }}" />
         <span class="text-danger">{{ form.email.errors }}</span>
       </div>
 
       <!-- std id -->
-      <div class="mb-3">
-        <label for="{{ form.std_id.id_for_label }}" class="form-label"
-          >Student ID</label
-        >
-        <input
-          type="text"
-          name="{{ form.std_id.name }}"
-          class="form-control"
-          required
-          value="{{ form.std_id.value}}"
-        />
+      <div class="mb-2">
+        <label for="{{ form.std_id.id_for_label }}" class="form-label" style="font-size: 0.9rem;">Student ID</label>
+        <input type="text" name="{{ form.std_id.name }}" class="form-control form-control-sm" required value="{{ form.std_id.value|default:'' }}" />
         <span class="text-danger">{{ form.std_id.errors }}</span>
       </div>
 
       <!-- Password -->
-      <div class="mb-3">
-        <label for="{{ form.password1.id_for_label }}" class="form-label"
-          >Password</label
-        >
-        <input
-          type="password"
-          name="{{ form.password1.name }}"
-          class="form-control"
-          required
-          value="{{ form.password1.value }}"
-        />
+      <div class="mb-2">
+        <label for="{{ form.password1.id_for_label }}" class="form-label" style="font-size: 0.9rem;">Password</label>
+        <input type="password" name="{{ form.password1.name }}" class="form-control form-control-sm" required value="{{ form.password1.value|default:'' }}" />
         <span class="text-danger">{{ form.password1.errors }}</span>
       </div>
 
       <!-- Confirm Password -->
       <div class="mb-3">
-        <label for="{{ form.password2.id_for_label }}" class="form-label"
-          >Confirm Password</label
-        >
-        <input
-          type="password"
-          name="{{ form.password2.name }}"
-          class="form-control"
-          required
-          value="{{ form.password2.value }}"
-        />
+        <label for="{{ form.password2.id_for_label }}" class="form-label" style="font-size: 0.9rem;">Confirm Password</label>
+        <input type="password" name="{{ form.password2.name }}" class="form-control form-control-sm" required value="{{ form.password2.value|default:'' }}" />
         <span class="text-danger">{{ form.password2.errors }}</span>
       </div>
 
       <!-- Signup Button -->
-      <button type="submit" class="btn btn-warning w-100">Sign Up</button>
+      <button type="submit" class="btn btn-sm btn-primary-glow btn-aesthetic w-100 rounded-pill">Sign Up</button>
     </form>
 
     <!-- Login Redirect -->
-    <div class="text-center mt-3">
+    <div class="text-center mt-3 pt-2 border-top border-secondary">
       <small>
         Already have an account?
         <a href="{% url 'buyer-login' %}">Login</a>
       </small>
     </div>
   </div>
-</div>
+</section>
 {% endblock %}

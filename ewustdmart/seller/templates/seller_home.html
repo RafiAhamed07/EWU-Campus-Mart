@@ -4,39 +4,81 @@
 {% block title %}Home - EWU Campus Mart{% endblock %}
 
 {% block styles %}
-.hero {
-  background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
-  height: 80vh;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-.overlay {
-  background: rgba(0,0,0,0.6);
-  padding: 40px;
-  border-radius: 10px;
-}
-.card img {
-  height: 200px;
-  object-fit: cover;
-}
-footer {
-  background: #212529;
-  color: white;
-  padding: 20px 0;
-}
+<style>
+  .hero {
+    background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    padding: 2rem 0;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle, rgba(15,23,42,0.35) 0%, rgba(15,23,42,0.88) 100%);
+  }
+
+  .hero-box {
+    position: relative;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    backdrop-filter: blur(14px);
+    border-radius: 1.25rem;
+    padding: 1.5rem;
+    width: min(100%, 640px);
+    margin: 0 1rem;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+  }
+
+  @media (min-width: 640px) {
+    .hero-box {
+      padding: 2.5rem;
+      border-radius: 1.75rem;
+      margin: 0;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-text {
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.7;
+  }
+
+  @media (min-width: 640px) {
+    .hero-text { font-size: 1.05rem; }
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero" style="background-image:url('{% static "home/images/img1.jpg" %}');">
-  <div class="overlay">
-    <h1>Welcome to EWU Campus Mart</h1>
-    <p>Your campus marketplace for everything!</p>
-    <a href="{% url 'seller-login' %}" class="btn btn-success">Sell Now</a>
+<section class="hero">
+  <div class="hero-box">
+    <span class="section-kicker">Seller portal</span>
+    <h1 class="hero-title text-white mt-3">Welcome to EWU Campus Mart</h1>
+    <p class="hero-text">Manage products and orders from a clean dashboard built for fast seller workflows.</p>
+    <div class="hero-actions mt-4">
+      <a href="{% url 'seller-login' %}" class="btn btn-primary-glow btn-aesthetic px-4 px-sm-5">Sell Now</a>
+      <a href="{% url 'seller-signup' %}" class="btn btn-outline-glow btn-aesthetic px-4 px-sm-5">Create Seller Account</a>
+    </div>
   </div>
 </section>
 {% endblock %}
-

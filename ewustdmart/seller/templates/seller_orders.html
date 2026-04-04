@@ -1,49 +1,76 @@
 {% extends 'seller_base.html' %}
 
+{% block title %}Orders - EWU Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .orders-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .order-card {
+    padding: 1rem;
+  }
+
+  .order-meta {
+    color: var(--muted);
+  }
+
+  .order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+</style>
+{% endblock %}
+
 {% block content %}
-
-<h2 class="mb-4">Orders Received</h2>
-
-{% for item in orders %}
-<div class="card mb-3 p-3">
-
-  <h5>{{ item.product.product_name }}</h5>
-  <p>Quantity: {{ item.quantity }}</p>
-  <p>Price: ৳{{ item.price }}</p>
-
-  <hr>
-
-  <p><strong>Buyer:</strong> {{ item.order.user.username }}</p>
-  <p><strong>Address:</strong> {{ item.order.address }}</p>
-  <p><strong>Phone:</strong> {{ item.order.phone }}</p>
-
-  <p>
-    <strong>Status:</strong> 
-    <span class="badge bg-info">{{ item.order.status }}</span>
-  </p>
-
-  <!-- ACTION BUTTONS -->
-  <div class="mt-2">
-
-    {% if item.order.status == 'paid' or item.order.status == 'pending' %}
-      <a href="{% url 'seller-update-order' item.order.uid 'accepted' %}" class="btn btn-success btn-sm">Accept</a>
-      <a href="{% url 'seller-update-order' item.order.uid 'rejected' %}" class="btn btn-danger btn-sm">Reject</a>
-    {% endif %}
-
-    {% if item.order.status == 'accepted' %}
-      <a href="{% url 'seller-update-order' item.order.uid 'shipped' %}" class="btn btn-primary btn-sm">Ship</a>
-    {% endif %}
-
-    {% if item.order.status == 'shipped' %}
-      <a href="{% url 'seller-update-order' item.order.uid 'delivered' %}" class="btn btn-dark btn-sm">Mark Delivered</a>
-    {% endif %}
-
+<section class="page-shell">
+  <div class="mb-4">
+    <span class="section-kicker">Orders</span>
+    <h2 class="page-heading mt-3 mb-0">Orders Received</h2>
   </div>
 
-</div>
+  <div class="orders-grid">
+    {% for item in orders %}
+    <div class="glass-card order-card">
+      <h5 class="mb-2">{{ item.product.product_name }}</h5>
+      <p class="mb-1 order-meta">Quantity: {{ item.quantity }}</p>
+      <p class="mb-3 order-meta">Price: ৳{{ item.price }}</p>
 
-{% empty %}
-<p>No orders yet</p>
-{% endfor %}
+      <div class="border-top pt-3" style="border-color: var(--line) !important;">
+        <p class="mb-1"><strong>Buyer:</strong> {{ item.order.user.username }}</p>
+        <p class="mb-1"><strong>Address:</strong> {{ item.order.address }}</p>
+        <p class="mb-1"><strong>Phone:</strong> {{ item.order.phone }}</p>
+        <p class="mb-0">
+          <strong>Status:</strong>
+          <span class="badge badge-soft">{{ item.order.status }}</span>
+        </p>
+      </div>
 
+      <div class="order-actions">
+        {% if item.order.status == 'paid' or item.order.status == 'pending' %}
+          <a href="{% url 'seller-update-order' item.order.uid 'accepted' %}" class="btn btn-primary-glow btn-aesthetic px-3 py-2">Accept</a>
+          <a href="{% url 'seller-update-order' item.order.uid 'rejected' %}" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Reject</a>
+        {% endif %}
+
+        {% if item.order.status == 'accepted' %}
+          <a href="{% url 'seller-update-order' item.order.uid 'shipped' %}" class="btn btn-primary-glow btn-aesthetic px-3 py-2">Ship</a>
+        {% endif %}
+
+        {% if item.order.status == 'shipped' %}
+          <a href="{% url 'seller-update-order' item.order.uid 'delivered' %}" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Mark Delivered</a>
+        {% endif %}
+      </div>
+    </div>
+
+    {% empty %}
+    <div class="glass-card p-4 p-sm-5 text-center">
+      <p class="mb-0" style="color: var(--muted);">No orders yet.</p>
+    </div>
+    {% endfor %}
+  </div>
+</section>
 {% endblock %}

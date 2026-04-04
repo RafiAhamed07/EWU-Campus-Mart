@@ -14,7 +14,7 @@ class ProductImageAdmin(admin.StackedInline):
     model =ProductImage
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ['product_name' , 'price' ]
+    list_display = ['product_name' , 'price' , 'offer_price' , 'is_available' ]
     inlines = [ProductImageAdmin]
 
 
@@ -34,3 +34,4 @@ admin.site.register(Product ,ProductAdmin)
 
 
 admin.site.register(ProductImage)
+admin.site.register(ProductOption)
