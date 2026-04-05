@@ -1,0 +1,49 @@
+{% extends "seller_base.html" %}
+
+{% block content %}
+
+<div class="container mt-5">
+    <h2>Orders</h2>
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Product</th>
+            <th>Buyer</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Address</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+
+        {% for item in items %}
+        <tr>
+            <td>{{ item.product.product_name }}</td>
+            <td>{{ item.order.user.username }}</td>
+            <td>{{ item.quantity }}</td>
+            <td>৳{{ item.get_total_price }}</td>
+
+            <td>
+                {{ item.order.address }} <br>
+                {{ item.order.phone }}
+            </td>
+
+            <td>{{ item.status }}</td>
+
+            <td>
+                {% if item.status == 'pending' %}
+                    <a href="{% url 'accept-order' item.uid %}" class="btn btn-success btn-sm">Accept</a>
+                    <a href="{% url 'cancel-order-item' item.uid %}" class="btn btn-danger btn-sm">Cancel</a>
+                {% elif item.status == 'accepted' %}
+                    <a href="{% url 'ship-order' item.uid %}" class="btn btn-primary btn-sm">Ship</a>
+                {% else %}
+                    <span>No action</span>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+</div>
+
+{% endblock %}

@@ -1,7 +1,7 @@
 # forms.py
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-from .models import CustomUser
+from .models import CustomUser, SellerRequest
 
 
 class BuyerSignupForm(UserCreationForm):
@@ -57,3 +57,15 @@ class BuyerLoginForm(AuthenticationForm):
         widget=forms.PasswordInput,
         help_text="Required. Enter your password.",
     )
+
+
+class BuyerProfileForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ("username", "first_name", "last_name", "profile_image")
+
+
+class SellerRequestForm(forms.ModelForm):
+    class Meta:
+        model = SellerRequest
+        fields = ("shop_name",)

@@ -10,10 +10,12 @@ class Order(BaseModel):
     total_price = models.IntegerField()
 
     STATUS_CHOICES = (
-        ('pending', 'Pending'),
-        ('paid', 'Paid'),
-        ('failed', 'Failed'),
-        ('cancelled', 'Cancelled'),
+        ('pending', 'Pending'),        # order placed
+        ('accepted', 'Accepted'),      # seller accepted
+        ('rejected', 'Rejected'),      # seller rejected
+        ('shipped', 'Shipped'),        # seller shipped
+        ('delivered', 'Delivered'),    # delivered
+        ('cancelled', 'Cancelled'),    # buyer cancelled
     )
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
@@ -51,6 +53,13 @@ class Order(BaseModel):
 class OrderItem(BaseModel):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="order_items")
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product_option = models.ForeignKey(
+        'products.ProductOption',
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="order_items",
+    )
 
     quantity = models.IntegerField()
     price = models.IntegerField()  # price at purchase time

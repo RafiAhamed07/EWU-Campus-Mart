@@ -1,76 +1,76 @@
-{% extends 'seller_base.html' %} 
-{% load static %} 
+{% extends 'seller_base.html' %}
 
-{% block title %}My Orders - EWU Campus Mart{% endblock %} 
+{% block title %}Orders - EWU Campus Mart{% endblock %}
 
 {% block styles %}
-.page-container {
-  padding: 40px 20px;
-  max-width: 900px;
-  margin: auto;
-}
-.order-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-left: 4px solid #10b981;
-  border-radius: 10px;
-  padding: 25px;
-  margin-bottom: 25px;
-  color: #e2e8f0;
-}
-.order-card hr {
-  border-color: rgba(255, 255, 255, 0.1);
-  margin: 20px 0;
-}
-.badge-status {
-  background: rgba(251, 191, 36, 0.2);
-  color: #fbbf24;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 0.85rem;
-  font-weight: 600;
-}
+<style>
+  .orders-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .order-card {
+    padding: 1rem;
+  }
+
+  .order-meta {
+    color: var(--muted);
+  }
+
+  .order-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container page-container">
-  <h2 class="fw-bold mb-4" style="color: #fbbf24;">Orders Received</h2>
+<section class="page-shell">
+  <div class="mb-4">
+    <span class="section-kicker">Orders</span>
+    <h2 class="page-heading mt-3 mb-0">Orders Received</h2>
+  </div>
 
-  {% for item in orders %}
-  <div class="order-card">
-    <div class="d-flex justify-content-between align-items-start">
-      <div>
-        <h4 class="text-light fw-bold mb-1">{{ item.product.product_name }}</h4>
-        <p class="mb-0 text-success fw-bold">৳{{ item.price }} <span class="text-secondary fw-normal">| Qty: {{ item.quantity }}</span></p>
+  <div class="orders-grid">
+    {% for item in orders %}
+    <div class="glass-card order-card">
+      <h5 class="mb-2">{{ item.product.product_name }}</h5>
+      <p class="mb-1 order-meta">Quantity: {{ item.quantity }}</p>
+      <p class="mb-3 order-meta">Price: ৳{{ item.price }}</p>
+
+      <div class="border-top pt-3" style="border-color: var(--line) !important;">
+        <p class="mb-1"><strong>Buyer:</strong> {{ item.order.user.username }}</p>
+        <p class="mb-1"><strong>Address:</strong> {{ item.order.address }}</p>
+        <p class="mb-1"><strong>Phone:</strong> {{ item.order.phone }}</p>
+        <p class="mb-0">
+          <strong>Status:</strong>
+          <span class="badge badge-soft">{{ item.order.status }}</span>
+        </p>
       </div>
-      <div>
-        <span class="badge-status">{{ item.order.status }}</span>
+
+      <div class="order-actions">
+        {% if item.order.status == 'paid' or item.order.status == 'pending' %}
+          <a href="{% url 'seller-update-order' item.order.uid 'accepted' %}" class="btn btn-primary-glow btn-aesthetic px-3 py-2">Accept</a>
+          <a href="{% url 'seller-update-order' item.order.uid 'rejected' %}" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Reject</a>
+        {% endif %}
+
+        {% if item.order.status == 'accepted' %}
+          <a href="{% url 'seller-update-order' item.order.uid 'shipped' %}" class="btn btn-primary-glow btn-aesthetic px-3 py-2">Ship</a>
+        {% endif %}
+
+        {% if item.order.status == 'shipped' %}
+          <a href="{% url 'seller-update-order' item.order.uid 'delivered' %}" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Mark Delivered</a>
+        {% endif %}
       </div>
     </div>
 
-    <hr />
-
-    <div class="row">
-      <div class="col-md-4">
-        <p class="mb-1 text-secondary font-monospace small">BUYER</p>
-        <p class="mb-0 fw-bold">{{ item.order.user.username }}</p>
-      </div>
-      <div class="col-md-4">
-        <p class="mb-1 text-secondary font-monospace small">PHONE</p>
-        <p class="mb-0">{{ item.order.phone }}</p>
-      </div>
-      <div class="col-md-4">
-        <p class="mb-1 text-secondary font-monospace small">ADDRESS</p>
-        <p class="mb-0 text-truncate" title="{{ item.order.address }}">{{ item.order.address }}</p>
-      </div>
+    {% empty %}
+    <div class="glass-card p-4 p-sm-5 text-center">
+      <p class="mb-0" style="color: var(--muted);">No orders yet.</p>
     </div>
+    {% endfor %}
   </div>
-  {% empty %}
-  <div class="text-center mt-5 p-5" style="background: rgba(0,0,0,0.2); border-radius: 15px; border: 1px dashed rgba(255,255,255,0.1);">
-    <h4 class="text-secondary">No orders yet</h4>
-    <p class="text-secondary mb-0">When buyers purchase your items, they will securely appear right here.</p>
-  </div>
-  {% endfor %}
-</div>
+</section>
 {% endblock %}

@@ -1,194 +1,402 @@
 {% load static %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}EWU Campus Mart{% endblock %}</title>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Seller Portal - EWU Campus Mart{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#ecfeff',
+                100: '#cffafe',
+                200: '#a5f3fc',
+                300: '#67e8f9',
+                400: '#22d3ee',
+                500: '#06b6d4',
+                600: '#0891b2',
+                700: '#0e7490',
+                800: '#155e75',
+                900: '#164e63'
+              }
+            }
+          }
+        }
+      };
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
-  <!-- Google Fonts: Inter -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+      :root {
+        --bg-start: #08111f;
+        --bg-end: #060b14;
+        --panel: rgba(13, 20, 36, 0.72);
+        --line: rgba(255, 255, 255, 0.10);
+        --text: #eef3ff;
+        --muted: #a7b6d6;
+        --accent: #f2b24f;
+        --accent-2: #61d6ff;
+        --accent-3: #6be0b1;
+        --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+      }
 
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      background-color: #0f172a;
-      color: #f8fafc;
-      overflow-x: hidden;
-    }
+      html { scroll-behavior: smooth; }
 
-    /* Navbar Glass Effect */
-    .navbar-glass {
-      background: rgba(15, 23, 42, 0.75);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
+      body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        font-family: 'Outfit', sans-serif;
+        color: var(--text);
+        background:
+          radial-gradient(circle at top left, rgba(97, 214, 255, 0.16), transparent 30%),
+          radial-gradient(circle at top right, rgba(242, 178, 79, 0.14), transparent 28%),
+          linear-gradient(180deg, var(--bg-start) 0%, #091120 46%, var(--bg-end) 100%);
+      }
 
-    .navbar-brand {
-      font-weight: bold;
-      font-size: 1.8rem;
-      color: white !important;
-      letter-spacing: 1px;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
-      transition: all 0.3s ease;
-      background: none;
-      -webkit-background-clip: initial;
-      -webkit-text-fill-color: initial;
-    }
+      body::before {
+        content: '';
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        opacity: 0.28;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+        background-size: 72px 72px;
+        mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent 85%);
+      }
 
-    .nav-link {
-      color: #e2e8f0 !important;
-      font-weight: 500;
-      transition: color 0.3s ease;
-      position: relative;
-    }
-    .nav-link:hover {
-      color: #fbbf24 !important;
-    }
+      a { color: inherit; text-decoration: none; }
 
-    .nav-link::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      bottom: 0;
-      left: 0;
-      background-color: #fbbf24;
-      transition: width 0.3s ease;
-    }
-    .nav-link:hover::after {
-      width: 100%;
-    }
+      .page-shell {
+        width: min(1180px, calc(100% - 1rem));
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
 
-    /* Aesthetic Buttons */
-    .btn-aesthetic {
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-    }
-    .btn-aesthetic:hover {
-      transform: translateY(-2px);
-    }
+      @media (min-width: 640px) {
+        .page-shell { width: min(1180px, calc(100% - 2rem)); }
+      }
 
-    .btn-primary-glow, .btn-buy-option {
-      background: linear-gradient(135deg, #10b981, #059669);
-      border: none;
-      color: white;
-      font-weight: 600;
-    }
-    .btn-primary-glow:hover, .btn-buy-option:hover {
-      background: linear-gradient(135deg, #34d399, #10b981);
-      box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
-      color: #fde047 !important;
-    }
-    .btn-outline-glow {
-      border: 2px solid rgba(255, 255, 255, 0.7);
-      color: white;
-      background: transparent;
-    }
-    .btn-outline-glow:hover {
-      background: rgba(255, 255, 255, 0.1);
-      color: #fde047 !important;
-      border-color: #fde047;
-      box-shadow: 0 0 15px rgba(253, 224, 71, 0.4);
-    }
+      .navbar-glass {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(7, 14, 27, 0.72) !important;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+        border-bottom: 1px solid var(--line);
+        box-shadow: 0 12px 32px rgba(0, 0, 0, 0.18);
+      }
 
-    {% block styles %}
-    footer {
-      background: rgba(15, 23, 42, 0.95);
-      color: #94a3b8;
-      padding: 40px 0;
-      border-top: 1px solid rgba(255, 255, 255, 0.05);
-      font-size: 0.9rem;
-    }
-    {% endblock %}
-  </style>
-</head>
+      .navbar-brand {
+        font-weight: 800;
+        font-size: 0.95rem;
+        color: white !important;
+        letter-spacing: 0.02em;
+        white-space: nowrap;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-<body>
+      @media (min-width: 640px) {
+        .navbar-brand { font-size: 1.1rem; gap: 0.75rem; }
+      }
 
-  <!-- ✅ NAVBAR -->
-  <nav class="navbar navbar-expand-lg navbar-dark navbar-glass">
-    <div class="container">
+      .navbar-brand::before {
+        content: 'S';
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 0.7rem;
+        background: linear-gradient(135deg, #ffd27d 0%, #f2b24f 55%, #6be0b1 100%);
+        color: #0f172a;
+        font-weight: 900;
+        font-size: 0.9rem;
+      }
 
-      <a class="navbar-brand" href="{% url 'seller-dashboard' %}">EWU Campus Mart</a>
+      @media (min-width: 640px) {
+        .navbar-brand::before {
+          width: 2.35rem;
+          height: 2.35rem;
+          border-radius: 0.9rem;
+          font-size: 1.1rem;
+        }
+      }
 
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      .navbar-dark .navbar-nav .nav-link {
+        color: var(--muted) !important;
+        transition: all 0.2s ease;
+        font-size: 0.9rem;
+        padding: 0.5rem 0.7rem !important;
+      }
 
-      <div class="collapse navbar-collapse" id="navbarNav">
+      @media (min-width: 640px) {
+        .navbar-dark .navbar-nav .nav-link {
+          font-size: 1rem;
+          padding: 0.7rem 1rem !important;
+        }
+      }
 
-        <ul class="navbar-nav ms-auto">
+      .navbar-dark .navbar-nav .nav-link:hover,
+      .navbar-dark .navbar-nav .nav-link.active {
+        color: var(--text) !important;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 999px;
+      }
 
-          {% if request.user.is_authenticated %}
+      .btn-aesthetic {
+        transition: all 0.3s ease;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+        border-radius: 999px;
+      }
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'seller-dashboard' %}">Dashboard</a>
-          </li>
+      .btn-aesthetic:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+      }
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'seller-products' %}">My Products</a>
-          </li>
-          
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'add-product' %}">Add Product</a>
-          </li>
+      .btn-primary-glow {
+        background: linear-gradient(135deg, #10b981, #059669) !important;
+        border: none !important;
+        color: white !important;
+        font-weight: 600;
+      }
 
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'seller-orders' %}">Orders</a>
-          </li>
+      .btn-primary-glow:hover {
+        background: linear-gradient(135deg, #34d399, #10b981) !important;
+        box-shadow: 0 0 15px rgba(16, 185, 129, 0.5) !important;
+        color: #fde047 !important;
+      }
 
-          <!-- 👤 USER DROPDOWN -->
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
-              {{ request.user.shop_name|default:request.user.username }}
-            </a>
-            <ul class="dropdown-menu dropdown-menu-end bg-dark border-secondary">
-              <li><a class="dropdown-item text-light" href="{% url 'seller-dashboard' %}">Seller Dashboard</a></li>
-              <li>
-                <hr class="dropdown-divider bg-secondary">
-              </li>
-              <li><a class="dropdown-item text-danger" href="{% url 'seller-logout' %}">Logout</a></li>
-            </ul>
-          </li>
+      .btn-outline-glow {
+        border: 2px solid rgba(255, 255, 255, 0.7) !important;
+        color: white !important;
+        background: transparent !important;
+      }
 
-          {% else %}
-          
-          <li class="nav-item">
-            <a class="nav-link" href="/home">Home</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
+      .btn-outline-glow:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #fde047 !important;
+        border-color: #fde047 !important;
+        box-shadow: 0 0 15px rgba(253, 224, 71, 0.4) !important;
+      }
 
-          {% endif %}
+      .glass-card,
+      .panel-card,
+      .form-card,
+      .stat-card,
+      .list-card {
+        background: var(--panel);
+        border: 1px solid var(--line);
+        border-radius: 1.25rem;
+        box-shadow: var(--shadow);
+        backdrop-filter: blur(18px);
+      }
+
+      main {
+        flex: 1;
+        padding: 1.25rem 0 2rem;
+      }
+
+      @media (min-width: 640px) {
+        main { padding: 2rem 0 4rem; }
+      }
+
+      .section-kicker {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.65rem;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.05);
+        color: var(--accent-2);
+        font-size: 0.7rem;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+      }
+
+      @media (min-width: 640px) {
+        .section-kicker {
+          gap: 0.5rem;
+          padding: 0.45rem 0.8rem;
+          font-size: 0.85rem;
+        }
+      }
+
+      .section-title {
+        margin-top: 0.75rem;
+        font-size: clamp(1.5rem, 4vw, 3rem);
+        line-height: 1.05;
+        font-weight: 800;
+        letter-spacing: -0.04em;
+      }
+
+      @media (min-width: 640px) {
+        .section-title {
+          margin-top: 1rem;
+          font-size: clamp(1.8rem, 3vw, 3rem);
+        }
+      }
+
+      .section-subtitle {
+        margin-top: 0.6rem;
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.6;
+      }
+
+      @media (min-width: 640px) {
+        .section-subtitle {
+          margin-top: 0.85rem;
+          font-size: 1.05rem;
+          line-height: 1.8;
+        }
+      }
+
+      .page-heading {
+        font-size: clamp(1.6rem, 3vw, 2.6rem);
+        font-weight: 800;
+        letter-spacing: -0.03em;
+      }
+
+      .form-card {
+        padding: 1rem;
+      }
+
+      @media (min-width: 640px) {
+        .form-card { padding: 1.5rem; border-radius: 1.5rem; }
+      }
+
+      .input-modern,
+      .select-modern,
+      .textarea-modern {
+        background: rgba(255, 255, 255, 0.06) !important;
+        border: 1px solid rgba(255, 255, 255, 0.12) !important;
+        color: var(--text) !important;
+        border-radius: 0.9rem !important;
+      }
+
+      .input-modern::placeholder,
+      .textarea-modern::placeholder { color: rgba(238, 243, 255, 0.55); }
+
+      .input-modern:focus,
+      .select-modern:focus,
+      .textarea-modern:focus {
+        box-shadow: 0 0 0 0.2rem rgba(97, 214, 255, 0.12) !important;
+        border-color: var(--accent-2) !important;
+      }
+
+      select option,
+      select optgroup {
+        background: #ffffff;
+        color: #111827;
+      }
+
+      select optgroup {
+        font-weight: 700;
+      }
+
+      .table-modern {
+        --bs-table-bg: transparent;
+        --bs-table-color: var(--text);
+        border-color: var(--line);
+      }
+
+      .table-modern > :not(caption) > * > * {
+        padding: 0.95rem 0.85rem;
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .badge-soft {
+        background: rgba(97, 214, 255, 0.14);
+        color: #c6f2ff;
+        border: 1px solid rgba(97, 214, 255, 0.2);
+      }
+
+      footer {
+        background: rgba(3, 8, 16, 0.42);
+        color: var(--muted);
+        padding: 1.5rem 0 1.5rem;
+        border-top: 1px solid var(--line);
+        font-size: 0.85rem;
+      }
+
+      @media (min-width: 640px) {
+        footer {
+          padding: 1.5rem 0 2rem;
+          font-size: 1rem;
+        }
+      }
+    </style>
+    {% block styles %}{% endblock %}
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-glass">
+      <div class="page-shell d-flex align-items-center justify-content-between gap-2 py-2">
+        <a class="navbar-brand" href="{% url 'seller-home' %}">EWU Campus Mart</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <ul class="navbar-nav d-none d-lg-flex align-items-center gap-lg-1 ms-auto me-3">
+          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
         </ul>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
+            {% if request.user.is_authenticated and request.user.is_seller %}
+              <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-primary-glow btn-aesthetic px-3 py-2" href="{% url 'seller-dashboard' %}">Dashboard</a></li>
+              <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-outline-glow btn-aesthetic px-3 py-2" href="{% url 'seller-logout' %}">Logout</a></li>
+            {% else %}
+              <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-outline-glow btn-aesthetic px-3 py-2" href="{% url 'seller-login' %}">Login</a></li>
+              <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-primary-glow btn-aesthetic px-3 py-2" href="{% url 'seller-signup' %}">Sign Up</a></li>
+            {% endif %}
+          </ul>
+        </div>
       </div>
+    </nav>
+
+    <div class="page-shell mt-3">
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
     </div>
-  </nav>
 
-  <!-- ✅ MAIN CONTENT -->
-  <main class="min-vh-100">
-    {% block content %}{% endblock %}
-  </main>
+    <main>
+      {% block content %}{% endblock %}
+    </main>
 
-  <!-- ✅ FOOTER -->
-  <footer class="text-center mt-auto">
-    <div class="container">
-      <p class="mb-0 fw-light">&copy; 2026 EWU Campus Mart | All Rights Reserved</p>
-    </div>
-  </footer>
+    <footer class="text-center">
+      <div class="page-shell d-flex flex-column gap-2 flex-sm-row justify-content-between align-items-sm-center">
+        <p class="mb-0">&copy; 2026 EWU Campus Mart</p>
+        <p class="mb-0">Seller tools built for a faster, cleaner workflow.</p>
+      </div>
+    </footer>
 
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-  {% block scripts %}{% endblock %}
-</body>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    {% block scripts %}{% endblock %}
+  </body>
 </html>

@@ -4,72 +4,83 @@
 {% block title %}Add Product - EWU Campus Mart{% endblock %}
 
 {% block styles %}
-.form-container {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 15px;
-  padding: 40px;
-  max-width: 650px;
-  margin: 50px auto;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-}
-.form-control-glass {
-  background: rgba(0, 0, 0, 0.2) !important;
-  border: 1px solid rgba(255, 255, 255, 0.2) !important;
-  color: #fff !important;
-}
-.form-control-glass:focus {
-  background: rgba(0, 0, 0, 0.4) !important;
-  border-color: #fbbf24 !important;
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.3) !important;
-}
-.form-control-glass::placeholder {
-  color: #94a3b8;
-}
+<style>
+  .product-form-shell {
+    min-height: calc(100vh - 160px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 0;
+  }
+
+  .product-form-card {
+    width: min(100%, 760px);
+    margin: 0 1rem;
+  }
+
+  .form-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .help-note {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-top: 0.35rem;
+  }
+
+  .select-modern option {
+    background: #ffffff;
+    color: #111827;
+  }
+
+  @media (min-width: 640px) {
+    .form-grid.two-col {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+</style>
 {% endblock %}
 
 {% block content %}
-<div class="container">
-  <div class="form-container">
-    <h2 class="text-center fw-bold mb-4" style="color: #fbbf24;">Add New Product</h2>
+<section class="product-form-shell page-shell">
+  <div class="form-card product-form-card">
+    <span class="section-kicker">Inventory</span>
+    <h2 class="page-heading mt-3">Add Product</h2>
 
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+    <form method="POST" enctype="multipart/form-data" class="mt-4">
+      {% csrf_token %}
 
-        <div class="mb-3">
-          <label class="form-label text-light">Product Name</label>
-          <input type="text" name="name" placeholder="Enter awesome product name" class="form-control form-control-glass">
-        </div>
+      <div class="form-grid two-col mb-3">
+        <input type="text" name="name" placeholder="Product Name" class="form-control input-modern" />
+        <input type="number" name="price" placeholder="Price" class="form-control input-modern" />
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label text-light">Price (৳)</label>
-          <input type="number" name="price" placeholder="E.g. 500" class="form-control form-control-glass">
-        </div>
+      <div class="form-grid two-col mb-3">
+        <div class="help-note">Set offer and availability after publishing from My Products.</div>
+      </div>
 
-        <div class="mb-3">
-          <label class="form-label text-light">Description</label>
-          <textarea name="description" placeholder="Describe the condition, features, etc." class="form-control form-control-glass" rows="4"></textarea>
-        </div>
+      <textarea name="description" placeholder="Description" class="form-control textarea-modern mb-3" rows="4"></textarea>
+      <textarea name="notes" placeholder="Short notes (optional)" class="form-control textarea-modern mb-3" rows="2"></textarea>
 
-        <div class="mb-3">
-          <label class="form-label text-light">Category</label>
-          <select name="category" class="form-control form-control-glass">
-              {% for cat in categories %}
-                  <option value="{{ cat.uid }}" style="background: #1e293b; color: #fff;">{{ cat.category_name }}</option>
-              {% endfor %}
-          </select>
-        </div>
+      <textarea name="variant_rows" placeholder="Size/quantity variants in the format: XL|200 or XXL|250, one per line" class="form-control textarea-modern mb-3" rows="4"></textarea>
+      <div class="help-note mb-3">Example: XL|200, XXL|250. Leave empty if the product has no size-based prices.</div>
 
-        <!-- 🔥 MULTIPLE IMAGE UPLOAD -->
-        <div class="mb-4">
-          <label class="form-label text-light">Upload Images</label>
-          <input type="file" name="images" multiple class="form-control form-control-glass">
-          <small class="text-secondary">You can hold CTRL to select multiple images.</small>
-        </div>
+      <select name="category" class="form-select select-modern mb-3">
+        {% for cat in categories %}
+          <option value="{{ cat.uid }}">{{ cat.category_name }}</option>
+        {% endfor %}
+      </select>
 
-        <button class="btn btn-buy-option btn-aesthetic w-100 py-2 rounded-pill fw-bold">Publish Listing</button>
+      <div class="help-note mb-3">
+        Categories are built in and managed by the system.
+      </div>
+
+      <label class="form-label">Upload Images</label>
+      <input type="file" name="images" multiple class="form-control input-modern mb-3" />
+
+      <button class="btn btn-primary-glow btn-aesthetic px-4 py-2">Add Product</button>
     </form>
   </div>
-</div>
+</section>
 {% endblock %}

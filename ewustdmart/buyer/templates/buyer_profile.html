@@ -1,0 +1,228 @@
+{% extends 'buyer_base.html' %}
+
+{% block title %}Profile - EWU Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .profile-grid {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 992px) {
+    .profile-grid {
+      grid-template-columns: 1.2fr 1fr;
+    }
+  }
+
+  .section-card {
+    padding: 1.5rem;
+  }
+
+  .section-title {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .section-subtitle {
+    color: var(--muted);
+    margin-bottom: 1.25rem;
+  }
+
+  .profile-detail-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .profile-detail-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.65rem 0;
+    border-bottom: 1px dashed rgba(255, 255, 255, 0.14);
+  }
+
+  .profile-detail-item:last-child {
+    border-bottom: none;
+  }
+
+  .detail-label {
+    color: var(--muted);
+    font-weight: 600;
+  }
+
+  .detail-value {
+    text-align: right;
+    font-weight: 600;
+    word-break: break-word;
+  }
+
+  .form-label {
+    font-weight: 600;
+  }
+
+  .form-control {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--text);
+  }
+
+  .form-control:focus {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 0.2rem rgba(97, 214, 255, 0.2);
+    color: var(--text);
+  }
+
+  .profile-image-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
+  }
+
+  .profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .profile-avatar-fallback {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    font-weight: 700;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.35rem 0.8rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .status-pending {
+    background: rgba(242, 178, 79, 0.18);
+    color: #ffd792;
+    border: 1px solid rgba(242, 178, 79, 0.45);
+  }
+
+  .status-approved {
+    background: rgba(107, 224, 177, 0.2);
+    color: #9ff5d1;
+    border: 1px solid rgba(107, 224, 177, 0.48);
+  }
+
+  .status-rejected {
+    background: rgba(255, 107, 107, 0.2);
+    color: #ffb3b3;
+    border: 1px solid rgba(255, 107, 107, 0.48);
+  }
+
+  .muted-note {
+    color: var(--muted);
+    font-size: 0.92rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell">
+  {% if messages %}
+    <div class="mb-3">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags|default:'info' }} mb-2" role="alert">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <div class="profile-grid">
+    <div class="glass-card section-card">
+      <h2 class="section-title">My Profile</h2>
+      <p class="section-subtitle">View your account details. Use update when you need changes.</p>
+
+      <div class="profile-image-wrap">
+        {% if request.user.profile_image %}
+          <img src="{{ request.user.profile_image.url }}" alt="Profile image" class="profile-avatar">
+        {% else %}
+          <div class="profile-avatar-fallback">{{ request.user.username|first|upper }}</div>
+        {% endif %}
+        <div>
+          <div class="fw-semibold">{{ request.user.get_full_name|default:request.user.username }}</div>
+          <div class="muted-note">Buyer account</div>
+        </div>
+      </div>
+
+      <ul class="profile-detail-list mb-4">
+        <li class="profile-detail-item">
+          <span class="detail-label">Username</span>
+          <span class="detail-value">{{ request.user.username }}</span>
+        </li>
+        <li class="profile-detail-item">
+          <span class="detail-label">First name</span>
+          <span class="detail-value">{{ request.user.first_name|default:'-' }}</span>
+        </li>
+        <li class="profile-detail-item">
+          <span class="detail-label">Last name</span>
+          <span class="detail-value">{{ request.user.last_name|default:'-' }}</span>
+        </li>
+        <li class="profile-detail-item">
+          <span class="detail-label">Email</span>
+          <span class="detail-value">{{ request.user.email }}</span>
+        </li>
+      </ul>
+
+      <a href="{% url 'buyer-profile-update' %}" class="btn btn-primary-glow btn-aesthetic px-4">Update Profile</a>
+    </div>
+
+    {% if not request.user.is_seller %}
+    <div class="glass-card section-card">
+      <h2 class="section-title">Request to Become a Seller</h2>
+      <p class="section-subtitle">Submit your shop name to request seller access.</p>
+
+        {% if latest_request %}
+          <div class="mb-3">
+            <div class="fw-semibold mb-1">Latest request</div>
+            <div class="muted-note mb-2">Shop: {{ latest_request.shop_name }}</div>
+            <span class="status-pill status-{{ latest_request.status }}">
+              {{ latest_request.status|upper }}
+            </span>
+          </div>
+        {% endif %}
+
+        <form method="post">
+          {% csrf_token %}
+          <input type="hidden" name="action" value="request_seller">
+
+          <div class="mb-3">
+            <label class="form-label" for="id_shop_name">Shop name</label>
+            {{ request_form.shop_name }}
+            {% if request_form.shop_name.errors %}
+              <div class="text-danger small mt-1">{{ request_form.shop_name.errors|join:', ' }}</div>
+            {% endif %}
+          </div>
+
+          <button type="submit" class="btn btn-outline-glow btn-aesthetic px-4">Submit request</button>
+        </form>
+    </div>
+    {% endif %}
+  </div>
+</section>
+{% endblock %}
