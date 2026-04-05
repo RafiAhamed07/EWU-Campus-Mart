@@ -1,4 +1,5 @@
 .venv
 .env
 ewustdmart/.env
-**/__pycache__/
+ewustdmart/**/__pycache__/
+ewustdmart/db.sqlite3
