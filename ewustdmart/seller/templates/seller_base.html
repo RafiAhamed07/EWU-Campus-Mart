@@ -158,6 +158,12 @@
         border-radius: 999px;
       }
 
+      /* Tailwind's .collapse utility can hide Bootstrap navbar content via visibility: collapse. */
+      .navbar .navbar-collapse.collapse,
+      .navbar .navbar-collapse.collapsing {
+        visibility: visible !important;
+      }
+
       .btn-aesthetic {
         transition: all 0.3s ease;
         font-weight: 600;
@@ -354,14 +360,11 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <ul class="navbar-nav d-none d-lg-flex align-items-center gap-lg-1 ms-auto me-3">
-          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-        </ul>
-
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 mt-2 mt-lg-0">
+          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 mt-2 mt-lg-0 mb-0">
+            <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
+            <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="nav-link" href="/about">About</a></li>
+            <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="nav-link" href="/contact">Contact</a></li>
             {% if request.user.is_authenticated and request.user.is_seller %}
               <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-primary-glow btn-aesthetic px-3 py-2" href="{% url 'seller-dashboard' %}">Dashboard</a></li>
               <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-outline-glow btn-aesthetic px-3 py-2" href="{% url 'seller-logout' %}">Logout</a></li>
