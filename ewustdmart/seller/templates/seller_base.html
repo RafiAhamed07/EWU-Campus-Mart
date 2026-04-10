@@ -4,11 +4,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<<<<<<< HEAD
-    <title>{% block title %}EWU Campus Mart{% endblock %}</title>
-=======
     <title>{% block title %}East West University Campus Mart{% endblock %}</title>
->>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -162,15 +158,12 @@
         border-radius: 999px;
       }
 
-<<<<<<< HEAD
-=======
       /* Tailwind's .collapse utility can hide Bootstrap navbar content via visibility: collapse. */
       .navbar .navbar-collapse.collapse,
       .navbar .navbar-collapse.collapsing {
         visibility: visible !important;
       }
 
->>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
       .btn-aesthetic {
         transition: all 0.3s ease;
         font-weight: 600;
@@ -361,32 +354,17 @@
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark navbar-glass">
-<<<<<<< HEAD
-      <div class="page-shell d-flex align-items-center justify-content-between gap-2 py-2">
-=======
       <div class="page-shell d-flex flex-wrap align-items-center justify-content-between gap-2 py-2">
->>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
         <a class="navbar-brand" href="{% url 'seller-home' %}">EWU Campus Mart</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
           <span class="navbar-toggler-icon"></span>
         </button>
 
-<<<<<<< HEAD
-        <ul class="navbar-nav d-none d-lg-flex align-items-center gap-lg-1 ms-auto me-3">
-          <li class="nav-item"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
-          <li class="nav-item"><a class="nav-link" href="/about">About</a></li>
-          <li class="nav-item"><a class="nav-link" href="/contact">Contact</a></li>
-        </ul>
-
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
-=======
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1 mt-2 mt-lg-0 mb-0">
             <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="nav-link" href="{% url 'home' %}">Home</a></li>
             <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="nav-link" href="/about">About</a></li>
             <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="nav-link" href="/contact">Contact</a></li>
->>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
             {% if request.user.is_authenticated and request.user.is_seller %}
               <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-primary-glow btn-aesthetic px-3 py-2" href="{% url 'seller-dashboard' %}">Dashboard</a></li>
               <li class="nav-item mt-2 mt-lg-0 ms-lg-2"><a class="btn btn-outline-glow btn-aesthetic px-3 py-2" href="{% url 'seller-logout' %}">Logout</a></li>
@@ -416,13 +394,8 @@
 
     <footer class="text-center">
       <div class="page-shell d-flex flex-column gap-2 flex-sm-row justify-content-between align-items-sm-center">
-<<<<<<< HEAD
-        <p class="mb-0">&copy; 2026 EWU Campus Mart</p>
-        <p class="mb-0">Seller tools built for a faster, cleaner workflow.</p>
-=======
         <p class="mb-0">&copy; 2026 East West University Campus Mart</p>
         <p class="mb-0">Seller portal for East West University campus marketplace.</p>
->>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
       </div>
     </footer>
 
