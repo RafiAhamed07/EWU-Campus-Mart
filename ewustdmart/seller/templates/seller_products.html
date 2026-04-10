@@ -1,7 +1,11 @@
 {% extends 'seller_base.html' %}
 {% load static %}
 
+<<<<<<< HEAD
 {% block title %}My Products - EWU Campus Mart{% endblock %}
+=======
+{% block title %}My Products - East West University Campus Mart{% endblock %}
+>>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
 
 {% block styles %}
 <style>
@@ -50,8 +54,16 @@
   .product-image {
     width: 100%;
     height: 160px;
+<<<<<<< HEAD
     object-fit: cover;
     border-radius: 0.9rem;
+=======
+    object-fit: contain;
+    object-position: center;
+    background: rgba(255, 255, 255, 0.05);
+    display: block;
+    border-radius: 9px;
+>>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
   }
 
   .product-actions {
@@ -116,6 +128,7 @@
             <span class="mini-badge">Notes: {% if product.notes %}Yes{% else %}N/A{% endif %}</span>
           </div>
 
+<<<<<<< HEAD
           <form method="post" action="{% url 'update-product-offer' product.uid %}" class="inline-form">
             {% csrf_token %}
             <input
@@ -128,6 +141,24 @@
             />
             <button type="submit" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Save Offer</button>
           </form>
+=======
+          {% if product.options.exists %}
+            <div class="small text-info">Set offers per quantity in Edit Product using: Option|BasePrice|OfferPrice</div>
+          {% else %}
+            <form method="post" action="{% url 'update-product-offer' product.uid %}" class="inline-form">
+              {% csrf_token %}
+              <input
+                type="number"
+                min="1"
+                name="offer_price"
+                value="{% if product.offer_price %}{{ product.offer_price }}{% endif %}"
+                placeholder="Offer price"
+                class="form-control input-modern inline-input"
+              />
+              <button type="submit" class="btn btn-outline-glow btn-aesthetic px-3 py-2">Save Offer</button>
+            </form>
+          {% endif %}
+>>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
 
           <form method="post" action="{% url 'update-product-availability' product.uid %}" class="inline-form">
             {% csrf_token %}

@@ -1,7 +1,7 @@
 {% extends 'buyer_base.html' %}
 {% load static %}
 
-{% block title %}Dashboard - EWU Campus Mart{% endblock %}
+{% block title %}Dashboard - East West University Campus Mart{% endblock %}
 
 {% block styles %}
 <style>
@@ -10,17 +10,48 @@
     border-radius: 1.25rem;
     overflow: hidden;
     border: 1px solid var(--line);
+    position: relative;
   }
 
   .banner-slide img {
     width: 100%;
-    height: 220px;
+    height: 420px;
     object-fit: cover;
+  }
+
+  .banner-control {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 5;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(7, 14, 27, 0.72);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+  }
+
+  .banner-control:hover {
+    background: rgba(16, 185, 129, 0.9);
+    color: #fff;
+  }
+
+  .banner-control.prev {
+    left: 0.5rem;
+  }
+
+  .banner-control.next {
+    right: 0.5rem;
   }
 
   @media (min-width: 640px) {
     .banner-slide img {
-      height: 320px;
+      height: 520px;
     }
   }
 
@@ -186,15 +217,18 @@
   .product-image {
     width: 100%;
     height: 140px;
-    object-fit: cover;
-    border-radius: 0.75rem;
+    object-fit: contain;
+    object-position: center;
+    background: rgba(255, 255, 255, 0.05);
+    display: block;
+    border-radius: 9px;
     margin-bottom: 0.75rem;
   }
 
   @media (min-width: 640px) {
     .product-image {
       height: 160px;
-      border-radius: 1rem;
+      border-radius: 9px;
       margin-bottom: 1rem;
     }
   }
@@ -233,13 +267,16 @@
 
 {% block content %}
 <section class="page-shell">
-  <div class="dashboard-header">
-    <h2 class="dashboard-title">Welcome to Your Dashboard</h2>
-    <p class="user-greeting">👋 Hello, {{ request.user.username }}!</p>
-  </div>
-
   {% if banners %}
     <div id="buyerBannerCarousel" class="carousel slide banner-carousel" data-bs-ride="carousel" data-bs-interval="3000">
+      {% if banners|length > 1 %}
+        <button class="banner-control prev" type="button" data-bs-target="#buyerBannerCarousel" data-bs-slide="prev" aria-label="Previous banner">
+          ‹
+        </button>
+        <button class="banner-control next" type="button" data-bs-target="#buyerBannerCarousel" data-bs-slide="next" aria-label="Next banner">
+          ›
+        </button>
+      {% endif %}
       <div class="carousel-inner">
         {% for banner in banners %}
           <div class="carousel-item banner-slide {% if forloop.first %}active{% endif %}">
@@ -255,7 +292,12 @@
     </div>
   {% endif %}
 
-  <div class="category-filters">
+  <div class="dashboard-header">
+    <h2 class="dashboard-title">Welcome to Your Dashboard</h2>
+    <p class="user-greeting">👋 Hello, {{ request.user.username }}!</p>
+  </div>
+
+  <div id="products-section" class="category-filters">
     <form method="get" class="category-filter-form">
       <select name="category" class="form-select select-modern" onchange="this.form.submit()">
         <option value="all" {% if selected_category == 'all' %}selected{% endif %}>All Categories</option>

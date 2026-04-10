@@ -1,7 +1,11 @@
 {% extends 'seller_base.html' %}
 {% load static %}
 
+<<<<<<< HEAD
 {% block title %}Seller Dashboard - EWU Campus Mart{% endblock %}
+=======
+{% block title %}Seller Dashboard - East West University Campus Mart{% endblock %}
+>>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
 
 {% block styles %}
 <style>
@@ -92,6 +96,15 @@
     border-radius: 1rem;
     margin-bottom: 0.5rem;
   }
+<<<<<<< HEAD
+=======
+
+  .banner-preview-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+  }
+>>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
 </style>
 {% endblock %}
 
@@ -133,6 +146,15 @@
           <div class="banner-preview">
             <img src="{{ banner.banner_image.url }}" alt="Banner">
             <div class="small text-muted">{% if banner.banner_text %}{{ banner.banner_text }}{% else %}No text{% endif %}</div>
+<<<<<<< HEAD
+=======
+            <div class="banner-preview-actions">
+              <form method="post" action="{% url 'delete-banner' banner.uid %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-glow btn-aesthetic btn-sm px-3 py-1">Delete</button>
+              </form>
+            </div>
+>>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
           </div>
         {% endfor %}
       </div>

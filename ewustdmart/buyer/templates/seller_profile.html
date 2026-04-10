@@ -1,6 +1,6 @@
 {% extends 'buyer_base.html' %}
 
-{% block title %}Seller Profile - EWU Campus Mart{% endblock %}
+{% block title %}Seller Profile - East West University Campus Mart{% endblock %}
 
 {% block styles %}
 <style>
@@ -17,7 +17,7 @@
   .profile-meta {
     display: flex;
     gap: 1rem;
-    align-items: center;
+    align-items: flex-start;
     flex-wrap: wrap;
   }
 
@@ -27,6 +27,53 @@
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(255,255,255,0.18);
+  }
+
+  .shop-highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(97, 214, 255, 0.45);
+    background: linear-gradient(135deg, rgba(97, 214, 255, 0.24), rgba(107, 224, 177, 0.18));
+    color: #e8fbff;
+    font-weight: 700;
+    font-size: 0.95rem;
+    box-shadow: 0 10px 30px rgba(97, 214, 255, 0.1);
+  }
+
+  .profile-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 0.15rem;
+    line-height: 1.25;
+  }
+
+  .profile-info {
+    margin-top: 0.7rem;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .seller-meta-row {
+    margin-top: 0.2rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    word-break: break-word;
+  }
+
+  .contact-link {
+    color: #8de8ff;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .contact-link:hover {
+    color: #c5f5ff;
   }
 
   .category-filters {
@@ -61,16 +108,138 @@
   .product-card {
     padding: 1rem;
     border-radius: 1rem;
-    background: rgba(255, 255, 255, 0.05);
+    background: var(--panel);
     border: 1px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .product-card:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-2);
+    transform: translateY(-2px);
   }
 
   .product-card img {
     width: 100%;
-    height: 150px;
-    object-fit: cover;
-    border-radius: 0.8rem;
+    height: 145px;
+    object-fit: contain;
+    object-position: center;
+    background: rgba(255, 255, 255, 0.05);
+    display: block;
+    border-radius: 9px;
     margin-bottom: 0.75rem;
+  }
+
+  .product-name {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-bottom: 0.4rem;
+    line-height: 1.35;
+  }
+
+  .product-category {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .product-price {
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 1.08rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .product-old-price {
+    color: var(--muted);
+    text-decoration: line-through;
+    font-size: 0.88rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .offer-pill,
+  .availability-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    padding: 0.3rem 0.58rem;
+    border-radius: 999px;
+    font-size: 0.76rem;
+    font-weight: 700;
+    margin-bottom: 0.45rem;
+  }
+
+  .offer-pill {
+    background: rgba(242, 178, 79, 0.18);
+    color: #ffd792;
+  }
+
+  .availability-pill {
+    background: rgba(107, 224, 177, 0.18);
+    color: #9ff5d1;
+  }
+
+  .product-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    margin-top: auto;
+    padding: 0.55rem 0.95rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, #10b981, #059669);
+    color: #fff !important;
+    font-weight: 600;
+    font-size: 0.88rem;
+  }
+
+  .product-link:hover {
+    background: linear-gradient(135deg, #34d399, #10b981);
+    box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+  }
+
+  @media (min-width: 640px) {
+    .hero-card {
+      padding: 1.75rem;
+    }
+
+    .profile-name {
+      font-size: 1.75rem;
+    }
+
+    .product-grid {
+      gap: 1.25rem;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+
+    .product-card {
+      border-radius: 1.15rem;
+      padding: 1.15rem;
+    }
+
+    .product-card img {
+      height: 160px;
+      margin-bottom: 1rem;
+    }
+
+    .product-name {
+      font-size: 1.05rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-category {
+      margin-bottom: 0.7rem;
+    }
+
+    .product-price {
+      font-size: 1.15rem;
+      margin-bottom: 0.9rem;
+    }
   }
 </style>
 {% endblock %}
@@ -85,9 +254,33 @@
         <div class="avatar d-flex align-items-center justify-content-center" style="background: rgba(255,255,255,0.08);">{{ seller.username|first|upper }}</div>
       {% endif %}
       <div>
-        <h2 class="mb-1">{{ seller.get_full_name|default:seller.username }}</h2>
-        <div class="section-subtitle mb-1">Student ID: {{ seller.std_id|default:'N/A' }}</div>
-        <div class="section-subtitle mb-0">Shop: {{ seller.shop_name|default:'N/A' }}</div>
+        <h2 class="profile-name">
+          {% if seller.first_name or seller.last_name %}
+            {{ seller.first_name|default:'' }} {{ seller.last_name|default:'' }}
+          {% else %}
+            {{ seller.username }}
+          {% endif %}
+        </h2>
+        <div class="shop-highlight">Shop: {{ seller.shop_name|default:'N/A' }}</div>
+        <div class="profile-info">
+          <div class="seller-meta-row">Username: {{ seller.username|default:'N/A' }}</div>
+          <div class="seller-meta-row">
+            Student ID:
+            {% if seller.email %}
+              {{ seller.email|slice:":13" }}
+            {% else %}
+              N/A
+            {% endif %}
+          </div>
+        </div>
+        <div class="seller-meta-row">
+          Contact mail:
+          {% if seller.email %}
+            <a class="contact-link" href="mailto:{{ seller.email }}">{{ seller.email }}</a>
+          {% else %}
+            N/A
+          {% endif %}
+        </div>
       </div>
     </div>
   </div>
@@ -105,9 +298,19 @@
         {% if product.product_images.first %}
           <img src="{{ product.product_images.first.image.url }}" alt="{{ product.product_name }}">
         {% endif %}
-        <div class="fw-semibold">{{ product.product_name }}</div>
-        <div class="text-muted small">{{ product.category.category_name }}</div>
-        <div class="text-amber-300 fw-bold">৳{{ product.display_price }}</div>
+        <div class="product-name">{{ product.product_name }}</div>
+        {% if product.has_offer %}
+          <div class="offer-pill">{{ product.offer_percent }}% OFF</div>
+          <div class="product-old-price">৳{{ product.price }}</div>
+          <div class="product-price">৳{{ product.offer_price }}</div>
+        {% else %}
+          <div class="product-price">৳{{ product.price }}</div>
+        {% endif %}
+        {% if product.is_available %}
+          <div class="availability-pill">Available now</div>
+        {% endif %}
+        <div class="product-category">{{ product.category.category_name }}</div>
+        <span class="product-link">View Details</span>
       </a>
     {% empty %}
       <div class="glass-card p-4">No products found for this seller.</div>
