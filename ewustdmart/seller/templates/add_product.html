@@ -63,13 +63,8 @@
       <textarea name="description" placeholder="Description" class="form-control textarea-modern mb-3" rows="4"></textarea>
       <textarea name="notes" placeholder="Short notes (optional)" class="form-control textarea-modern mb-3" rows="2"></textarea>
 
-<<<<<<< HEAD
-      <textarea name="variant_rows" placeholder="Size/quantity variants in the format: XL|200 or XXL|250, one per line" class="form-control textarea-modern mb-3" rows="4"></textarea>
-      <div class="help-note mb-3">Example: XL|200, XXL|250. Leave empty if the product has no size-based prices.</div>
-=======
       <textarea name="variant_rows" placeholder="Size/quantity variants in the format: XL|200|170 or XXL|250, one per line" class="form-control textarea-modern mb-3" rows="4"></textarea>
       <div class="help-note mb-3">Use: Option|BasePrice|OfferPrice(optional). Example: XL|200|170 or XXL|250.</div>
->>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
 
       <select name="category" class="form-select select-modern mb-3">
         {% for cat in categories %}
@@ -81,10 +76,6 @@
         Categories are built in and managed by the system.
       </div>
 
-<<<<<<< HEAD
-      <label class="form-label">Upload Images</label>
-      <input type="file" name="images" multiple class="form-control input-modern mb-3" />
-=======
       <label class="form-label">Upload Images (up to 4)</label>
       <div class="form-grid two-col mb-3">
         <input type="file" name="image_1" accept="image/*" class="form-control input-modern" />
@@ -93,7 +84,6 @@
         <input type="file" name="image_4" accept="image/*" class="form-control input-modern" />
       </div>
       <div class="help-note mb-3">You can upload 1 to 4 images. Leave unused fields empty.</div>
->>>>>>> c8d1eaa70bc98ce3074d36e5d944122b1ad064c0
 
       <button class="btn btn-primary-glow btn-aesthetic px-4 py-2">Add Product</button>
     </form>
