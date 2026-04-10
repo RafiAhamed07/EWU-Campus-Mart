@@ -162,7 +162,7 @@ def seller_profile(request, uid):
         is_seller=True,
     )
     selected_category = request.GET.get("category", "all")
-    products = Product.objects.filter(seller=seller).select_related("category")
+    products = Product.objects.filter(seller=seller).select_related("category").prefetch_related("product_images")
     categories = Category.objects.filter(products__seller=seller).distinct().order_by("category_name")
 
     if selected_category != "all":
@@ -190,7 +190,7 @@ def add_to_cart(request, slug):
         except (TypeError, ValueError):
             quantity = 1
 
-    unit_price = selected_option.price if selected_option else product.display_price
+    unit_price = selected_option.display_price if selected_option else product.display_price
 
     cart, created = Cart.objects.get_or_create(user=user)
 

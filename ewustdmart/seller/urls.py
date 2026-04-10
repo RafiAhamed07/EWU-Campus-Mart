@@ -34,4 +34,5 @@ urlpatterns = [
     ),
     path('orders/update/<uuid:uid>/<str:status>/', views.update_order_status, name='seller-update-order'),
     path('banner/request/', views.request_banner, name='request-banner'),
+    path('banner/delete/<uuid:uid>/', views.delete_banner, name='delete-banner'),
 ]

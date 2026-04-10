@@ -79,10 +79,32 @@ class ProductOption(BaseModel):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="options")
     option_name = models.CharField(max_length=100)
     price = models.IntegerField()
+    offer_price = models.IntegerField(null=True, blank=True)
     is_available = models.BooleanField(default=True)
 
     def __str__(self) -> str:
         return f"{self.product.product_name} - {self.option_name}"
+
+    @property
+    def explicit_offer_price(self):
+        if self.offer_price and self.offer_price < self.price:
+            return self.offer_price
+        return None
+
+    @property
+    def display_price(self):
+        return self.explicit_offer_price if self.explicit_offer_price is not None else self.price
+
+    @property
+    def has_offer(self):
+        return self.display_price < self.price
+
+    @property
+    def offer_percent(self):
+        if self.has_offer:
+            saved_amount = self.price - self.display_price
+            return round((saved_amount / self.price) * 100)
+        return 0
 
 
 

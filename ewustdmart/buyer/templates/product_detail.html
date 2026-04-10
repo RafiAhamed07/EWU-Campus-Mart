@@ -1,7 +1,7 @@
 {% extends 'buyer_base.html' %}
 {% load static %}
 
-{% block title %}{{ product.product_name }} - EWU Campus Mart{% endblock %}
+{% block title %}{{ product.product_name }} - East West University Campus Mart{% endblock %}
 
 {% block styles %}
 <style>
@@ -52,7 +52,11 @@
   .product-image-item {
     width: 100%;
     height: 300px;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
+    background: rgba(255, 255, 255, 0.05);
+    display: block;
+    border-radius: 9px;
   }
 
   @media (min-width: 640px) {
@@ -151,14 +155,112 @@
     font-weight: 700;
   }
 
-  .variant-select,
-  .quantity-input select {
-    width: 100%;
-    padding: 0.8rem 0.9rem;
-    border: 1px solid var(--line);
+  .seller-field-label {
+    color: var(--muted);
+    font-size: 0.82rem;
+    font-weight: 600;
+  }
+
+  .seller-shop-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.42rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid rgba(97, 214, 255, 0.5);
+    background: linear-gradient(135deg, rgba(97, 214, 255, 0.22), rgba(107, 224, 177, 0.16));
+    color: #e4f9ff;
+    font-weight: 700;
+    font-size: 0.94rem;
+    margin-bottom: 0.5rem;
+    text-decoration: none;
+    box-shadow: 0 8px 24px rgba(97, 214, 255, 0.12);
+  }
+
+  .seller-shop-link:hover {
+    border-color: rgba(97, 214, 255, 0.7);
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+
+  .seller-meta-row {
+    color: var(--muted);
+    font-size: 0.92rem;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .seller-full-name {
+    color: #f5fbff;
+    font-weight: 700;
+    margin-bottom: 0.15rem;
+  }
+
+  .option-cards-grid {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    margin-bottom: 1rem;
+  }
+
+  .option-radio {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .option-card {
+    display: block;
+    padding: 0.75rem;
     border-radius: 0.9rem;
+    border: 1px solid var(--line);
     background: rgba(255, 255, 255, 0.05);
-    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    min-height: 92px;
+  }
+
+  .option-card:hover {
+    border-color: rgba(97, 214, 255, 0.5);
+    transform: translateY(-1px);
+  }
+
+  .option-name {
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+    display: block;
+  }
+
+  .option-base-price {
+    color: var(--muted);
+    text-decoration: line-through;
+    font-size: 0.85rem;
+    display: block;
+    margin-bottom: 0.15rem;
+  }
+
+  .option-price {
+    color: var(--accent);
+    font-weight: 800;
+    font-size: 0.95rem;
+    display: block;
+  }
+
+  .option-offer-badge {
+    display: inline-flex;
+    margin-top: 0.25rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 999px;
+    background: rgba(242, 178, 79, 0.2);
+    color: #ffd792;
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .option-radio:checked + .option-card {
+    border-color: var(--accent-2);
+    box-shadow: 0 0 0 0.18rem rgba(97, 214, 255, 0.16);
+    background: rgba(97, 214, 255, 0.08);
   }
 
   .section-title-small {
@@ -183,8 +285,11 @@
   .related-item img {
     width: 100%;
     height: 130px;
-    object-fit: cover;
-    border-radius: 0.8rem;
+    object-fit: contain;
+    object-position: center;
+    background: rgba(255, 255, 255, 0.04);
+    display: block;
+    border-radius: 9px;
     margin-bottom: 0.6rem;
   }
 
@@ -333,9 +438,16 @@
               <div style="width:64px;height:64px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,0.08);font-weight:700;">{{ seller.username|first|upper }}</div>
             {% endif %}
             <div>
-              <a class="seller-link" href="{% url 'seller-profile' seller.uid %}">{{ seller.get_full_name|default:seller.username }}</a>
-              <div class="muted-note">Student ID: {{ seller.std_id|default:'N/A' }}</div>
-              <div class="muted-note">Shop: {{ seller.shop_name|default:'N/A' }}</div>
+              <a class="seller-shop-link" href="{% url 'seller-profile' seller.uid %}"><span class="seller-field-label">Shop:</span> {{ seller.shop_name|default:'N/A' }}</a>
+              <div class="seller-full-name">
+                <span class="seller-field-label">Owner:</span>
+                {% if seller.first_name or seller.last_name %}
+                  {{ seller.first_name|default:'' }} {{ seller.last_name|default:'' }}
+                {% else %}
+                  {{ seller.username }}
+                {% endif %}
+              </div>
+              <div class="seller-meta-row"><span class="seller-field-label">Student ID:</span> {% if seller.email %}{{ seller.email|slice:":13" }}{% else %}N/A{% endif %}</div>
             </div>
           </div>
         </div>
@@ -357,11 +469,30 @@
           <div class="section-title-small">Select Quantity / Size</div>
           <form method="post" action="{% url 'add-to-cart' product.slug %}">
             {% csrf_token %}
-            <select name="option" class="variant-select mb-3">
+            <div class="option-cards-grid">
               {% for option in product.options.all %}
-                <option value="{{ option.uid }}">{{ option.option_name }} - ৳{{ option.price }}</option>
+                <label>
+                  <input
+                    type="radio"
+                    name="option"
+                    value="{{ option.uid }}"
+                    class="option-radio"
+                    {% if forloop.first %}checked{% endif %}
+                    required
+                  />
+                  <span class="option-card">
+                    <span class="option-name">{{ option.option_name }}</span>
+                    {% if option.has_offer %}
+                      <span class="option-base-price">৳{{ option.price }}</span>
+                      <span class="option-price">৳{{ option.display_price }}</span>
+                      <span class="option-offer-badge">{{ option.offer_percent }}% OFF</span>
+                    {% else %}
+                      <span class="option-price">৳{{ option.price }}</span>
+                    {% endif %}
+                  </span>
+                </label>
               {% endfor %}
-            </select>
+            </div>
 
             <div class="quantity-input">
               <label class="quantity-label">Quantity:</label>

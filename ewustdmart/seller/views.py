@@ -1,5 +1,6 @@
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib.auth import login, logout, authenticate
+from django.contrib import messages
 from .middlewares import auth, loggedin_auth
 from .forms import SellerSignupForm, SellerLoginForm
 from products.models import Product, Category, ProductImage, ProductOption
@@ -104,19 +105,34 @@ def _parse_variant_rows(raw_text):
         if not line:
             continue
         if "|" in line:
-            name, price = line.split("|", 1)
+            parts = [part.strip() for part in line.split("|")]
         elif ":" in line:
-            name, price = line.split(":", 1)
+            parts = [part.strip() for part in line.split(":")]
         else:
             continue
-        name = name.strip()
-        price = price.strip()
+        if len(parts) < 2:
+            continue
+        name = parts[0]
+        price = parts[1]
+        offer_price = parts[2] if len(parts) > 2 else ""
         if not name or not price:
             continue
+
         try:
-            variants.append((name, int(price)))
+            parsed_price = int(price)
         except ValueError:
             continue
+
+        parsed_offer = None
+        if offer_price:
+            try:
+                offer_value = int(offer_price)
+                if 0 < offer_value < parsed_price:
+                    parsed_offer = offer_value
+            except ValueError:
+                parsed_offer = None
+
+        variants.append((name, parsed_price, parsed_offer))
     return variants
 
 
@@ -132,6 +148,18 @@ def add_product(request):
         notes = request.POST.get("notes")
         variant_rows = request.POST.get("variant_rows", "")
 
+        uploaded_images = [
+            request.FILES.get("image_1"),
+            request.FILES.get("image_2"),
+            request.FILES.get("image_3"),
+            request.FILES.get("image_4"),
+        ]
+        uploaded_images = [img for img in uploaded_images if img]
+
+        if len(uploaded_images) > 4:
+            messages.error(request, "You can upload up to 4 images only.")
+            return render(request, "add_product.html", {"categories": categories})
+
         category = Category.objects.get(uid=category_id)
 
         # ✅ Create product
@@ -146,17 +174,16 @@ def add_product(request):
             notes=notes,
         )
 
-        for variant_name, variant_price in _parse_variant_rows(variant_rows):
+        for variant_name, variant_price, variant_offer_price in _parse_variant_rows(variant_rows):
             ProductOption.objects.create(
                 product=product,
                 option_name=variant_name,
                 price=variant_price,
+                offer_price=variant_offer_price,
             )
 
-        # 🔥 HANDLE MULTIPLE IMAGES
-        images = request.FILES.getlist('images')
-
-        for img in images:
+        # Save up to 4 uploaded images for this product.
+        for img in uploaded_images:
             ProductImage.objects.create(
                 product=product,
                 image=img
@@ -178,6 +205,10 @@ def delete_product(request, uid):
 def update_product_offer(request, uid):
     product = get_object_or_404(Product, uid=uid, seller=request.user)
     if request.method == "POST":
+        if product.options.exists():
+            messages.info(request, "This product has quantity options. Set offer per quantity in Edit Product (Option|BasePrice|OfferPrice).")
+            return redirect("seller-products")
+
         offer_raw = (request.POST.get("offer_price") or "").strip()
         if not offer_raw:
             product.offer_price = None
@@ -250,11 +281,12 @@ def edit_product(request, uid):
         product.save()
 
         product.options.all().delete()
-        for variant_name, variant_price in _parse_variant_rows(request.POST.get("variant_rows", "")):
+        for variant_name, variant_price, variant_offer_price in _parse_variant_rows(request.POST.get("variant_rows", "")):
             ProductOption.objects.create(
                 product=product,
                 option_name=variant_name,
                 price=variant_price,
+                offer_price=variant_offer_price,
             )
 
         # 🔥 ADD NEW IMAGES (optional)
@@ -332,4 +364,15 @@ def request_banner(request):
         return redirect("seller-dashboard")
 
     return render(request, "banner_request.html")
+
+
+@auth
+def delete_banner(request, uid):
+    banner = get_object_or_404(SellerBanner, uid=uid, seller=request.user)
+
+    if request.method == "POST":
+        banner.delete()
+        messages.success(request, "Banner deleted successfully.")
+
+    return redirect("seller-dashboard")
 

@@ -1,63 +1,73 @@
 {% extends 'seller_base.html' %}
 {% load static %}
 
-{% block title %}Home - EWU Campus Mart{% endblock %}
+{% block title %}Home - East West University Campus Mart{% endblock %}
 
 {% block styles %}
 <style>
-  .hero {
-    background: url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
-    min-height: calc(100vh - 80px);
+  .seller-hero {
+    position: relative;
+    min-height: calc(100vh - 84px);
     display: flex;
     align-items: center;
     justify-content: center;
-    text-align: center;
-    position: relative;
-    padding: 2rem 0;
+    padding: 1.5rem 0;
+    overflow: hidden;
   }
 
-  .hero::before {
+  .seller-hero::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: radial-gradient(circle, rgba(15,23,42,0.35) 0%, rgba(15,23,42,0.88) 100%);
+    background:
+      linear-gradient(130deg, rgba(11, 18, 32, 0.95), rgba(9, 14, 24, 0.7)),
+      url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
   }
 
-  .hero-box {
+  .seller-hero::after {
+    content: '';
+    position: absolute;
+    left: -120px;
+    bottom: -140px;
+    width: 360px;
+    height: 360px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(107, 224, 177, 0.3), rgba(107, 224, 177, 0));
+    pointer-events: none;
+  }
+
+  .hero-panel {
     position: relative;
-    background: rgba(255,255,255,0.05);
-    border: 1px solid rgba(255,255,255,0.1);
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.2rem;
     backdrop-filter: blur(14px);
-    border-radius: 1.25rem;
-    padding: 1.5rem;
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
     width: min(100%, 640px);
-    margin: 0 1rem;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.45);
+    margin: 0 auto;
+    padding: 1.5rem;
+    text-align: center;
   }
 
   @media (min-width: 640px) {
-    .hero-box {
-      padding: 2.5rem;
-      border-radius: 1.75rem;
-      margin: 0;
+    .hero-panel {
+      padding: 2rem;
     }
   }
 
   .hero-title {
-    font-size: clamp(2rem, 4vw, 3.6rem);
+    font-size: clamp(1.9rem, 4vw, 3.4rem);
     font-weight: 800;
     letter-spacing: -0.04em;
-    margin-bottom: 0.75rem;
+    margin: 0.8rem 0;
+    color: #fff;
   }
 
   .hero-text {
-    color: var(--muted);
-    font-size: 0.95rem;
-    line-height: 1.7;
-  }
-
-  @media (min-width: 640px) {
-    .hero-text { font-size: 1.05rem; }
+    color: #c7d7f3;
+    font-size: 0.98rem;
+    line-height: 1.65;
   }
 
   .hero-actions {
@@ -65,19 +75,26 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: 0.75rem;
+    margin-top: 1.35rem;
+  }
+
+  .hero-actions .btn {
+    min-width: 165px;
   }
 </style>
 {% endblock %}
 
 {% block content %}
-<section class="hero">
-  <div class="hero-box">
-    <span class="section-kicker">Seller portal</span>
-    <h1 class="hero-title text-white mt-3">Welcome to EWU Campus Mart</h1>
-    <p class="hero-text">Manage products and orders from a clean dashboard built for fast seller workflows.</p>
-    <div class="hero-actions mt-4">
-      <a href="{% url 'seller-login' %}" class="btn btn-primary-glow btn-aesthetic px-4 px-sm-5">Sell Now</a>
-      <a href="{% url 'seller-signup' %}" class="btn btn-outline-glow btn-aesthetic px-4 px-sm-5">Create Seller Account</a>
+<section class="seller-hero">
+  <div class="page-shell">
+    <div class="hero-panel">
+      <span class="section-kicker">Seller portal</span>
+      <h1 class="hero-title">Welcome to East West University Campus Mart</h1>
+      <p class="hero-text">Please select an option to continue.</p>
+      <div class="hero-actions">
+        <a href="{% url 'seller-login' %}" class="btn btn-primary-glow btn-aesthetic px-4 px-sm-5">Log In</a>
+        <a href="{% url 'seller-signup' %}" class="btn btn-outline-glow btn-aesthetic px-4 px-sm-5">Sign Up</a>
+      </div>
     </div>
   </div>
 </section>

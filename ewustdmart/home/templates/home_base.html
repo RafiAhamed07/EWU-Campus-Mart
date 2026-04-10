@@ -4,12 +4,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}EWU Campus Mart{% endblock %}</title>
+  <title>{% block title %}East West University Campus Mart{% endblock %}</title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 
@@ -148,9 +147,95 @@
       justify-content: flex-end;
     }
 
+    .ewustdmart-menu-toggle {
+      display: none;
+      width: 1.85rem;
+      height: 1.85rem;
+      border-radius: 5px;
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.06);
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.14rem;
+      padding: 0;
+      color: var(--text);
+    }
+
+    .ewustdmart-menu-line {
+      width: 0.72rem;
+      height: 0.1rem;
+      border-radius: 2px;
+      background: currentColor;
+      opacity: 0.9;
+    }
+
+    .ewustdmart-mobile-menu {
+      display: none;
+      position: absolute;
+      top: calc(100% + 0.45rem);
+      right: 0;
+      min-width: 11rem;
+      padding: 0.45rem;
+      border-radius: 0.85rem;
+      border: 1px solid var(--line);
+      background: rgba(8, 15, 29, 0.94);
+      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.34);
+      backdrop-filter: blur(16px);
+      z-index: 70;
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+
+    .ewustdmart-mobile-menu.is-open {
+      display: flex;
+    }
+
+    .ewustdmart-mobile-menu-link {
+      display: inline-flex;
+      align-items: center;
+      width: 100%;
+      padding: 0.5rem 0.7rem;
+      border-radius: 0.6rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+      transition: all 0.2s ease;
+    }
+
+    .ewustdmart-mobile-menu-link:hover,
+    .ewustdmart-mobile-menu-link.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    @media (max-width: 639px) {
+      .ewustdmart-nav-links {
+        position: relative;
+        flex-wrap: nowrap;
+        gap: 0.45rem;
+      }
+
+      .ewustdmart-nav-link:not(.ewustdmart-nav-cta) {
+        display: none;
+      }
+
+      .ewustdmart-menu-toggle {
+        display: inline-flex;
+      }
+
+      .ewustdmart-nav-cta {
+        padding: 0.5rem 0.9rem;
+        font-size: 0.85rem;
+      }
+    }
+
     @media (min-width: 640px) {
       .ewustdmart-nav-links {
         gap: 0.55rem;
+      }
+
+      .ewustdmart-mobile-menu {
+        display: none !important;
       }
     }
 
@@ -426,6 +511,24 @@
         <a href="/about" class="ewustdmart-nav-link {% if request.path == '/about' %}active{% endif %}">About</a>
         <a href="/contact" class="ewustdmart-nav-link {% if request.path == '/contact' %}active{% endif %}">Contact</a>
         <a href="/buyer" class="ewustdmart-nav-link ewustdmart-nav-cta">Shop Now</a>
+        <button
+          type="button"
+          class="ewustdmart-menu-toggle"
+          aria-label="Open navigation menu"
+          aria-expanded="false"
+          aria-controls="ewustdmart-mobile-menu"
+        >
+          <span class="ewustdmart-menu-line"></span>
+          <span class="ewustdmart-menu-line"></span>
+          <span class="ewustdmart-menu-line"></span>
+        </button>
+        <div id="ewustdmart-mobile-menu" class="ewustdmart-mobile-menu" hidden>
+          <a href="/home" class="ewustdmart-mobile-menu-link {% if request.path == '/home' or request.path == '/' %}active{% endif %}">Home</a>
+          <a href="/buyer" class="ewustdmart-mobile-menu-link {% if request.path == '/buyer' %}active{% endif %}">Buyer</a>
+          <a href="/seller" class="ewustdmart-mobile-menu-link {% if request.path == '/seller' %}active{% endif %}">Seller</a>
+          <a href="/about" class="ewustdmart-mobile-menu-link {% if request.path == '/about' %}active{% endif %}">About</a>
+          <a href="/contact" class="ewustdmart-mobile-menu-link {% if request.path == '/contact' %}active{% endif %}">Contact</a>
+        </div>
       </div>
     </div>
   </nav>
@@ -436,12 +539,54 @@
 
   <footer>
     <div class="page-shell flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <p>&copy; 2026 EWU Campus Mart</p>
-      <p>Built for a faster, friendlier campus marketplace.</p>
+      <p>&copy; 2026 East West University Campus Mart</p>
+      <p>Built for East West University campus buying and selling.</p>
     </div>
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    (function () {
+      const navLinks = document.querySelector('.ewustdmart-nav-links');
+      const toggle = document.querySelector('.ewustdmart-menu-toggle');
+      const menu = document.getElementById('ewustdmart-mobile-menu');
+
+      if (!navLinks || !toggle || !menu) {
+        return;
+      }
+
+      const setMenuState = (isOpen) => {
+        toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        menu.hidden = !isOpen;
+        menu.classList.toggle('is-open', isOpen);
+      };
+
+      setMenuState(false);
+
+      toggle.addEventListener('click', function () {
+        const willOpen = toggle.getAttribute('aria-expanded') !== 'true';
+        setMenuState(willOpen);
+      });
+
+      menu.addEventListener('click', function (event) {
+        if (event.target.closest('a')) {
+          setMenuState(false);
+        }
+      });
+
+      document.addEventListener('click', function (event) {
+        if (!navLinks.contains(event.target)) {
+          setMenuState(false);
+        }
+      });
+
+      document.addEventListener('keydown', function (event) {
+        if (event.key === 'Escape') {
+          setMenuState(false);
+        }
+      });
+    })();
+  </script>
   {% block scripts %}{% endblock %}
 </body>
 </html>

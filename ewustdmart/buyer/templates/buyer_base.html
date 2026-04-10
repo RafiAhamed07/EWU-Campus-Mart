@@ -6,7 +6,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}EWU Campus Mart{% endblock %}</title>
+  <title>{% block title %}East West University Campus Mart{% endblock %}</title>
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -43,37 +43,6 @@
         linear-gradient(180deg, var(--bg-start) 0%, #091120 46%, var(--bg-end) 100%);
     }
 
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      opacity: 0.28;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
-      background-size: 72px 72px;
-      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.45), transparent 85%);
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page-shell {
-      width: min(1180px, calc(100% - 1rem));
-      margin: 0 auto;
-      position: relative;
-      z-index: 1;
-    }
-
-    @media (min-width: 640px) {
-      .page-shell {
-        width: min(1180px, calc(100% - 2rem));
-      }
-    }
-
     .navbar-glass {
       position: sticky;
       top: 0;
@@ -87,11 +56,10 @@
 
     .navbar-brand {
       font-weight: 800;
-      font-size: 0.9rem;
+      font-size: 0.95rem;
       color: white !important;
       letter-spacing: 0.02em;
       white-space: nowrap;
-      flex-shrink: 0;
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
@@ -117,6 +85,19 @@
       font-weight: 900;
       font-size: 0.9rem;
     }
+
+      .page-shell {
+        width: min(1180px, calc(100% - 1rem));
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      @media (min-width: 640px) {
+        .page-shell {
+          width: min(1180px, calc(100% - 2rem));
+        }
+      }
 
     @media (min-width: 640px) {
       .navbar-brand::before {
@@ -237,7 +218,7 @@
 
   <!-- ✅ NAVBAR -->
   <nav class="navbar navbar-expand-lg navbar-dark navbar-glass">
-    <div class="page-shell d-flex align-items-center justify-content-between gap-2">
+    <div class="page-shell d-flex align-items-center justify-content-between gap-2 py-2">
 
       <a class="navbar-brand" href="/buyer/dashboard">EWU Campus Mart</a>
 
@@ -247,34 +228,34 @@
 
       <div class="collapse navbar-collapse" id="navbarNav">
 
-        <ul class="navbar-nav ms-auto">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-1">
 
           {% if request.user.is_authenticated %}
 
-          <li class="nav-item">
+          <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
             <a class="nav-link" href="/buyer/dashboard">Home</a>
           </li>
 
-          <li class="nav-item">
-            <a class="nav-link" href="#">Products</a>
+          <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
+            <a class="nav-link" href="{% url 'buyer-dashboard' %}#products-section">Products</a>
           </li>
 
           <!-- 🛒 CART -->
-          <li class="nav-item">
+          <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
             <a class="nav-link" href="{% url 'view-cart' %}">
               🛒 Cart
             </a>
           </li>
 
           <!-- 📦 MY ORDERS -->
-          <li class="nav-item">
+          <li class="nav-item mt-2 mt-lg-0 ms-lg-2">
             <a class="nav-link" href="{% url 'my-orders' %}">
               My Orders
             </a>
           </li>
 
           <!-- 👤 USER DROPDOWN -->
-          <li class="nav-item dropdown">
+          <li class="nav-item dropdown mt-2 mt-lg-0 ms-lg-2">
             <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown">
               {{ request.user.username }}
             </a>
@@ -284,12 +265,6 @@
               <li>
                 <a class="dropdown-item" href="{% url 'buyer-profile' %}">
                   Profile
-                </a>
-              </li>
-
-              <li>
-                <a class="dropdown-item" href="{% url 'my-orders' %}">
-                  My Orders
                 </a>
               </li>
 
@@ -331,8 +306,8 @@
   <!-- FOOTER -->
   <footer class="text-center">
     <div class="page-shell flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-      <p>&copy; 2026 EWU Campus Mart</p>
-      <p>Campus marketplace built for faster, friendlier trading.</p>
+      <p>&copy; 2026 East West University Campus Mart</p>
+      <p>Buyer portal for East West University campus marketplace.</p>
     </div>
   </footer>
 
