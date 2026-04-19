@@ -1,0 +1,215 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block title %}Home - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+.hero-media {
+  background-image: url('{% static "home/images/img2.jpg" %}');
+  background-size: cover;
+  background-position: center;
+}
+
+.spotlight-media {
+  background-image: url('{% static "home/images/img1.jpg" %}');
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-panel {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(6, 11, 20, 0.15) 0%, rgba(6, 11, 20, 0.72) 100%);
+}
+
+.hero-panel > * {
+  position: relative;
+  z-index: 1;
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.soft-list {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.soft-list-item {
+  display: flex;
+  gap: 0.85rem;
+  align-items: flex-start;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.soft-list-item strong {
+  display: block;
+  margin-bottom: 0.2rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell pt-4 sm:pt-6 lg:pt-10">
+  <div class="grid gap-6 sm:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+    <div class="space-y-4 sm:space-y-6">
+      <span class="section-kicker">Campus marketplace</span>
+      <div class="space-y-3 sm:space-y-4">
+        <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
+          Buy and sell essentials inside East West University community.
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl leading-7 sm:leading-8 text-slate-300">
+          East West University Campus Mart connects students and campus sellers in one practical, easy-to-use online marketplace.
+        </p>
+      </div>
+
+      <div class="flex flex-wrap gap-2 sm:gap-4">
+        <a href="/buyer" class="accent-button primary text-sm sm:text-base">Start Shopping</a>
+        <a href="/seller" class="accent-button secondary text-sm sm:text-base">Become a Seller</a>
+      </div>
+
+      <div class="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+        <div class="stat-card">
+          <div class="stat-value text-amber-300 text-2xl sm:text-3xl">24h</div>
+          <div class="stat-label text-xs sm:text-sm">Typical campus delivery window</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value text-cyan-300 text-2xl sm:text-3xl">100%</div>
+          <div class="stat-label text-xs sm:text-sm">Buyer and seller trust focus</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value text-emerald-300 text-2xl sm:text-3xl">10000+</div>
+          <div class="stat-label text-xs sm:text-sm">Students marketplace</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card hero-panel overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-[2rem] mt-6 lg:mt-0">
+      <div class="relative min-h-[24rem] sm:min-h-[28rem] md:min-h-[32rem] lg:min-h-[34rem] hero-media">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 space-y-3 sm:space-y-4">
+          <div class="pill w-fit text-xs sm:text-sm">Featured campus experience</div>
+          <h2 class="text-xl sm:text-2xl md:text-3xl font-bold leading-tight">A university marketplace focused on real student needs.</h2>
+          <div class="grid gap-2 sm:gap-3 grid-cols-1 sm:grid-cols-3">
+            <div class="info-card p-3 sm:p-4 text-xs sm:text-sm">
+              <strong class="block text-amber-300 mb-1">Quick pickup</strong>
+              <p>Find what you need without long wait times.</p>
+            </div>
+            <div class="info-card p-3 sm:p-4 text-xs sm:text-sm">
+              <strong class="block text-cyan-300 mb-1">Secure transactions</strong>
+              <p>Buy and sell with confidence across campus.</p>
+            </div>
+            <div class="info-card p-3 sm:p-4 text-xs sm:text-sm">
+              <strong class="block text-emerald-300 mb-1">Trusted sellers</strong>
+              <p>Connect with verified campus vendors and students.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">01</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Fast Delivery</h3>
+      <p class="text-sm sm:text-base">Campus-wide delivery designed for convenience, speed, and reliable handoff points.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">02</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Secure Payments</h3>
+      <p class="text-sm sm:text-base">Transactions stay simple and safe so students can trade without friction.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">03</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Best Prices</h3>
+      <p class="text-sm sm:text-base">Student-friendly pricing helps you stretch your budget without sacrificing quality.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="glass-card overflow-hidden">
+    <div class="grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr]">
+      <div class="p-4 sm:p-6 md:p-8 lg:p-10 space-y-4 sm:space-y-5">
+        <span class="section-kicker text-xs sm:text-sm">Why it works</span>
+          <h2 class="section-title text-xl sm:text-2xl md:text-3xl">Built around East West University routines.</h2>
+        <p class="section-subtitle text-sm sm:text-base">
+            Buyer and seller pages are structured for daily campus use so users can list, find, and purchase items without confusion.
+        </p>
+        <div class="soft-list">
+          <div class="soft-list-item text-sm sm:text-base">
+            <div class="feature-icon shrink-0 text-base sm:text-lg">A</div>
+            <div>
+              <strong>Campus-first discovery</strong>
+              <span class="text-slate-300 text-xs sm:text-sm block">Find relevant items for classes, clubs, and student life quickly.</span>
+            </div>
+          </div>
+          <div class="soft-list-item text-sm sm:text-base">
+            <div class="feature-icon shrink-0 text-base sm:text-lg">B</div>
+            <div>
+              <strong>Friendly seller flow</strong>
+              <span class="text-slate-300 text-xs sm:text-sm block">Create and manage listings through a clear, campus-focused workflow.</span>
+            </div>
+          </div>
+          <div class="soft-list-item text-sm sm:text-base">
+            <div class="feature-icon shrink-0 text-base sm:text-lg">C</div>
+            <div>
+              <strong>Modern visual hierarchy</strong>
+              <span class="text-slate-300 text-xs sm:text-sm block">Consistent spacing and contrast make important actions easier to find.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative min-h-[24rem] sm:min-h-[28rem] lg:min-h-[360px] spotlight-media mt-6 lg:mt-0">
+        <div class="absolute inset-0 bg-gradient-to-tr from-slate-950/85 via-slate-950/30 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 space-y-2 sm:space-y-3">
+          <span class="pill w-fit text-xs sm:text-sm">Student essentials, reimagined</span>
+          <h3 class="text-lg sm:text-2xl font-bold">A clear and trustworthy experience for campus trading.</h3>
+          <p class="max-w-xl text-slate-200/90 leading-6 sm:leading-7 text-xs sm:text-sm">
+            The goal is simple: help East West University buyers and sellers complete transactions with less friction and better clarity.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="glass-card p-4 sm:p-6 md:p-8 lg:p-10 flex flex-col gap-4 sm:gap-6 lg:flex-row lg:items-center lg:justify-between">
+    <div class="w-full lg:max-w-2xl">
+      <span class="section-kicker text-xs sm:text-sm">Ready to explore</span>
+      <h2 class="section-title text-xl sm:text-2xl md:text-3xl">Start with the buyer flow or switch to selling when you are ready.</h2>
+      <p class="section-subtitle text-sm sm:text-base">
+        Campus reference: East West University, A/2 Jahurul Islam Avenue, Jahurul Islam City, Aftabnagar, Dhaka 1212, Bangladesh.
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-2 sm:gap-4 w-full lg:w-auto">
+      <a href="/buyer" class="accent-button primary text-sm sm:text-base flex-1 sm:flex-none">Browse Products</a>
+      <a href="/contact" class="accent-button secondary text-sm sm:text-base flex-1 sm:flex-none">Contact Us</a>
+    </div>
+  </div>
+</section>
+{% endblock %}

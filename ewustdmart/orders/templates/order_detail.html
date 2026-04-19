@@ -1,0 +1,68 @@
+{% extends 'buyer_base.html' %}
+
+{% block title %}Order Detail - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+    .detail-shell {
+        padding-top: 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .detail-shell {
+            padding-top: 1.5rem;
+        }
+    }
+
+    .detail-card {
+        padding: 1rem;
+    }
+
+    @media (min-width: 640px) {
+        .detail-card {
+            padding: 1.25rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell detail-shell">
+    <div class="glass-card detail-card">
+        <span class="section-kicker">Order Detail</span>
+        <h2 class="section-title">Order {{ order.uid }}</h2>
+        <p class="section-subtitle">
+            Status: <strong class="text-cyan-300 text-capitalize">{{ order.status }}</strong>
+            <span class="mx-2">|</span>
+            Total: <strong class="text-amber-300">৳{{ order.total_price }}</strong>
+        </p>
+
+        <div class="table-responsive mt-4">
+            <table class="table table-modern align-middle mb-0">
+                <thead>
+                    <tr>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Qty</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in order.order_items.all %}
+                    <tr>
+                        <td>{{ item.product.product_name }}</td>
+                        <td>৳{{ item.price }}</td>
+                        <td>{{ item.quantity }}</td>
+                        <td class="text-emerald-300">৳{{ item.get_total_price }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="mt-4">
+            <a href="{% url 'my-orders' %}" class="btn btn-outline-glow btn-aesthetic px-4 py-2">Back to Orders</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

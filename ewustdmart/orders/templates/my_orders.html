@@ -1,0 +1,122 @@
+{% extends 'buyer_base.html' %}
+
+{% block title %}My Orders - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .orders-shell {
+    padding-top: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .orders-shell {
+      padding-top: 1.5rem;
+    }
+  }
+
+  .orders-grid {
+    display: grid;
+    gap: 1rem;
+  }
+
+  .order-card {
+    padding: 1rem;
+  }
+
+  @media (min-width: 640px) {
+    .order-card {
+      padding: 1.25rem;
+    }
+  }
+
+  .item-row {
+    display: grid;
+    gap: 0.75rem;
+    grid-template-columns: 56px 1fr auto;
+    align-items: center;
+    padding: 0.6rem;
+    border-radius: 0.85rem;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  .item-image {
+    width: 56px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 0.75rem;
+  }
+
+  .status-pill {
+    display: inline-flex;
+    padding: 0.3rem 0.65rem;
+    border-radius: 999px;
+    font-size: 0.78rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.08);
+    text-transform: capitalize;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell orders-shell">
+  <div class="mb-4">
+    <span class="section-kicker">Orders</span>
+    <h2 class="section-title">My Orders</h2>
+    <p class="section-subtitle">Track status and review your purchased items.</p>
+  </div>
+
+  <div class="orders-grid">
+    {% for order in orders %}
+    <article class="glass-card order-card">
+      <div class="d-flex flex-column flex-sm-row justify-content-between gap-2 mb-3">
+        <div>
+          <div class="text-slate-300 small">Order ID</div>
+          <strong>{{ order.uid }}</strong>
+        </div>
+        <div class="text-sm-end">
+          <div class="text-slate-300 small">Status</div>
+          <span class="status-pill">{{ order.status }}</span>
+        </div>
+      </div>
+
+      <p class="mb-3"><strong>Total:</strong> <span class="text-amber-300">৳{{ order.total_price }}</span></p>
+
+      <div class="d-grid gap-2 mb-3">
+        {% for item in order.order_items.all %}
+        <div class="item-row">
+          {% if item.product.product_images.first %}
+            <img src="{{ item.product.product_images.first.image.url }}" alt="{{ item.product.product_name }}" class="item-image" />
+          {% else %}
+            <div class="item-image d-flex align-items-center justify-content-center" style="background: rgba(255,255,255,0.08); color: var(--muted); font-size: 0.7rem;">No img</div>
+          {% endif %}
+
+          <div>
+            <strong>{{ item.product.product_name }}</strong>
+            <div class="text-slate-300 small">Qty {{ item.quantity }} | ৳{{ item.price }}</div>
+          </div>
+
+          <strong class="text-emerald-300">৳{{ item.get_total_price }}</strong>
+        </div>
+        {% endfor %}
+      </div>
+
+      <div class="d-flex flex-wrap gap-2">
+        <a href="{% url 'order-detail' order.uid %}" class="btn btn-outline-glow btn-aesthetic btn-sm px-3">View Details</a>
+
+        {% if order.status == 'pending' or order.status == 'processing' %}
+        <a href="{% url 'cancel-order' order.uid %}" class="btn btn-primary-glow btn-aesthetic btn-sm px-3" onclick="return confirm('Are you sure you want to cancel this order?');">
+          Cancel Order
+        </a>
+        {% endif %}
+      </div>
+    </article>
+    {% empty %}
+    <div class="glass-card p-4 p-sm-5 text-center">
+      <h5 class="mb-0">No orders yet</h5>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

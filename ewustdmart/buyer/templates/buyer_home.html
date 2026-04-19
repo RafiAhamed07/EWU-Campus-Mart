@@ -1,0 +1,102 @@
+{% extends 'buyer_base.html' %}
+{% load static %}
+
+{% block title %}Buyer - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+  .buyer-hero {
+    position: relative;
+    min-height: calc(100vh - 84px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem 0;
+    overflow: hidden;
+  }
+
+  .buyer-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(120deg, rgba(11, 18, 32, 0.92), rgba(11, 18, 32, 0.66)),
+      url('{% static "home/images/img1.jpg" %}') center/cover no-repeat;
+  }
+
+  .buyer-hero::after {
+    content: '';
+    position: absolute;
+    right: -140px;
+    top: -110px;
+    width: 360px;
+    height: 360px;
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(97, 214, 255, 0.36), rgba(97, 214, 255, 0));
+    pointer-events: none;
+  }
+
+  .hero-card {
+    position: relative;
+    z-index: 1;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    border-radius: 1.25rem;
+    backdrop-filter: blur(14px);
+    box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+    width: min(100%, 640px);
+    margin: 0 auto;
+    padding: 1.5rem;
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .hero-card {
+      padding: 2rem;
+    }
+  }
+
+  .hero-title {
+    font-size: clamp(1.8rem, 4vw, 3.3rem);
+    line-height: 1.06;
+    font-weight: 800;
+    margin: 0.8rem 0;
+    letter-spacing: -0.03em;
+    color: #ffffff;
+  }
+
+  .hero-text {
+    color: #d7e2f6;
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.7rem;
+    margin-top: 1.35rem;
+  }
+
+  .hero-actions .btn {
+    min-width: 138px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="buyer-hero">
+  <div class="page-shell">
+    <div class="hero-card">
+      <span class="section-kicker">Buyer portal</span>
+      <h1 class="hero-title">Join as Buyer</h1>
+      <p class="hero-text">Please select an option to continue.</p>
+      <div class="hero-actions">
+        <a href="{% url 'buyer-login' %}" class="btn btn-primary-glow btn-aesthetic px-4 px-sm-5">Log In</a>
+        <a href="{% url 'buyer-signup' %}" class="btn btn-outline-glow btn-aesthetic px-4 px-sm-5">Sign Up</a>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

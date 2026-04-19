@@ -1,0 +1,173 @@
+{% extends 'home_base.html' %}
+{% load static %}
+
+{% block title %}About - East West University Campus Mart{% endblock %}
+
+{% block styles %}
+<style>
+.story-panel {
+  background-image: url('{% static "home/images/img2.jpg" %}');
+  background-size: cover;
+  background-position: center;
+}
+
+.timeline {
+  display: grid;
+  gap: 1rem;
+}
+
+.timeline-item {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.timeline-marker {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  margin-top: 0.35rem;
+  background: linear-gradient(135deg, #61d6ff 0%, #f2b24f 100%);
+  box-shadow: 0 0 0 6px rgba(97, 214, 255, 0.10);
+}
+
+.map-frame {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.map-frame iframe {
+  width: 100%;
+  height: 100%;
+  min-height: 24rem;
+  border: 0;
+  display: block;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-shell pt-4 sm:pt-6 lg:pt-10">
+  <div class="grid gap-6 sm:gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+    <div class="space-y-4 sm:space-y-6">
+      <span class="section-kicker">About the platform</span>
+      <div class="space-y-3 sm:space-y-4">
+        <h1 class="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-tight">
+          Built for East West University students to buy and sell with confidence.
+        </h1>
+        <p class="text-base sm:text-lg md:text-xl leading-7 sm:leading-8 text-slate-300">
+          East West University Campus Mart is an academic project marketplace for student life. It supports practical campus trading with clear listings, buyer-friendly browsing, and reliable seller tools.
+        </p>
+      </div>
+
+      <div class="grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2">
+        <div class="info-card p-3 sm:p-5 text-sm sm:text-base">
+          <strong class="block text-amber-300 mb-1 sm:mb-2">Student first</strong>
+          <p>Designed around the daily needs of East West University students.</p>
+        </div>
+        <div class="info-card p-3 sm:p-5 text-sm sm:text-base">
+          <strong class="block text-cyan-300 mb-1 sm:mb-2">Seller friendly</strong>
+          <p>Simple tools help student sellers publish and manage listings quickly.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="glass-card hero-panel overflow-hidden rounded-xl sm:rounded-2xl lg:rounded-[2rem] mt-6 lg:mt-0">
+      <div class="relative min-h-[24rem] sm:min-h-[28rem] md:min-h-[32rem] lg:min-h-[34rem] story-panel">
+        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+        <div class="absolute bottom-0 left-0 right-0 p-4 sm:p-6 md:p-8 space-y-2 sm:space-y-3">
+          <span class="pill w-fit text-xs sm:text-sm">East West University, Aftabnagar</span>
+          <h2 class="text-lg sm:text-2xl md:text-3xl font-bold leading-tight">A campus-focused marketplace with real local context.</h2>
+          <p class="text-slate-200/90 leading-6 sm:leading-7 text-xs sm:text-sm">
+            Address reference: A/2 Jahurul Islam Avenue, Jahurul Islam City, Aftabnagar, Dhaka 1212, Bangladesh.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">01</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">University context</h3>
+      <p class="text-sm sm:text-base">All key pages now reflect East West University identity and student use cases.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">02</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Verified direction</h3>
+      <p class="text-sm sm:text-base">Dedicated buyer and seller contact channels keep support straightforward.</p>
+    </div>
+    <div class="feature-card">
+      <div class="feature-icon mb-3 sm:mb-4 text-lg sm:text-2xl">03</div>
+      <h3 class="text-lg sm:text-xl font-bold mb-2">Practical flow</h3>
+      <p class="text-sm sm:text-base">The platform keeps browsing, listing, and ordering simple for campus users.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="glass-card p-4 sm:p-6 md:p-8 lg:p-10 grid gap-6 sm:gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-start">
+    <div>
+      <span class="section-kicker text-xs sm:text-sm">How it evolved</span>
+      <h2 class="section-title text-xl sm:text-2xl md:text-3xl">Built as an East West University marketplace workflow.</h2>
+      <p class="section-subtitle text-sm sm:text-base">
+        The project focus is straightforward: usable buyer pages, usable seller pages, and language that matches a real university marketplace.
+      </p>
+    </div>
+
+    <div class="timeline">
+      <div class="timeline-item text-sm sm:text-base">
+        <span class="timeline-marker"></span>
+        <div>
+          <strong class="block mb-1">Buyer flow support</strong>
+          <p class="text-xs sm:text-sm">Students can move from browsing to order tracking with fewer unnecessary steps.</p>
+        </div>
+      </div>
+      <div class="timeline-item text-sm sm:text-base">
+        <span class="timeline-marker"></span>
+        <div>
+          <strong class="block mb-1">Seller flow support</strong>
+          <p class="text-xs sm:text-sm">Sellers can manage categories, products, and orders from a consistent dashboard.</p>
+        </div>
+      </div>
+      <div class="timeline-item text-sm sm:text-base">
+        <span class="timeline-marker"></span>
+        <div>
+          <strong class="block mb-1">Institutional identity</strong>
+          <p class="text-xs sm:text-sm">Public pages now use East West University naming, address context, and support contacts.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="page-shell mt-8 sm:mt-10 lg:mt-12">
+  <div class="glass-card p-4 sm:p-6 md:p-8 lg:p-10 grid gap-4 sm:gap-6 lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
+    <div class="space-y-3 sm:space-y-4">
+      <span class="section-kicker text-xs sm:text-sm">Location Map</span>
+      <h2 class="section-title text-xl sm:text-2xl md:text-3xl">East West University campus location</h2>
+      <p class="section-subtitle text-sm sm:text-base">
+        A quick map reference for the Aftabnagar campus area.
+      </p>
+    </div>
+    <div class="map-frame min-h-[24rem] sm:min-h-[28rem]">
+      <iframe
+        title="East West University location map"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://www.google.com/maps?q=East%20West%20University%20Aftabnagar%20Dhaka&output=embed">
+      </iframe>
+    </div>
+  </div>
+</section>
+{% endblock %}
