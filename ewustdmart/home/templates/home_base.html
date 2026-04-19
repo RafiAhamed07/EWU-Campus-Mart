@@ -1,6 +1,6 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -24,6 +24,58 @@
       --accent-2: #61d6ff;
       --accent-3: #6be0b1;
       --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    html[data-theme='dark'] {
+      --bg-start: #08111f;
+      --bg-end: #060b14;
+      --panel: rgba(13, 20, 36, 0.72);
+      --line: rgba(255, 255, 255, 0.10);
+      --text: #eef3ff;
+      --muted: #a7b6d6;
+      --accent: #f2b24f;
+      --accent-2: #61d6ff;
+      --accent-3: #6be0b1;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.32);
+    }
+
+    html[data-theme='coffee'] {
+      --bg-start: #20161f;
+      --bg-end: #120d14;
+      --panel: rgba(46, 33, 39, 0.8);
+      --line: rgba(232, 209, 184, 0.22);
+      --text: #f5ece2;
+      --muted: #d1bb9f;
+      --accent: #c89a5d;
+      --accent-2: #f4c995;
+      --accent-3: #b6874a;
+      --shadow: 0 24px 80px rgba(8, 3, 4, 0.42);
+    }
+
+    html[data-theme='caramellatte'] {
+      --bg-start: #312118;
+      --bg-end: #1f140f;
+      --panel: rgba(70, 48, 34, 0.78);
+      --line: rgba(255, 226, 188, 0.24);
+      --text: #fff2df;
+      --muted: #e4c7a0;
+      --accent: #efb365;
+      --accent-2: #ffc785;
+      --accent-3: #e1a55c;
+      --shadow: 0 24px 80px rgba(20, 9, 2, 0.44);
+    }
+
+    html[data-theme='cyberpunk'] {
+      --bg-start: #180a2e;
+      --bg-end: #080a1a;
+      --panel: rgba(22, 16, 58, 0.78);
+      --line: rgba(0, 245, 255, 0.35);
+      --text: #f6f9ff;
+      --muted: #90fcff;
+      --accent: #ffd312;
+      --accent-2: #00f5ff;
+      --accent-3: #ff00b8;
+      --shadow: 0 24px 80px rgba(0, 0, 0, 0.48);
     }
 
     html {
@@ -145,6 +197,46 @@
       align-items: center;
       gap: 0.3rem;
       justify-content: flex-end;
+    }
+
+    .theme-switcher {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .theme-switcher .theme-toggle {
+      width: 2.1rem;
+      height: 2.1rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      background: rgba(255, 255, 255, 0.06);
+      color: var(--accent);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      padding: 0;
+    }
+
+    .theme-switcher .theme-toggle:hover,
+    .theme-switcher .theme-toggle:focus {
+      transform: translateY(-1px);
+      border-color: var(--accent);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
+      color: var(--accent-2);
+    }
+
+    .theme-switcher .theme-toggle svg {
+      width: 0.95rem;
+      height: 0.95rem;
+    }
+
+    .theme-option.active {
+      color: var(--text);
+      background: rgba(255, 255, 255, 0.1);
+      font-weight: 700;
     }
 
     .ewustdmart-menu-toggle {
@@ -379,6 +471,42 @@
       background: rgba(255, 255, 255, 0.05);
     }
 
+    .btn {
+      border-radius: 0.85rem;
+      font-weight: 650;
+      letter-spacing: 0.01em;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    .btn:focus-visible {
+      box-shadow: 0 0 0 0.2rem rgba(97, 214, 255, 0.2);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      border: none;
+    }
+
+    .btn-primary:hover {
+      box-shadow: 0 10px 24px rgba(22, 163, 74, 0.3);
+    }
+
+    .btn-outline-primary {
+      border-color: rgba(97, 214, 255, 0.65);
+      color: #c6f2ff;
+    }
+
+    .btn-outline-primary:hover {
+      background: rgba(97, 214, 255, 0.14);
+      color: #e8fbff;
+      border-color: rgba(97, 214, 255, 0.95);
+    }
+
     .stat-card,
     .feature-card,
     .info-card {
@@ -471,6 +599,66 @@
       font-size: 0.9rem;
     }
 
+    .form-control,
+    .form-select,
+    .form-control:focus,
+    .form-select:focus {
+      background-color: rgba(255, 255, 255, 0.06);
+      color: var(--text);
+      border-color: rgba(255, 255, 255, 0.16);
+      border-radius: 0.85rem;
+    }
+
+    .form-control::placeholder {
+      color: rgba(238, 243, 255, 0.52);
+    }
+
+    .form-control:focus,
+    .form-select:focus {
+      box-shadow: 0 0 0 0.2rem rgba(97, 214, 255, 0.15);
+      border-color: var(--accent-2);
+    }
+
+    .table {
+      --bs-table-bg: transparent;
+      --bs-table-color: var(--text);
+      --bs-table-border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .table > :not(caption) > * > * {
+      padding: 0.9rem 0.85rem;
+      vertical-align: middle;
+    }
+
+    .card,
+    .modal-content,
+    .dropdown-menu {
+      background: rgba(9, 16, 30, 0.95);
+      color: var(--text);
+      border: 1px solid var(--line);
+      border-radius: 0.95rem;
+      backdrop-filter: blur(14px);
+    }
+
+    .dropdown-item {
+      color: var(--muted);
+      border-radius: 0.6rem;
+      transition: background 0.18s ease, color 0.18s ease;
+    }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--text);
+    }
+
+    .alert {
+      border-radius: 0.9rem;
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      background: rgba(7, 14, 27, 0.85);
+      color: var(--text);
+    }
+
     @media (min-width: 640px) {
       .feature-card p,
       .info-card p {
@@ -511,6 +699,27 @@
         <a href="/about" class="ewustdmart-nav-link {% if request.path == '/about' %}active{% endif %}">About</a>
         <a href="/contact" class="ewustdmart-nav-link {% if request.path == '/contact' %}active{% endif %}">Contact</a>
         <a href="/buyer" class="ewustdmart-nav-link ewustdmart-nav-cta">Shop Now</a>
+        <div class="dropdown theme-switcher">
+          <button
+            class="theme-toggle"
+            type="button"
+            data-bs-toggle="dropdown"
+            aria-expanded="false"
+            aria-label="Switch theme"
+            title="Switch theme"
+          >
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.8"></circle>
+              <path d="M12 2.5v2.1M12 19.4v2.1M4.6 4.6l1.5 1.5M17.9 17.9l1.5 1.5M2.5 12h2.1M19.4 12h2.1M4.6 19.4l1.5-1.5M17.9 6.1l1.5-1.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"></path>
+            </svg>
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><button class="dropdown-item theme-option" type="button" data-theme-choice="dark">dark</button></li>
+            <li><button class="dropdown-item theme-option" type="button" data-theme-choice="coffee">coffee</button></li>
+            <li><button class="dropdown-item theme-option" type="button" data-theme-choice="caramellatte">caramellatte</button></li>
+            <li><button class="dropdown-item theme-option" type="button" data-theme-choice="cyberpunk">cyberpunk</button></li>
+          </ul>
+        </div>
         <button
           type="button"
           class="ewustdmart-menu-toggle"
@@ -547,9 +756,32 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
   <script>
     (function () {
+      const THEMES = ['dark', 'coffee', 'caramellatte', 'cyberpunk'];
+      const STORAGE_KEY = 'ewuTheme';
+      const root = document.documentElement;
+      const themeOptions = document.querySelectorAll('.theme-option');
       const navLinks = document.querySelector('.ewustdmart-nav-links');
       const toggle = document.querySelector('.ewustdmart-menu-toggle');
       const menu = document.getElementById('ewustdmart-mobile-menu');
+
+      const applyTheme = function (theme) {
+        const safeTheme = THEMES.includes(theme) ? theme : 'dark';
+        root.setAttribute('data-theme', safeTheme);
+        themeOptions.forEach(function (option) {
+          option.classList.toggle('active', option.dataset.themeChoice === safeTheme);
+        });
+        return safeTheme;
+      };
+
+      const savedTheme = localStorage.getItem(STORAGE_KEY) || 'dark';
+      applyTheme(savedTheme);
+
+      themeOptions.forEach(function (option) {
+        option.addEventListener('click', function () {
+          const selectedTheme = applyTheme(option.dataset.themeChoice);
+          localStorage.setItem(STORAGE_KEY, selectedTheme);
+        });
+      });
 
       if (!navLinks || !toggle || !menu) {
         return;

@@ -139,7 +139,6 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 dotenv.load_dotenv()
-SECURE_SSL_REDIRECT = False
 SSL_STORE_ID = os.getenv('STORE_ID')
 SSL_STORE_PASSWORD = os.getenv('STORE_PASSWORD')
 SSL_SANDBOX = os.getenv('SSL_SANDBOX') == 'True'

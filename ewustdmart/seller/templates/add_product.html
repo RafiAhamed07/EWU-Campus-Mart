@@ -29,6 +29,13 @@
     margin-top: 0.35rem;
   }
 
+  .field-label {
+    display: block;
+    margin-bottom: 0.45rem;
+    font-weight: 600;
+    color: #e5e7eb;
+  }
+
   .select-modern option {
     background: #ffffff;
     color: #111827;
@@ -60,8 +67,10 @@
         <div class="help-note">Set offer and availability after publishing from My Products.</div>
       </div>
 
-      <textarea name="description" placeholder="Description" class="form-control textarea-modern mb-3" rows="4"></textarea>
-      <textarea name="notes" placeholder="Short notes (optional)" class="form-control textarea-modern mb-3" rows="2"></textarea>
+      <label class="field-label" for="description">Description</label>
+      <textarea id="description" name="description" placeholder="Write product details for buyers" class="form-control textarea-modern mb-3" rows="4"></textarea>
+      <label class="field-label" for="notes">Short Notes (optional)</label>
+      <textarea id="notes" name="notes" placeholder="Short notes (optional)" class="form-control textarea-modern mb-3" rows="2"></textarea>
 
       <textarea name="variant_rows" placeholder="Size/quantity variants in the format: XL|200|170 or XXL|250, one per line" class="form-control textarea-modern mb-3" rows="4"></textarea>
       <div class="help-note mb-3">Use: Option|BasePrice|OfferPrice(optional). Example: XL|200|170 or XXL|250.</div>

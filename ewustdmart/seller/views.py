@@ -289,8 +289,15 @@ def edit_product(request, uid):
                 offer_price=variant_offer_price,
             )
 
-        # 🔥 ADD NEW IMAGES (optional)
+        # Accept both legacy multiple input (`images`) and numbered slots (`image_1`..`image_4`).
         images = request.FILES.getlist("images")
+        images += [
+            request.FILES.get("image_1"),
+            request.FILES.get("image_2"),
+            request.FILES.get("image_3"),
+            request.FILES.get("image_4"),
+        ]
+        images = [img for img in images if img]
         for img in images:
             ProductImage.objects.create(product=product, image=img)
 
