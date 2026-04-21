@@ -140,7 +140,6 @@ ewustdmart/
 ### Prerequisites
 - Python 3.8 or higher
 - pip (Python package manager)
-- Node.js and npm (for Tailwind CSS)
 - Git
 
 ### Clone the Repository
@@ -170,12 +169,6 @@ source .venv/bin/activate
 
 ```bash
 pip install -r requirements.txt
-```
-
-### Install Node Dependencies (for Tailwind CSS)
-
-```bash
-npm install
 ```
 
 ## Configuration
@@ -235,20 +228,6 @@ python manage.py runserver
 ```
 
 The application will be available at: `http://localhost:8000`
-
-### Build Tailwind CSS (for development)
-
-In a new terminal, run:
-
-```bash
-npm run dev
-```
-
-Or for production build:
-
-```bash
-npm run build
-```
 
 ### Access the Admin Panel
 
